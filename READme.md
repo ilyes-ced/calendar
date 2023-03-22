@@ -1,1 +1,1 @@
-simple to do app list tutorial rust surreal db TS react
+simple to do app list tutorial rust mysql TS react
