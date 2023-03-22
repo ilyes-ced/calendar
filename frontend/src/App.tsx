@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import './App.scss'
-import Login from './views/auth/login/index'
-import Register from './views/auth/register/index'
+import Login from './views/auth/Login'
+import Register from './views/auth/Register'
 
 
 const router = createBrowserRouter([
