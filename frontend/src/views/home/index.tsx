@@ -1,8 +1,16 @@
+import '../../styles/home_page2.scss'
+import style from '../../styles/home_page.module.scss'
+import Header from '../../components/header'
+
 function App() {
 
     return (
-        <div className="">
-            hello login
+        <div className="ff vv ">
+            <Header/>
+            <div className='hh'>
+                dzae dfze fqez f
+            </div>
+            here main page
         </div>
     )
 }

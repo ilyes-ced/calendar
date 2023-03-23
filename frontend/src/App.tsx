@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import './App.scss'
-import Login from './views/auth/Login'
-import Register from './views/auth/Register'
+import Login from './views/auth/login'
+import Register from './views/auth/register'
+import HomePage from './views/home'
 
 
 const router = createBrowserRouter([
     {
-      path: "/",
-      element: <div>Hello world!</div>,
+      path: "/",      
+      element: <HomePage />,
     },
     {
       path: "/login",
