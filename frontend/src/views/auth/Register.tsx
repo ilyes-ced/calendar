@@ -1,3 +1,5 @@
+import { getSearchParamsForLocation } from "react-router-dom/dist/dom"
+
 function App() {
 
     return (
