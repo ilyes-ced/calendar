@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import './App.scss'
+import './styles/app.scss'
 import Login from './views/auth/login'
 import Register from './views/auth/register'
 import HomePage from './views/home'

@@ -1,10 +1,9 @@
-import '../styles/home_page.module.scss'
 
 
 function App() {
 
     return (
-        <div className="kk">
+        <div >
             here main page
         </div>
     )

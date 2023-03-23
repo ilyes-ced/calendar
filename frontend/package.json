@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite & sass —watch scss:css",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sass": " sass —watch scss:css"
   },
   "dependencies": {
     "react": "^18.2.0",

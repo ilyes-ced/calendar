@@ -1,16 +1,15 @@
 import '../../styles/home_page2.scss'
-import style from '../../styles/home_page.module.scss'
+import style from  '../../styles/home_page.module.scss'
 import Header from '../../components/header'
 
 function App() {
 
     return (
-        <div className="ff vv ">
+        <div id={style.home_page}>
             <Header/>
-            <div className='hh'>
-                dzae dfze fqez f
+            <div>
+
             </div>
-            here main page
         </div>
     )
 }
