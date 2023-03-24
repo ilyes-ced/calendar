@@ -3,8 +3,9 @@
 function App() {
 
     return (
-        <div >
-            here main page
+        <div className='hello'>
+            header
+            <input type="text" />
         </div>
     )
 }

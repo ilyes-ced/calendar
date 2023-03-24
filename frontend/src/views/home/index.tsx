@@ -1,14 +1,20 @@
-import '../../styles/home_page2.scss'
-import style from  '../../styles/home_page.module.scss'
+import '../../styles/home_page.scss'
 import Header from '../../components/header'
+import LeftSideBar from '../../components/leftSideBar'
+import MainCalendar from '../../components/mainCalendar'
+import RightSideBar from '../../components/rightSideBar'
 
 function App() {
 
     return (
-        <div id={style.home_page}>
+        <div id='main_container' >
             <Header/>
-            <div>
-
+            <div id='center'>
+                <LeftSideBar/>
+                <div className='hello'>
+                    <MainCalendar/>
+                </div>
+                <RightSideBar/>
             </div>
         </div>
     )
