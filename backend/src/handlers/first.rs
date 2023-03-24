@@ -3,8 +3,7 @@ use serde::Deserialize;
 use futures::{future::ok, stream::once};
 
 
-
-
+use crate::handlers;
 
 
 #[get("/")]
@@ -48,6 +47,6 @@ async fn echo(req_body: String) -> impl Responder {
     HttpResponse::Ok().body(req_body)
 }
 
-pub async fn manual_hello() -> impl Responder {
+async fn manual_hello() -> impl Responder {
     HttpResponse::Ok().body("Hey there!")
 }
