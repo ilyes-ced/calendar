@@ -11,7 +11,7 @@ function App() {
             <Header/>
             <div id='center'>
                 <LeftSideBar/>
-                <div className='hello'>
+                <div id='main_calendar_container'>
                     <MainCalendar/>
                 </div>
                 <RightSideBar/>

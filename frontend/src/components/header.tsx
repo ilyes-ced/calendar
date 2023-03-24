@@ -1,9 +1,8 @@
 
-
 function App() {
 
     return (
-        <div className='hello'>
+        <div id='header'>
             header
             <input type="text" />
         </div>

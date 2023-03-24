@@ -3,7 +3,7 @@
 function App() {
 
     return (
-        <div >
+        <div id='right_bar'>
             here main page
         </div>
     )

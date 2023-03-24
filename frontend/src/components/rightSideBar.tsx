@@ -1,4 +1,3 @@
-import '../styles/components/right_bar.scss'
 
 function App() {
 
