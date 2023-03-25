@@ -7,18 +7,25 @@
             "all_day": false,
             "start_time": false,
             "end_time": false,
-    
             "participants": [
                 12, 32, 65 //contacts
             ],
             "location": "",
             "notifications": [],
-    
             "calendar": "", 
             "description": "",
-    
             "repeat": false
+        }
+    ],
+
+    "tasks": [
+        {
+            "name": "random",
+            "category": "in progress",
+            "subtasks": []
         }
     ]
 
 }
+
+
