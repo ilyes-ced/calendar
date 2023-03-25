@@ -19,8 +19,6 @@ $white: white;
     gap: $row_gap $col_gap
 
 }
-
-
 @mixin padding($top: 0px, $bottom: $top, $right: $top, $left: $top) {
     padding-top: $top;
     padding-bottom: $bottom;

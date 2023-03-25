@@ -1,10 +1,12 @@
-
+import '../styles/left_bar.scss'
+import MiniCalendar from './miniCalendar'
 
 function App() {
 
     return (
         <div id='left_bar'>
-            here main page
+            <button className="button big_button">new event</button>
+            <MiniCalendar/>
         </div>
     )
 }

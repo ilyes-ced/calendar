@@ -1,10 +1,18 @@
+import '../styles/header.scss'
+
+
 
 function App() {
 
     return (
         <div id='header'>
-            header
-            <input type="text" />
+            <div>
+                icon button
+            </div>
+            <div id='header_right_div'>
+                <button className="button primary_button">ff</button>
+                <button className="button secondary_button">ff</button>
+            </div>
         </div>
     )
 }

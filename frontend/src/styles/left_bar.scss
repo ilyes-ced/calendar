@@ -1,0 +1,38 @@
+$main: #16141c;
+$secondary: #6d4aff;
+$text: #a7a4b5;
+$border: #4a4658;
+$blue: #415df0;
+$gray: #312f3c;
+$dark_gray: #292733;
+$white: white;
+$hover: #21164d;
+
+
+@mixin padding($top: 0px, $bottom: $top, $right: $top, $left: $top) {
+    padding-top: $top;
+    padding-bottom: $bottom;
+    padding-right: $right;
+    padding-left: $left;
+}
+
+
+
+#left_bar{
+    @include padding(0px,0px,10px,10px);
+    
+}
+
+
+.big_button{
+    font-size: 18px;
+    border: none;
+    width: 100%;
+    color: $white;
+    background-color: $secondary;
+    @include padding(10px,10px,0px,0px);
+}
+
+
+
+

@@ -1,0 +1,64 @@
+$main: #16141c;
+$secondary: #6d4aff;
+$text: #a7a4b5;
+$border: #4a4658;
+$blue: #415df0;
+$gray: #312f3c;
+$dark_gray: #292733;
+$white: white;
+$hover: #21164d;
+
+@mixin center() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@mixin padding($top: 0px, $bottom: $top, $right: $top, $left: $top) {
+    padding-top: $top;
+    padding-bottom: $bottom;
+    padding-right: $right;
+    padding-left: $left;
+}
+@mixin margin($top: 0px, $bottom: $top, $right: $top, $left: $top) {
+    margin-top: $top;
+    margin-bottom: $bottom;
+    margin-right: $right;
+    margin-left: $left;
+}
+
+
+
+#header{
+    display: flex;
+    justify-content: space-between;
+}
+
+#header_right_div > :first-child{
+    @include margin(0px, 0px, 20px, 0px);
+
+}
+
+.button{
+    border-radius: 10px;
+    @include padding(5px, 5px, 20px, 20px);
+    cursor: pointer;
+}
+.primary_button{
+    background-color: transparent;
+    border: 1px solid $secondary;
+    color: $secondary;
+
+}
+.secondary_button{
+    background-color: transparent;
+    border: none;
+    color: $white;
+
+}
+
+.primary_button:hover{
+    background-color: $hover;
+}
+.secondary_button:hover{
+    background-color: $gray;
+}
