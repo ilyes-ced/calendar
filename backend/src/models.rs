@@ -1,5 +1,12 @@
 use serde::{Deserialize, Serialize};
 
+//mod User;
+//mod Event;
+//mod Task;
+//mod Category;
+//mod Contact;
+
+
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct User {
     pub username: String,
