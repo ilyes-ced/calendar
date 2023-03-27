@@ -23,7 +23,14 @@ $white: white;
     align-items: center;
     justify-content: center;
 }
-
+#main_calendar_container{
+    display: flex;
+    width: 100%;
+    border: 1px solid $border;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    
+}
 #main_calendar{
     width: 100%;
     display: flex;

@@ -14,7 +14,9 @@ function App() {
             <Header/>
             <div id='center'>
                 <LeftSideBar/>
-                <Outlet />
+                <div id="center_main_box">
+                    <Outlet />
+                </div>    
                 <RightSideBar/>
             </div>
         </div>

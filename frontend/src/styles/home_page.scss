@@ -43,15 +43,12 @@ $white: white;
     flex: 1 0 auto;
 }
 
-#main_calendar_container{
+
+#center_main_box{
     display: flex;
     width: 100%;
-    border: 1px solid $border;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-    
+    height: 100%;
 }
-
 
 
 #right_bar{
