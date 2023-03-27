@@ -17,7 +17,6 @@ $white: white;
     display: grid;
     grid-template-columns: repeat($n_cols, minmax(0, 1fr));
     gap: $row_gap $col_gap
-
 }
 @mixin padding($top: 0px, $bottom: $top, $right: $top, $left: $top) {
     padding-top: $top;
@@ -47,9 +46,9 @@ $white: white;
 #main_calendar_container{
     display: flex;
     width: 100%;
-    border: 1px solid red;
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
+    border: 1px solid $border;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
     
 }
 
@@ -69,24 +68,3 @@ $white: white;
 }
 
 
-#main_calendar{
-    width: 100%;
-    display: flex;
-}
-#calendar_items{
-    width: 100%;
-    @include grid(7, 0px, 0px);
-}
-#week_n{
-    height: 100%;
-    width: 20px;
-    background-color: #6d4aff;
-}
-
-.day_item{
-    height: 30px;
-    background-color: red
-}
-.calendar_item{
-    @include center();
-}

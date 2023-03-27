@@ -1,0 +1,112 @@
+$main: #16141c;
+$secondary: #6d4aff;
+$text: #a7a4b5;
+$border: #4a4658;
+$blue: #415df0;
+$gray: #312f3c;
+$dark_gray: #292733;
+$white: white;
+
+@mixin padding($top: 0px, $bottom: $top, $right: $top, $left: $top) {
+    padding-top: $top;
+    padding-bottom: $bottom;
+    padding-right: $right;
+    padding-left: $left;
+}
+@mixin grid($n_cols: 1, $row_gap: 0px, $col_gap: 0px) {
+    display: grid;
+    grid-template-columns: repeat($n_cols, minmax(0, 1fr));
+    gap: $row_gap $col_gap
+}
+@mixin center() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#main_calendar{
+    width: 100%;
+    display: flex;
+}
+#calendar{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+#calendary_center{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#calendar_items{
+    width: 100%;
+    flex: 1 1 auto;
+    @include grid(7, 0px, 0px);
+}
+#week_n{
+    height: 100%;
+    width: 20px;
+    background-color: $gray;
+}
+#week_n > *{
+    height: 20%;
+    border-top: 1px solid $border;
+    border-right: 1px solid $border;
+    @include center();
+}
+
+#calendar_days{
+    display: flex;
+    width: 100%;
+}
+#calendar_days > *{
+    width: calc( (100% - 20px)/7 );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include padding(10px, 10px, 0px, 0px);
+    height: 100%;
+}
+#calendar_days > :first-child{
+    width: 20px;
+}
+
+.day_item{
+    height: 30px;
+    background-color: red;
+}
+.calendar_item{
+    @include padding(10px, 0px, 0px, 0px);
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+
+
+
+.calendar_item{
+    width: 100%;
+    height: 100%;
+    border-top: 1px solid $border;
+    border-right: 1px solid $border;
+}
+
+#main_calendar{
+    display: flex;
+    flex-direction: column;
+}
+
+#calendar_app_bar{
+    border-bottom: 1px solid $border;
+    @include padding(5px, 5px, 10px, 10px);
+    display: flex;
+    justify-content: space-between;
+}
+
+#calendar_app_bar > *{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

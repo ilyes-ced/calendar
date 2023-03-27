@@ -1,4 +1,9 @@
-import '../styles/main_calendary.scss'
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import '../styles/main_calendar.scss'
+
+
+let test_calendar= [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35];
+
 
 let calendary_days1: [number];
 let calendary_days2: [number];
@@ -58,21 +63,56 @@ function App() {
 
     return (
         <div id='main_calendar'>
-            <div id='week_n'>
+            <div id='calendar_app_bar'>
+                <div>
+                    <button className='button secondary_button'>today</button>
+                    <div className='v_divider'></div>   
+                    <BsChevronLeft className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}} />
+                    <BsChevronRight className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}} />
+                    <div className='v_divider'></div>
+                    <button className='button secondary_button'>mars 23</button>
+                </div>
+                <div>
+                    <div className='v_divider'></div>
+                    <div className='button secondary_button'>timezone</div>
+                    <div className='v_divider'></div>
+                    <button className='button secondary_button'>day</button>
+                    <button className='button secondary_button'>month</button>
+                    <button className='button secondary_button'>year</button>
 
+                </div>
             </div>
-            <div id='calendar_items'>
-                {/*
-                    days.map((ele, i) => {
-                        return <div className="day_item"> {ele} </div>
-                    })
-                }
-                {
-                    calendary_days.map((ele, i) => {
-                        return <div className="calendar_item">ele</div>
-                    })
-                */}
+            <div id='calendary_center'>
+                <div id='calendar_days'>
+                    <div></div>
+                    <div>Thu</div>
+                    <div>Thu</div>
+                    <div>Thu</div>
+                    <div>Thu</div>
+                    <div>Thu</div>
+                    <div>Thu</div>
+                    <div>Thu</div>
+                </div>
+                <div id='calendar'>
+                    <div id='week_n'>
+                        <div>1</div>
+                        <div>2</div>
+                        <div>3</div>
+                        <div>4</div>
+                        <div>5</div>
+                    </div>
+                    <div id='calendar_items'>
+                        {
+                            test_calendar.map((ele, i) => {
+                                return <div className="calendar_item">
+                                    <button className="button secondary_button"> {i} </button>
+                                </div>
+                            })
+                        }
+                    </div>
+                </div>
             </div>
+
         </div>
     )
 }

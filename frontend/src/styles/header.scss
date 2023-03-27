@@ -38,27 +38,3 @@ $hover: #21164d;
 
 }
 
-.button{
-    border-radius: 10px;
-    @include padding(5px, 5px, 20px, 20px);
-    cursor: pointer;
-}
-.primary_button{
-    background-color: transparent;
-    border: 1px solid $secondary;
-    color: $secondary;
-
-}
-.secondary_button{
-    background-color: transparent;
-    border: none;
-    color: $white;
-
-}
-
-.primary_button:hover{
-    background-color: $hover;
-}
-.secondary_button:hover{
-    background-color: $gray;
-}

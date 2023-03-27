@@ -7,6 +7,7 @@ specifiers:
   '@vitejs/plugin-react-swc': ^3.0.0
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-icons: ^4.8.0
   react-router-dom: ^6.9.0
   sass: ^1.59.3
   typescript: ^4.9.3
@@ -16,6 +17,7 @@ dependencies:
   '@reduxjs/toolkit': 1.9.3_react@18.2.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-icons: 4.8.0_react@18.2.0
   react-router-dom: 6.9.0_biqbaboplfbrettd7655fr4n2y
   sass: 1.59.3
 
@@ -572,6 +574,14 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-icons/4.8.0_react@18.2.0:
+    resolution: {integrity: sha512-N6+kOLcihDiAnj5Czu637waJqSnwlMNROzVZMhfX68V/9bu9qHaMIJC4UdozWoOk57gahFCNHwVvWzm0MTzRjg==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-router-dom/6.9.0_biqbaboplfbrettd7655fr4n2y:
