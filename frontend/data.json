@@ -1,6 +1,7 @@
 {
     "events": [
         {
+            "id": 1,
             "start_date": "12-06-2023",
             "end_date": "16-06-2023",
             "title": "test title",
@@ -8,7 +9,7 @@
             "start_time": false,
             "end_time": false,
             "participants": [
-                12, 32, 65 //contacts
+                12, 32, 65
             ],
             "location": "",
             "notifications": [],
@@ -20,9 +21,27 @@
 
     "tasks": [
         {
+            "id": 1,
             "name": "random",
             "category": "in progress",
             "subtasks": []
+        }
+    ],
+
+    "categories": [
+        {
+            "id": 1,
+            "name": "random",
+            "color": "in progress"
+        }
+    ],
+    "contacts": [
+        {
+            "id": 1,
+            "name": "random",
+            "phone number": "phone number",
+            "address": "",
+            "image": ""
         }
     ]
 
