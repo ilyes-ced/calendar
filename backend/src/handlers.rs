@@ -1,6 +1,8 @@
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder, Result, Error, error};
 use serde::Deserialize;
 use futures::{future::ok, stream::once};
+mod models;
+use models::User;
 
 
 
@@ -17,37 +19,16 @@ async fn stream() -> HttpResponse {
 }
 
 
-
-
-
-
-#[derive(Deserialize)]
-struct Info {
-    username: String,
-}
-#[derive(Deserialize)]
-struct FormData {
-    username: String,
+#[post("/login")]
+async fn login(info: web::Json<User>) -> Result<String> {
+    Ok(format!("Welcome {:?}!", info))
 }
 
-/// deserialize `Info` from request's body
-#[post("/submit")]
-async fn submit(info: web::Json<Info>) -> Result<String> {
-    Ok(format!("Welcome {}!", info.username))
-}
 
-#[post("/submit_form")]
-async fn index2(form: web::Form<FormData>) -> Result<String> {
-    Ok(format!("Welcome {}!", form.username))
+#[post("/register")]
+async fn register(info: web::Json<User>) -> Result<String> {
+    Ok(format!("Welcome {:?}!", info))
 }
 
 
 
-#[post("/echo")]
-async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
-}
-
-pub async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
-}
