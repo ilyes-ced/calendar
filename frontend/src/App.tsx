@@ -4,22 +4,40 @@ import './styles/app.scss'
 import Login from './views/auth/login'
 import Register from './views/auth/register'
 import HomePage from './views/home'
+import Calendar from './views/home/calendar'
+import Contacts from './views/home/contacts'
+import ToDo from './views/home/toDo'
 
 
 const router = createBrowserRouter([
     {
-      path: "/",      
-      element: <HomePage />,
+      	path: "/",      
+      	element: <HomePage />,
+		children: [
+			{
+			  	path: "/calendar",
+			  	element: <Calendar />,
+			},
+			{
+			  	path: "/contacts",
+			  	element: <Contacts />,
+			},
+			{
+			  	path: "/todo",
+			  	element: <ToDo />,
+			},
+		],
     },
     {
-      path: "/login",
-      element: <Login />,
+      	path: "/login",
+      	element: <Login />,
     },
     {
-      path: "/register",
-      element: <Register />,
+      	path: "/register",
+      	element: <Register />,
     },
-  ]);
+]);
+
 
 
 

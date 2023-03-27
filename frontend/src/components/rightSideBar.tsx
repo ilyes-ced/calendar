@@ -1,3 +1,5 @@
+import '../styles/right_bar.scss'
+
 
 function App() {
 
