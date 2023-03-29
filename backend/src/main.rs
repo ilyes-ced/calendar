@@ -1,5 +1,5 @@
-use actix_web::{web, App, HttpResponse, HttpServer, error};
-use mongodb::{bson::doc, options::IndexOptions, Client, Collection, IndexModel};
+use actix_web::{web, App, HttpServer};
+use mongodb::{Client};
 
 pub mod handlers;
 pub mod models;

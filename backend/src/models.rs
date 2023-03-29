@@ -7,6 +7,13 @@ use serde::{Deserialize, Serialize};
 //mod Contact;
 
 
+
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+pub struct Error {
+    pub code: i32,
+    pub message: String,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct User {
     pub username: String,
