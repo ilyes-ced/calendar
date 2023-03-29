@@ -58,6 +58,7 @@ body, html {
     border-radius: 10px;
     cursor: pointer;
     font-size: medium;
+    @include center();
 }
 
 .v_divider{

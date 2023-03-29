@@ -67,8 +67,12 @@ function App() {
                 <div>
                     <button className='button secondary_button'>today</button>
                     <div className='v_divider'></div>   
-                    <BsChevronLeft className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}} />
-                    <BsChevronRight className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}} />
+                    <div className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}}>
+                        <BsChevronLeft  />
+                    </div>
+                    <div className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}}>
+                        <BsChevronRight  />
+                    </div>
                     <div className='v_divider'></div>
                     <button className='button secondary_button'>mars 23</button>
                 </div>
@@ -77,8 +81,8 @@ function App() {
                     <div className='button secondary_button'>timezone</div>
                     <div className='v_divider'></div>
                     <button className='button secondary_button'>day</button>
+                    <button className='button secondary_button'>week</button>
                     <button className='button secondary_button'>month</button>
-                    <button className='button secondary_button'>year</button>
 
                 </div>
             </div>

@@ -31,10 +31,14 @@ $hover: #21164d;
 #header{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
+
 
 #header_right_div > :first-child{
     @include margin(0px, 0px, 20px, 0px);
-
 }
 
+#header_right_div{
+    display: flex;
+}

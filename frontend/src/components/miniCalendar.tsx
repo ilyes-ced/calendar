@@ -10,8 +10,12 @@ function App() {
             <div id='mini_calendar_app_bar'>
                 <div>March 2023</div>
                 <div>
-                    <BsChevronLeft className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}} />
-                    <BsChevronRight className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}} />
+                    <div className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}}>
+                        <BsChevronLeft  />
+                    </div>
+                    <div className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}}>
+                        <BsChevronRight  />
+                    </div>
                 </div>
             </div>
             <div id='mini_calendar_content'>

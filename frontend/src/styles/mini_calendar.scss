@@ -1,8 +1,11 @@
 #mini_calendar_app_bar{
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
-
+#mini_calendar_app_bar > :nth-child(2){
+    display: flex;
+}
 
 #content_left{
     

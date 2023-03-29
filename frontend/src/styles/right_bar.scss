@@ -1,3 +1,46 @@
+$main: #16141c;
+$secondary: #6d4aff;
+$text: #a7a4b5;
+$border: #4a4658;
+$blue: #415df0;
+$gray: #312f3c;
+$dark_gray: #292733;
+$white: white;
+$hover: #21164d;
+
+@mixin padding($top: 0px, $bottom: $top, $right: $top, $left: $top) {
+    padding-top: $top;
+    padding-bottom: $bottom;
+    padding-right: $right;
+    padding-left: $left;
+}
+@mixin margin($top: 0px, $bottom: $top, $right: $top, $left: $top) {
+    margin-top: $top;
+    margin-bottom: $bottom;
+    margin-right: $right;
+    margin-left: $left;
+}
+
+@mixin center() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
 #right_bar{
-    background-color: red;
+    @include padding(5px);
+}
+
+
+.right_element{
+    border-radius: 10px;
+    aspect-ratio: 1/1;
+    @include margin(0px, 5px, 0px, 0px);
+    @include padding(2px);
+    @include center();
+    cursor: pointer;
+}
+.right_element:hover{
+    background-color: $gray;
 }

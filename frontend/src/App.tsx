@@ -15,7 +15,7 @@ const router = createBrowserRouter([
       	element: <HomePage />,
 		children: [
 			{
-			  	path: "/calendar",
+			  	path: "/",
 			  	element: <Calendar />,
 			},
 			{
