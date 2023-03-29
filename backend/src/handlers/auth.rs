@@ -1,5 +1,5 @@
-use actix_web::{get, post, web, App, Result, HttpResponse, HttpServer};
-use mongodb::{bson::doc, options::IndexOptions, Client, Collection, IndexModel};
+use actix_web::{post, web, Result, HttpResponse};
+use mongodb::{bson::doc,Client, Collection};
 
 use crate::models;
 use models::User;
@@ -13,7 +13,7 @@ use models::User;
 
 #[post("/login")]
 async fn login(client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
-   let users = client.database("rust").collection("users");
+   let users: Collection<User> = client.database("rust").collection("users");
 
 
    //get data
@@ -26,49 +26,42 @@ async fn login(client: web::Data<Client>, data: web::Json<User>) -> HttpResponse
          //else{ send user data }
 
 
-   let user = data.clone();
-   let all = users
-         .find_one(doc! { "email": user.email }, None,)
-         .await/*.expect("No matching documents found.")*/;
-      let all2 = users
-            .find_one(doc! { "email": "d" }, None,)
-            .await/*.expect("No matching documents found.")*/;
+	let user = data.clone();
+	let user = users
+		.find_one(doc! { "email": user.email }, None,)
+		.await/*.expect("No matching documents found.")*/;
 
 
-
-            println!("{:?}", all);
-            println!("{:?}", all2);
- 
-
-
-
-  // if all == Ok(None) {
-  //    println!("all1 not exists" );
-//
-  // }
-//
-  // if all == Ok(Some(User)) {
-  //    println!("all1 exists" );
-//
-  // }
-//
-  // if all2 == Ok(None) {
-  //    println!("all2 not exists" );
-//
-  // }
-//
-  // if all2 == Ok(Some(User)) {
-  //    println!("all2 exists" );
-//
-  // }
-  // //println!("Welcome {:?}!", data);
+	let result: Result<_, &str> = match user {
+		Ok(v) => {
+			match v {
+				Some(user_data) => {
+					println!("hello");
+					Ok(users.insert_one(user_data.clone(), None).await)
+					//Ok("hello")
+				},
+				None => {
+					println!("no email");
+					Err("email doesnt exist")
+				}
+			}
+		},
+		Err(_e) => {
+			println!("{:?}",_e);
+			Err("big error")
+		}
+	};
 
 
-   let result = users.insert_one(data.into_inner(), None).await;
-   match result {
-      Ok(_) => HttpResponse::Ok().body("user added"),
-      Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
-   }
+	
+	match result {
+		Ok(value) => {
+			println!("{:?}", value);
+			HttpResponse::Ok().body("user added")
+		},
+		Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
+	}
+
 }
 
 
