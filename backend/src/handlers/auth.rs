@@ -4,8 +4,13 @@ use mongodb::{bson::doc,Client, Collection};
 use crate::models;
 use models::User;
 
-
-
+use scrypt::{
+    password_hash::{
+        rand_core::OsRng,
+        PasswordHash, PasswordHasher, PasswordVerifier, SaltString
+    },
+    Scrypt
+};
 
 
 
@@ -24,6 +29,31 @@ async fn login(client: web::Data<Client>, data: web::Json<User>) -> HttpResponse
       //confirm password
          //if false{ send  error }
          //else{ send user data }
+
+
+
+
+	let password = b"hunter42"; // Bad password; don't actually use!
+	println!("{:?}", password);
+
+	let salt = SaltString::generate(&mut OsRng);
+	println!("{:?}", salt);
+	
+	// Hash password to PHC string ($scrypt$...)
+	let password_hash = Scrypt.hash_password(password, &salt).unwrap().to_string();
+	println!("{:?}", password_hash);
+	
+	// Verify password against PHC string
+	let parsed_hash = PasswordHash::new(&password_hash);
+	println!("{:?}", parsed_hash);
+
+	assert!(Scrypt.verify_password(password, &parsed_hash.clone().unwrap()).is_ok());
+	println!("{:?}", Scrypt.verify_password(password, &parsed_hash.unwrap()).is_ok());
+
+
+
+
+
 
 
 	let user = data.clone();
