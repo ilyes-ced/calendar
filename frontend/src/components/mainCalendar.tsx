@@ -110,6 +110,24 @@ function App() {
                             test_calendar.map((ele, i) => {
                                 return <div className="calendar_item">
                                     <button className="button secondary_button"> {i} </button>
+                                    <div className="event_item">
+                                        <div>event name</div>
+                                    </div>
+                                    <div className="event_item">
+                                        <div>event name</div>
+                                    </div>
+                                    <div className="event_item">
+                                        <div>event name</div>
+                                    </div>
+                                    <div className="event_item">
+                                        <div>event name</div>
+                                    </div>
+                                    <div className="event_item">
+                                        <div>event name</div>
+                                    </div>
+                                    <div className="event_item">
+                                        <div>event name</div>
+                                    </div>
                                 </div>
                             })
                         }

@@ -40,6 +40,7 @@ $hover: #21164d;
     @include padding(2px);
     @include center();
     cursor: pointer;
+    color: $white;
 }
 .right_element:hover{
     background-color: $gray;

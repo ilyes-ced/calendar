@@ -13,6 +13,12 @@ $white: white;
     padding-right: $right;
     padding-left: $left;
 }
+@mixin margin($top: 0px, $bottom: $top, $right: $top, $left: $top) {
+    margin-top: $top;
+    margin-bottom: $bottom;
+    margin-right: $right;
+    margin-left: $left;
+}
 @mixin grid($n_cols: 1, $row_gap: 0px, $col_gap: 0px) {
     display: grid;
     grid-template-columns: repeat($n_cols, minmax(0, 1fr));
@@ -87,8 +93,11 @@ $white: white;
 .calendar_item{
     @include padding(10px, 0px, 0px, 0px);
     display: flex;
-    align-items: start;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    overflow-y: scroll;
+
 }
 
 
@@ -116,4 +125,19 @@ $white: white;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+
+.event_item{
+    
+    width: 100%;
+    @include padding(0px, 0px, 10px, 10px);
+}
+.event_item > :first-child{
+    border-radius: 10px;
+    width: 100%;
+    @include padding(5px);
+    @include margin(5px, 5px, 0px, 0px);
+    border-left: 10px solid $blue;
+    background-color: $gray;
 }

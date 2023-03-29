@@ -1,3 +1,33 @@
+$main: #16141c;
+$secondary: #6d4aff;
+$text: #a7a4b5;
+$border: #4a4658;
+$blue: #415df0;
+$gray: #312f3c;
+$dark_gray: #292733;
+$white: white;
+$hover: #21164d;
+
+@mixin padding($top: 0px, $bottom: $top, $right: $top, $left: $top) {
+    padding-top: $top;
+    padding-bottom: $bottom;
+    padding-right: $right;
+    padding-left: $left;
+}
+@mixin margin($top: 0px, $bottom: $top, $right: $top, $left: $top) {
+    margin-top: $top;
+    margin-bottom: $bottom;
+    margin-right: $right;
+    margin-left: $left;
+}
+
+@mixin center() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
 #mini_calendar_app_bar{
     display: flex;
     align-items: center;
@@ -8,8 +38,50 @@
 }
 
 #content_left{
-    
+    width: calc(100%/8);
+    border-right: 1px solid $border;
+}
+#content_left > :first-child{
+    aspect-ratio: 1/1;
+}
+#content_left > *{
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#content_left > *:hover{
+    background-color: $gray;
+}
+
+
+#content_left > *{
+    @include center();
+    @include padding(5px)
+
+}
+
+#mini_calendar_content{
+    display: flex;
+    width: 100%;
+    font-size: smaller;
+    font-weight: 500;
 }
 #content_grid{
-    
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
+.content_grid_row{
+    display: flex;
+    height: calc(100%/7);
+}
+.content_grid_row > *{
+    width: 100%;
+    @include center();
+    cursor: pointer;
+    border-radius: 5px;
+}
+.content_grid_row > *:hover{
+    background-color: $gray;
+}
+
