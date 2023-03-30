@@ -1,4 +1,4 @@
-use actix_web::{web, App, HttpServer};
+use actix_web::{web, App, HttpServer, middleware::Logger,};
 use mongodb::{Client};
 
 pub mod handlers;
@@ -23,6 +23,7 @@ async fn main() -> std::io::Result<()> {
         //        .into()
         //});
         App::new()
+            .wrap(Logger::default())
             .app_data(web::Data::new(client.clone()))
             .service(login)
             .service(register)
