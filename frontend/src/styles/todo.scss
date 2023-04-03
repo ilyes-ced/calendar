@@ -1,10 +1,66 @@
+$main: #16141c;
+$secondary: #6d4aff;
+$text: #a7a4b5;
+$border: #4a4658;
+$blue: #415df0;
+$gray: #312f3c;
+$dark_gray: #292733;
+$white: white;
+
+
+@mixin center() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@mixin grid($n_cols: 1, $row_gap: 0px, $col_gap: 0px) {
+    display: grid;
+    grid-template-columns: repeat($n_cols, minmax(0, 1fr));
+    gap: $row_gap $col_gap
+}
+@mixin padding($top: 0px, $bottom: $top, $right: $top, $left: $top) {
+    padding-top: $top;
+    padding-bottom: $bottom;
+    padding-right: $right;
+    padding-left: $left;
+}
+
+@mixin margin($top: 0px, $bottom: $top, $right: $top, $left: $top) {
+    margin-top: $top;
+    margin-bottom: $bottom;
+    margin-right: $right;
+    margin-left: $left;
+}
+
+
+
+#todo_main{
+    /*
+    width: calc( 100% - 355px ) ;
+    */
+    
+    
+    /*
+    background-color: green;
+    */
+    display: flex;
+    flex: 0 0  auto;
+
+    overflow-x: hidden;
+}
 
 
 
 
 
 
+.category_box{
+    border-top: 2px solid red;
+    border-radius: 5px;
+    width: 300px;
+    height: fit-content;
+    @include padding(15px);
+    @include margin(0px, 0px, 20px, 20px);
 
-.categorry_box{
-
+    background-color: $gray;
 }
