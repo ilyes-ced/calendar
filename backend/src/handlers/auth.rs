@@ -28,12 +28,14 @@ use scrypt::{
 };
 
 
+use serde::{Serialize, Deserialize};
+
 
 
 
 #[post("/login")]
 async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
-   let users: Collection<User> = client.database("rust").collection("users");
+	let users: Collection<User> = client.database("rust").collection("users");
 
 
    //get data
@@ -85,8 +87,10 @@ async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<User>
 		Ok(v) => {
 			match v {
 				Some(user_data) => {
+					//here we check the password
 					println!("{user_data:?}");
-					Ok(users.insert_one(user_data.clone(), None).await)
+					//Ok(users.insert_one(user_data.clone(), None).await)
+					Ok(user_data)
 				},
 				None => {
 					println!("no email");
@@ -101,11 +105,14 @@ async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<User>
 	};
 
 
-	
 	match result {
 		Ok(value) => {
-			println!("{:?}", value);
-			HttpResponse::Ok().body("user added")
+			let obj: User = serde_json::to_string(&value)?;
+			let module: Result<User> = serde_json::from_str(&value.as_str());
+			println!("{:?}",value);
+			println!("{:?}",value);
+
+			HttpResponse::Ok().body("value")
 		},
 		Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
 	}
@@ -118,6 +125,7 @@ async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<User>
 #[post("/register")]
 async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
 
+	let users: Collection<User> = client.database("rust").collection("users");
 
    //get data
    //serach for email
@@ -130,24 +138,49 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
             //create user and hash password
 
 
-   //println!(format!("Welcome {:?}!", client));
-   //println!(format!("Welcome {:?}!", form));
-   let collection = client.database("rust").collection("users");
 
 
-   let all = collection
-         .find_one(doc! {"username": "ilyes1"}, None,)
-         .await.expect("No matching documents found.");
-
-   println!("{:?}", all);
-   //println!("Welcome {:?}!", data);
 
 
-   let result = collection.insert_one(data.into_inner(), None).await;
-   match result {
-      Ok(_) => HttpResponse::Ok().body("user added"),
-      Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
-   }
+   	let user = data.clone();
+   	let user = users
+		.find_one(doc! { "email": user.email }, None,)
+		.await/*.expect("No matching documents found.")*/;
+
+
+	let result: Result<_, &str> = match user {
+		Ok(v) => {
+		  	match v {
+			  	Some(user_data) => {
+				   	Err("email taken")
+			  	},
+			  	None => {
+					// hash password and add to database
+				   	println!("addes user");
+					Ok(users.insert_one(data.clone(), None).await)
+				
+			  	}
+		  	}
+		},
+		Err(_e) => {
+		   println!("{:?}",_e);
+		   Err("big error")
+		}
+
+	};
+
+
+	
+	match result {
+		Ok(value) => {
+			println!("{:?}", value);
+			HttpResponse::Ok().body("user added")
+		},
+		Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
+	}
+
+
+
    
 }
 
