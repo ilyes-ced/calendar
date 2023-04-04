@@ -35,18 +35,9 @@ $white: white;
 
 
 #todo_main{
-    /*
-    width: calc( 100% - 355px ) ;
-    */
-    
-    
-    /*
-    background-color: green;
-    */
+    width: 100%;
     display: flex;
-    flex: 0 0  auto;
-
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 
 
@@ -55,12 +46,69 @@ $white: white;
 
 
 .category_box{
+    /*background-color: green;*/
+    @include margin(0px, 0px, 0px, 20px);
+}
+.category_box:first-of-type{
+    @include margin(0px, 0px, 0px, 10px);
+}
+
+.cat_header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     border-top: 2px solid red;
     border-radius: 5px;
-    width: 300px;
-    height: fit-content;
-    @include padding(15px);
-    @include margin(0px, 0px, 20px, 20px);
-
+    min-width: 300px;
     background-color: $gray;
+    height: fit-content;
+    @include padding(10px);
+    @include margin(0px, 20px);
+
+}
+.cat_header > *{
+    display: flex;
+    align-items: center;
+}
+.cat_header:hover .cat_icons{
+    display: flex;
+}
+.cat_icons{
+    display: none;
+}
+.cat_icons > * {
+    box-sizing: content-box;
+    border-radius: 10px;
+    @include padding(5px);
+    cursor: pointer;
+}
+.cat_icons > *:hover{
+    background-color: $dark_gray;
+}
+
+.cat_title > :nth-child(2){
+    @include padding(5px, 5px, 20px, 20px);
+    @include margin(0px, 0px, 20px, 20px);
+    
+    border-radius: 20px;
+    border: 1px solid $border;        
+}
+
+.task{
+    @include margin(0px, 20px);
+    align-items: center;
+    border-radius: 5px;
+    background-color: $gray;
+    height: fit-content;
+    @include padding(10px); 
+}
+
+.add_sub_task{
+    @include padding(5px); 
+    border-radius: 5px;
+    width: fit-content;
+    cursor: pointer;
+}
+.add_sub_task:hover{
+    background-color: $dark_gray;
 }

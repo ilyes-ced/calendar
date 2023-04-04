@@ -47,7 +47,8 @@ $white: white;
 
 #center_main_box{
     display: flex;
-    width: 100%;
+    width: calc( 100% - 355px ) ;
+
     height: 100%;
 }
 
