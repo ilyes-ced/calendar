@@ -2,8 +2,9 @@
 
 
 
-
 #left_bar{
+    min-width: 300px;
+    height: 100%;
     @include padding(0px,0px,10px,10px);
     
 }
@@ -16,6 +17,7 @@
     color: $white;
     background-color: $secondary;
     @include padding(10px,10px,0px,0px);
+    @include margin(0px,20px,0px,0px);
 }
 
 

@@ -1,11 +1,21 @@
 @import './functions.scss';
 
 
-
 #right_bar{
+    height: 100%;
     @include padding(5px);
+    display: flex;
 }
-
+#right_bar > :nth-child(2){
+    background-color: red;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 300px;
+    transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 300ms; 
+    translate: 3000px;
+}
 
 .right_element{
     border-radius: 10px;

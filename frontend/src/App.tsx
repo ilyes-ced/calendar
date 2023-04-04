@@ -5,7 +5,6 @@ import Login from './views/auth/login'
 import Register from './views/auth/register'
 import HomePage from './views/home'
 import Calendar from './views/home/calendar'
-import Contacts from './views/home/contacts'
 import ToDo from './views/home/toDo'
 
 
@@ -17,10 +16,6 @@ const router = createBrowserRouter([
 			{
 			  	path: "/",
 			  	element: <Calendar />,
-			},
-			{
-			  	path: "/contacts",
-			  	element: <Contacts />,
 			},
 			{
 			  	path: "/todo",
