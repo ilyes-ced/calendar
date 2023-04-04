@@ -1,10 +1,11 @@
 
 
+
 function App() {
 
     return (
-        <div id='' >
-            hello there from contacts
+        <div id='contacts_page' >
+            
         </div>
     )
 }

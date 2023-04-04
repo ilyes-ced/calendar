@@ -1,5 +1,4 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import '../../styles/home_page.scss'
 import Header from '../../components/header'
 import LeftSideBar from '../../components/leftSideBar'
 import MainCalendar from '../../components/mainCalendar'

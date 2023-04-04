@@ -1,5 +1,3 @@
-
-import '../styles/right_bar.scss'
 import { BsFillCalendar2DateFill, BsPersonVcard, BsListUl } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
 

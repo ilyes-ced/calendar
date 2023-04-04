@@ -1,4 +1,3 @@
-import '../styles/header.scss'
 
 
 

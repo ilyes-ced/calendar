@@ -1,4 +1,3 @@
-import '../styles/left_bar.scss'
 import MiniCalendar from './miniCalendar'
 
 function App() {

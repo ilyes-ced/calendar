@@ -1,4 +1,3 @@
-import '../styles/mini_calendar.scss'
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 const test = [0,0,0,0,0,0,0]
 

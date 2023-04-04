@@ -1,4 +1,3 @@
-import '../../styles/todo.scss'
 import {BsFillPencilFill, BsChevronLeft, BsPlusLg} from  "react-icons/bs"
 
 
