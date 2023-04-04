@@ -60,6 +60,12 @@ async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<User>
 		Ok(v) => {
 			match v {
 				Some(user_data) => {
+					if hash::verify_hash(String::from(&user_data.password), String::from(&data.password)) {
+						println!("correct")
+					}else{
+						println!("incorrect")
+					}
+
 					//here we check the password
 					println!("{user_data:?}");
 					//Ok(users.insert_one(user_data.clone(), None).await)
@@ -112,6 +118,7 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
 
 
    	let user = data.clone();
+   	let mut user_data = data;
    	let user = users
 		.find_one(doc! { "email": user.email }, None,)
 		.await/*.expect("No matching documents found.")*/;
@@ -125,8 +132,9 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
 			  	},
 			  	None => {
 					// hash password and add to database
-				   	println!("addes user");
-					Ok(users.insert_one(data.clone(), None).await)
+					println!("addes user");
+					user_data.password = hash::hash(String::from("test"));
+					Ok(users.insert_one(user_data.clone(), None).await)
 				
 			  	}
 		  	}
@@ -159,8 +167,8 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
 
 #[post("/verify")]
 async fn verify(client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
-	hash::hash(String::from("test"));
-	hash::verify_hash(String::from("test"));
+	//hash::hash(String::from("test"));
+	//hash::verify_hash(String::from("test"));
 	HttpResponse::Ok().body("to complete")
 }
 
