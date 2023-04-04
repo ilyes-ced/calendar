@@ -16,20 +16,15 @@ use mongodb::{bson::doc,Client, Collection};
 
 use log::{info, warn};
 
-use crate::models;
-use models::User;
-
-use scrypt::{
-    password_hash::{
-        rand_core::OsRng,
-        PasswordHash, PasswordHasher, PasswordVerifier, SaltString
-    },
-    Scrypt
-};
-
 
 use serde::{Serialize, Deserialize};
 
+
+
+use crate::models;
+use crate::utils;
+use models::User;
+use utils::hash;
 
 
 
@@ -46,28 +41,6 @@ async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<User>
       //confirm password
          //if false{ send  error }
          //else{ send user data }
-		 log::info!("{req:?}");
-
-
-
-
-	//let password = b"hunter42"; // Bad password; don't actually use!
-	//println!("{:?}", password);
-	//
-	//let salt = SaltString::generate(&mut OsRng);
-	//println!("{:?}", salt);
-	//
-	//// Hash password to PHC string ($scrypt$...)
-	//let password_hash = Scrypt.hash_password(password, &salt).unwrap().to_string();
-	//println!("{:?}", password_hash);
-	//
-	//// Verify password against PHC string
-	//let parsed_hash = PasswordHash::new(&password_hash);
-	//println!("{:?}", parsed_hash);
-	//
-	//assert!(Scrypt.verify_password(password, &parsed_hash.clone().unwrap()).is_ok());
-	//println!("{:?}", Scrypt.verify_password(password, &parsed_hash.unwrap()).is_ok());
-
 
 
 
@@ -107,12 +80,8 @@ async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<User>
 
 	match result {
 		Ok(value) => {
-			let obj: User = serde_json::to_string(&value)?;
-			let module: Result<User> = serde_json::from_str(&value.as_str());
-			println!("{:?}",value);
-			println!("{:?}",value);
-
-			HttpResponse::Ok().body("value")
+			let obj = serde_json::to_string(&value);
+			HttpResponse::Ok().body(obj.unwrap())
 		},
 		Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
 	}
@@ -186,3 +155,17 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
 
 
 
+
+
+#[post("/verify")]
+async fn verify(client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
+	hash::hash(String::from("test"));
+	hash::verify_hash(String::from("test"));
+	HttpResponse::Ok().body("to complete")
+}
+
+
+#[post("/logout")]
+async fn logout(client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
+	HttpResponse::Ok().body("to complete")
+}

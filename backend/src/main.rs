@@ -1,10 +1,10 @@
 use actix_web::{web, App, HttpServer, middleware::Logger,};
 use mongodb::{Client};
 
+pub mod utils;
 pub mod handlers;
 pub mod models;
-use crate::handlers::auth::register;
-use crate::handlers::auth::login;
+use crate::handlers::auth;
 
 
 #[actix_web::main]
@@ -25,8 +25,10 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(Logger::default())
             .app_data(web::Data::new(client.clone()))
-            .service(login)
-            .service(register)
+            .service(auth::login)
+            .service(auth::register)
+            .service(auth::logout)
+            .service(auth::verify)
             //.route("/hey", web::get().to(handlers::manual_hello))
     })
     .bind(("127.0.0.1", 8080))?
