@@ -5,6 +5,7 @@ pub mod utils;
 pub mod handlers;
 pub mod models;
 use crate::handlers::auth;
+use crate::handlers::events;
 
 
 #[actix_web::main]
@@ -29,6 +30,9 @@ async fn main() -> std::io::Result<()> {
             .service(auth::register)
             .service(auth::logout)
             .service(auth::verify)
+            .service(events::create)
+            .service(events::delete)
+            .service(events::edit)
             //.route("/hey", web::get().to(handlers::manual_hello))
     })
     .bind(("127.0.0.1", 8080))?
