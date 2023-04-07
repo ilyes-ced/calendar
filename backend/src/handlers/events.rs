@@ -21,7 +21,7 @@ use models::Event;
 
 
 
-#[post("/create")]
+#[post("/events/create")]
 async fn create(req: HttpRequest,client: web::Data<Client>, data: web::Json<Event>) -> HttpResponse {
 	
     println!("{:?}", data);
@@ -35,7 +35,7 @@ async fn create(req: HttpRequest,client: web::Data<Client>, data: web::Json<Even
 
 
 
-#[post("/delete")]
+#[post("/events/delete")]
 async fn delete(req: HttpRequest,client: web::Data<Client>, data: web::Json<Event>) -> HttpResponse {
 	
     println!("{:?}", data);
@@ -48,7 +48,7 @@ async fn delete(req: HttpRequest,client: web::Data<Client>, data: web::Json<Even
 
 
 
-#[post("/edit")]
+#[post("/events/edit")]
 async fn edit(req: HttpRequest,client: web::Data<Client>, data: web::Json<Event>) -> HttpResponse {
 	
     println!("{:?}", data);
