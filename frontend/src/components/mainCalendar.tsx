@@ -128,11 +128,9 @@ const init_calendar = () => {
         
 }
 init_calendar()
-console.log(this_month)
 
-console.log(last_month)
-console.log(this_month)
-console.log(next_month)
+
+
 function App() {
 
     return (
@@ -149,6 +147,7 @@ function App() {
                     </div>
                     <div className='v_divider'></div>
                     <button className='button secondary_button'> {month_names[current_date.getMonth()]} {current_date.getDate()}, {current_date.getFullYear()} </button>
+                    {}
                 </div>
                 <div>
                     <div className='v_divider'></div>

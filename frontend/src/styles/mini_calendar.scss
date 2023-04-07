@@ -59,3 +59,21 @@
     background-color: $gray;
 }
 
+#days_grid{
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+#days_grid > *{
+    height: 100%;
+    width: 100%;
+    @include center();
+    cursor: pointer;
+    border-radius: 5px;
+}
+#days_grid > *:hover{
+    background-color: $gray;
+}
+
+
