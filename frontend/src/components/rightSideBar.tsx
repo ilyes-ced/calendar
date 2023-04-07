@@ -31,9 +31,11 @@ function App() {
                     <BsPersonVcard  />
                 </div>
             </div>
+            {/*
             <div>
                 ff
             </div>
+            */}
 
         </div>
     )

@@ -45,7 +45,6 @@
     background-color: $dark_gray;
 }
 #week_n > *{
-    height: 20%;
     border-top: 1px solid $border;
     border-right: 1px solid $border;
     @include center();
@@ -110,7 +109,7 @@
 
 
 .event_item{
-    
+    cursor: pointer;
     width: 100%;
     @include padding(0px, 0px, 10px, 10px);
 }
@@ -121,4 +120,7 @@
     @include margin(5px, 5px, 0px, 0px);
     border-left: 10px solid $blue;
     background-color: $gray;
+}
+.event_item > :first-child:hover{
+    background-color: $border;
 }

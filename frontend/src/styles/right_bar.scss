@@ -4,7 +4,6 @@
 #right_bar{
     height: 100%;
     @include padding(5px);
-    display: flex;
 }
 #right_bar > :nth-child(2){
     background-color: red;
