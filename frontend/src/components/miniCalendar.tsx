@@ -1,5 +1,5 @@
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-const test = [0,0,0,0,0,0,0]
+const test = [0,0,0,0,0,0]
 
 
 function App() {
@@ -28,16 +28,25 @@ function App() {
                     <div>6</div>
                 </div>
                 <div id='content_grid'>
+                    <div className='content_grid_row'>
+                        <div>S</div>
+                        <div>M</div>
+                        <div>T</div>
+                        <div>W</div>
+                        <div>T</div>
+                        <div>F</div>
+                        <div>S</div>
+                    </div>
                     {
-                        test.map(ele => 
+                        test.map((ele, i) => 
                             <div className='content_grid_row'>
-                                <div>S</div>
-                                <div>M</div>
-                                <div>T</div>
-                                <div>W</div>
-                                <div>T</div>
-                                <div>F</div>
-                                <div>S</div>
+                                <div>{(i+1) * 1}</div>
+                                <div>{(i+1) * 2}</div>
+                                <div>{(i+1) * 3}</div>
+                                <div>{(i+1) * 4}</div>
+                                <div>{(i+1) * 5}</div>
+                                <div>{(i+1) * 6}</div>
+                                <div>{(i+1) * 7}</div>
                             </div>
                         )
                     }

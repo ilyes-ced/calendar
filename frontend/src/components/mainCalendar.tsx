@@ -1,63 +1,65 @@
+import { current } from "@reduxjs/toolkit";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
-
-let test_calendar: number[]  = [];
-
-
-
-//var now = new Date();
-//var kk = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
-//var firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-//console.log(kk)
-//console.log(firstDay)
-//console.log(firstDay.getDate())
-//console.log(now.toLocaleDateString(undefined, { weekday: 'long' }))
-//now.setDate(now.getDate() + 1);
+let last_month: number[]  = [];
+let this_month: number[]  = [];
+let next_month: number[]  = [];
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+const month_names = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+let current_date = new Date();
 
 
 const init_calendar = () => {
     var now = new Date();
-    console.log(now)
     now = new Date(now.getFullYear(), now.getMonth(), 1);
     var first_day = new Date(now.getFullYear(), now.getMonth(), 1);
-    console.log(first_day)
     const current_month = now.getMonth()
     var day_number = 1
     var first_day_name = now.toLocaleDateString(undefined, { weekday: 'long' })
-
-    if(first_day_name === 'Sunday'){
-
-    }else if(first_day_name === 'Monday'){
-        test_calendar.push(0)
+    var tempo_date =  new Date();
+    tempo_date = new Date(now.getFullYear(), now.getMonth(), 1);
+    if(first_day_name === 'Monday'){
+        for (let i = 0; i < 1; i++) {
+            now.setDate(now.getDate() - 1);
+                last_month = [now.getDate(), ...last_month]
+        }
+        now.setDate(now.getDate() + 1);
     }else if(first_day_name === 'Tuesday'){
-        test_calendar.push(0)
-        test_calendar.push(0)
+        for (let i = 0; i < 2; i++) {
+            now.setDate(now.getDate() - 1);
+                last_month = [now.getDate(), ...last_month]
+        }
+        now.setDate(now.getDate() + 2);
     }else if(first_day_name === 'Wednesday'){
-        test_calendar.push(0)
-        test_calendar.push(0)
-        test_calendar.push(0)
+        for (let i = 0; i < 3; i++) {
+            now.setDate(now.getDate() - 1);
+                last_month = [now.getDate(), ...last_month]
+        }
+        now.setDate(now.getDate() + 3);
     }else if(first_day_name === 'Thursday'){
-        test_calendar.push(0)
-        test_calendar.push(0)
-        test_calendar.push(0)
-        test_calendar.push(0)
+        for (let i = 0; i < 4; i++) {
+            now.setDate(now.getDate() - 1);
+                last_month = [now.getDate(), ...last_month]
+        }
+        now.setDate(now.getDate() + 4);
     }else if(first_day_name === 'Friday'){
-        test_calendar.push(0)
-        test_calendar.push(0)
-        test_calendar.push(0)
-        test_calendar.push(0)
-        test_calendar.push(0)
+        for (let i = 0; i < 5; i++) {
+            now.setDate(now.getDate() - 1);
+                last_month = [now.getDate(), ...last_month]
+        }
+        now.setDate(now.getDate() + 5);
     }else if(first_day_name === 'Saturday'){
-        test_calendar.push(0)
-        test_calendar.push(0)
-        test_calendar.push(0)
-        test_calendar.push(0)
-        test_calendar.push(0)
-        test_calendar.push(0)
+        for (let i = 0; i < 6; i++) {
+            now.setDate(now.getDate() - 1);
+                last_month = [now.getDate(), ...last_month]
+        }
+        now.setDate(now.getDate() + 6);
     }
-
     while (now.getMonth() === current_month){
 
         now.setDate(now.getDate() + 1);
@@ -67,36 +69,70 @@ const init_calendar = () => {
 
 
         if(first_day_name === 'Sunday'){
-            test_calendar.push(day_number)
+            this_month.push(day_number)
             day_number++
         }else if(first_day_name === 'Monday'){
-            test_calendar.push(day_number)
+            this_month.push(day_number)
             day_number++
         }else if(first_day_name === 'Tuesday'){
-            test_calendar.push(day_number)
+            this_month.push(day_number)
             day_number++
         }else if(first_day_name === 'Wednesday'){
-            test_calendar.push(day_number)
+            this_month.push(day_number)
             day_number++
         }else if(first_day_name === 'Thursday'){
-            test_calendar.push(day_number)
+            this_month.push(day_number)
             day_number++
         }else if(first_day_name === 'Friday'){
-            test_calendar.push(day_number)
+            this_month.push(day_number)
             day_number++
         }else if(first_day_name === 'Saturday'){
-            test_calendar.push(day_number)
+            this_month.push(day_number)
             day_number++
         }
 
     }
+    var first_day_name = now.toLocaleDateString(undefined, { weekday: 'long' })
 
-
+    if(first_day_name === 'Monday'){
+        for (let i = 0; i < 6; i++) {
+            next_month.push(now.getDate())
+            now.setDate(now.getDate() + 1);
+        }
+    }else if(first_day_name === 'Tuesday'){
+        for (let i = 0; i < 5; i++) {
+            next_month.push(now.getDate())
+            now.setDate(now.getDate() + 1);
+        }
+    }else if(first_day_name === 'Wednesday'){
+        for (let i = 0; i < 4; i++) {
+            next_month.push(now.getDate())
+            now.setDate(now.getDate() + 1);
+        }
+    }else if(first_day_name === 'Thursday'){
+        for (let i = 0; i < 3; i++) {
+            next_month.push(now.getDate())
+            now.setDate(now.getDate() + 1);
+        }
+    }else if(first_day_name === 'Friday'){
+        for (let i = 0; i < 5; i++) {
+            next_month.push(now.getDate())
+            now.setDate(now.getDate() + 1);
+        }
+    }else if(first_day_name === 'Saturday'){
+        for (let i = 0; i < 1; i++) {
+            next_month.push(now.getDate())
+            now.setDate(now.getDate() + 1);
+        }
+    }
         
 }
 init_calendar()
-console.log(test_calendar)
+console.log(this_month)
 
+console.log(last_month)
+console.log(this_month)
+console.log(next_month)
 function App() {
 
     return (
@@ -105,14 +141,14 @@ function App() {
                 <div>
                     <button className='button secondary_button'>today</button>
                     <div className='v_divider'></div>   
-                    <div className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}}>
+                    <div className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}} onClick={() => {current_date.setDate(current_date.getDate()+1); console.log(current_date)}}>
                         <BsChevronLeft  />
                     </div>
-                    <div className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}}>
+                    <div className="button secondary_button" style={{paddingRight:'10px',paddingLeft:'10px'}} onClick={() => {current_date.setDate(current_date.getDate()+1); console.log(current_date)}}>
                         <BsChevronRight  />
                     </div>
                     <div className='v_divider'></div>
-                    <button className='button secondary_button'>mars 23</button>
+                    <button className='button secondary_button'> {month_names[current_date.getMonth()]} {current_date.getDate()}, {current_date.getFullYear()} </button>
                 </div>
                 <div>
                     <div className='v_divider'></div>
@@ -146,9 +182,31 @@ function App() {
                     </div>
                     <div id='calendar_items'>
                         {
-                            test_calendar.map((ele, i) => {
+                            last_month.map((ele, i) => {
                                 return <div className="calendar_item">
-                                    <button className="button secondary_button"> {test_calendar[i]} </button>
+                                    <button className="button secondary_button"> {last_month[i]} </button>
+                                    <div className="event_item">
+                                        <div>event name</div>
+                                    </div>
+                                  
+                                </div>
+                            })
+                        }
+                        {
+                            this_month.map((ele, i) => {
+                                return <div className="calendar_item">
+                                    <button className="button secondary_button"> {this_month[i]} </button>
+                                    <div className="event_item">
+                                        <div>event name</div>
+                                    </div>
+                                  
+                                </div>
+                            })
+                        }
+                        {
+                            next_month.map((ele, i) => {
+                                return <div className="calendar_item">
+                                    <button className="button secondary_button"> {next_month[i]} </button>
                                     <div className="event_item">
                                         <div>event name</div>
                                     </div>
