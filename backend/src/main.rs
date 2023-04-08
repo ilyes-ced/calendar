@@ -1,5 +1,6 @@
-use actix_web::{web, App, HttpServer, middleware::Logger,};
+use actix_web::{web, App, HttpServer, middleware::Logger, dev::Service as _};
 use mongodb::{Client};
+use futures_util::future::FutureExt;
 
 pub mod utils;
 pub mod handlers;
@@ -25,6 +26,11 @@ async fn main() -> std::io::Result<()> {
         //});
         App::new()
             .wrap(Logger::default())
+            .wrap_fn(|req, srv| {
+                srv.call(req).map(|res| {
+                    res
+                })
+            })
             .app_data(web::Data::new(client.clone()))
             .service(auth::login)
             .service(auth::register)

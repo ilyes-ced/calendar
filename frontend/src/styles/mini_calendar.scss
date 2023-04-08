@@ -12,7 +12,7 @@
 }
 
 #content_left{
-    width: calc(100%/8);
+    width: calc(100%/7);
     border-right: 1px solid $border;
 }
 #content_left > :first-child{
@@ -21,9 +21,11 @@
 #content_left > *{
     cursor: pointer;
     border-radius: 5px;
+    height: calc(100%/7);
+
 }
 
-#content_left > *:hover{
+#content_left > *:hover:not(:first-child){
     background-color: $gray;
 }
 
@@ -50,6 +52,7 @@
     height: calc(100%/7);
 }
 .content_grid_row > *{
+    aspect-ratio: 1/1;
     width: 100%;
     @include center();
     cursor: pointer;
@@ -66,6 +69,7 @@
 }
 
 #days_grid > *{
+    aspect-ratio: 1/1;
     height: 100%;
     width: 100%;
     @include center();

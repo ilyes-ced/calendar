@@ -49,6 +49,7 @@ use argon2::{
     Argon2
 };
 
+use log::{info, warn};
 
 
 pub fn hash(password: String) -> String  {
@@ -66,14 +67,10 @@ pub fn hash(password: String) -> String  {
 }
 
 pub fn verify_hash(hash: String, password: String) -> bool {
-    println!("hello there from verify_hash {}", hash);
-    println!("hello there from verify_hash {}", password);
+
 
     let password = password.as_bytes();
     let parsed_hash = PasswordHash::new(&hash).unwrap();
-    println!("{}", parsed_hash);
-
-    println!("{}", Argon2::default().verify_password(password, &parsed_hash).is_ok());
 
 
     Argon2::default().verify_password(password, &parsed_hash).is_ok()

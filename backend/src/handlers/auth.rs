@@ -14,7 +14,7 @@ use actix_session::{
 
 use mongodb::{bson::doc,Client, Collection};
 
-use log::{info, warn};
+use log::{info, warn, error, debug};
 
 
 use serde::{Serialize, Deserialize};
@@ -33,21 +33,21 @@ async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<User>
 	let users: Collection<User> = client.database("rust").collection("users");
 
 
-   //get data
-   //serach for email
-   //if wrong
-   //    send error mesg
-   //if correct
-      //confirm password
-         //if false{ send  error }
-         //else{ send user data }
+   	//get data
+   	//serach for email
+   	//if wrong
+   	//    send error mesg
+   	//if correct
+      	//confirm password
+      		  //if false{ send  error }
+      		  //else{ send user data }
 
 
 
-    log::error!("This is an error log");
-    log::warn!("This is a warn log");
-    log::info!("this is an info log");
-    log::debug!("This is a debug log");
+    //log::error!("This is an error log");
+    //log::warn!("This is a warn log");
+    //log::info!("this is an info log");
+    //log::debug!("This is a debug log");
 
 
 	let user = data.clone();
