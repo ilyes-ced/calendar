@@ -1,5 +1,5 @@
 use actix_web::{
-    post, web, Result, HttpResponse, error,
+    post, get, web, Result, HttpResponse, error,
     http::StatusCode,
     middleware, App, HttpMessage as _, HttpRequest, HttpServer, Responder,
 	cookie::{self, Key},
@@ -58,3 +58,5 @@ async fn edit(req: HttpRequest,client: web::Data<Client>, data: web::Json<Event>
 
 
 }
+
+

@@ -9,6 +9,7 @@ edition = "2021"
 actix = "0.13.0"
 actix-web = "4.3.1"
 actix-identity = "0.5.2"
+actix-ratelimit = "0.3.1"
 actix-session = { version = "0.7.2", features = ["cookie-session"] }
 bson = "2.6.1"
 chrono = "0.4.24"

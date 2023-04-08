@@ -1,12 +1,19 @@
 use actix_web::{web, App, HttpServer, middleware::Logger, dev::Service as _};
 use mongodb::{Client};
 use futures_util::future::FutureExt;
+use actix_ratelimit::{RateLimiter, MemoryStore, MemoryStoreActor};
+use std::time::Duration;
+
+
+
 
 pub mod utils;
 pub mod handlers;
 pub mod models;
+pub mod middlewares;
 use crate::handlers::auth;
 use crate::handlers::events;
+use crate::middlewares::authorization::CheckLogin;
 
 
 #[actix_web::main]
@@ -16,21 +23,20 @@ async fn main() -> std::io::Result<()> {
 
     let uri = std::env::var("MONGODB_URI").unwrap_or_else(|_| "mongodb://localhost:27017".into());
     let client = Client::with_uri_str(uri).await.expect("failed to connect");
-
+    let store = MemoryStore::new();
     HttpServer::new(move || {
-        //let json_config = web::JsonConfig::default()
-        //.limit(4096)
-        //.error_handler(|err, _req| {
-        //    error::InternalError::from_response(err, HttpResponse::Conflict().finish())
-        //        .into()
-        //});
+
+        
         App::new()
+            .wrap(
+                RateLimiter::new(
+                MemoryStoreActor::from(store.clone()).start())
+                    .with_interval(Duration::from_secs(60))
+                    .with_max_requests(100)
+                    
+            )
             .wrap(Logger::default())
-            .wrap_fn(|req, srv| {
-                srv.call(req).map(|res| {
-                    res
-                })
-            })
+            .wrap(CheckLogin)
             .app_data(web::Data::new(client.clone()))
             .service(auth::login)
             .service(auth::register)

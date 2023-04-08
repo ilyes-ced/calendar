@@ -42,46 +42,28 @@ pub struct Register_user {
 
 #[post("/login")]
 async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<Login_user>) -> HttpResponse {
-	let users: Collection<User> = client.database("rust").collection("users");
+	let users: Collection<Login_user> = client.database("rust").collection("users");
 
-
-   	//get data
-   	//serach for email
-   	//if wrong
-   	//    send error mesg
-   	//if correct
-      	//confirm password
-      		  //if false{ send  error }
-      		  //else{ send user data }
-
-
-
-    //log::error!("This is an error log");
-    //log::warn!("This is a warn log");
-    //log::info!("this is an info log");
-    //log::debug!("This is a debug log");
 
 
 	let user = data.clone();
-	let user = users
+	let user_data = users
 		.find_one(doc! { "email": user.email }, None,)
-		.await/*.expect("No matching documents found.")*/;
+		.await;
 
-
-	let result: Result<_, &str> = match user {
+	let result: Result<_, &str> = match user_data {
 		Ok(v) => {
 			match v {
 				Some(user_data) => {
 					if hash::verify_hash(String::from(&user_data.password), String::from(&data.password)) {
-						println!("correct")
+						println!("correct");
+						println!("{user_data:?}");
+						// add session storage
+						Ok(user_data)
 					}else{
-						println!("incorrect")
+						println!("incorrect");
+						Err("bad password")
 					}
-
-					//here we check the password
-					println!("{user_data:?}");
-					//Ok(users.insert_one(user_data.clone(), None).await)
-					Ok(user_data)
 				},
 				None => {
 					println!("no email");
@@ -112,23 +94,14 @@ async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<Login
 #[post("/register")]
 async fn register(client: web::Data<Client>, data: web::Json<Register_user>) -> HttpResponse {
 
-	let users: Collection<User> = client.database("rust").collection("users");
-
-   //get data
-   //serach for email
-   //if exists
-   //    send error mesg
-   //else
-      //confirm password is good
-         //if false{ send  error }
-         //else{ send user data }
-            //create user and hash password
+	let users: Collection<Register_user> = client.database("rust").collection("users");
 
 
 
 
 
 
+ 
    	let user = data.clone();
    	let mut user_data = data;
    	let user = users
@@ -143,14 +116,9 @@ async fn register(client: web::Data<Client>, data: web::Json<Register_user>) -> 
 				   	Err("email taken")
 			  	},
 			  	None => {
-					println!("addes user {:?}", &user_data);
+					println!("addes user");
 					user_data.password = hash::hash(user_data.clone().password);
-					println!("{:?}", user_data);
-					//Ok(users.insert_one(user_data, None).await)
-					Ok(())
-					//user_data.password = hash::hash(String::from("test"));
-					//Ok(users.insert_one(user_data.clone(), None).await)
-				
+					Ok(users.insert_one(user_data.clone(), None).await)
 			  	}
 		  	}
 		},
@@ -160,7 +128,6 @@ async fn register(client: web::Data<Client>, data: web::Json<Register_user>) -> 
 		}
 
 	};
-
 
 	
 	match result {
