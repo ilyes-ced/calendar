@@ -17,7 +17,7 @@ use serde::{Serialize, Deserialize};
 
 
 use crate::models;
-use models::Event;
+use models::event::Event;
 
 
 

@@ -23,13 +23,25 @@ use serde::{Serialize, Deserialize};
 
 use crate::models;
 use crate::utils;
-use models::User;
+use models::user::User;
 use utils::hash;
 
 
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+pub struct Login_user {
+    pub email: String,
+    pub password: String,
+}
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+pub struct Register_user {
+    pub username: String,
+    pub email: String,
+    pub password: String,
+}
+
 
 #[post("/login")]
-async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
+async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<Login_user>) -> HttpResponse {
 	let users: Collection<User> = client.database("rust").collection("users");
 
 
@@ -98,7 +110,7 @@ async fn login(req: HttpRequest,client: web::Data<Client>, data: web::Json<User>
 
 
 #[post("/register")]
-async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
+async fn register(client: web::Data<Client>, data: web::Json<Register_user>) -> HttpResponse {
 
 	let users: Collection<User> = client.database("rust").collection("users");
 
@@ -121,7 +133,7 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
    	let mut user_data = data;
    	let user = users
 		.find_one(doc! { "email": user.email }, None,)
-		.await/*.expect("No matching documents found.")*/;
+		.await;
 
 
 	let result: Result<_, &str> = match user {
@@ -131,10 +143,13 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
 				   	Err("email taken")
 			  	},
 			  	None => {
-					// hash password and add to database
-					println!("addes user");
-					user_data.password = hash::hash(String::from("test"));
-					Ok(users.insert_one(user_data.clone(), None).await)
+					println!("addes user {:?}", &user_data);
+					user_data.password = hash::hash(user_data.clone().password);
+					println!("{:?}", user_data);
+					//Ok(users.insert_one(user_data, None).await)
+					Ok(())
+					//user_data.password = hash::hash(String::from("test"));
+					//Ok(users.insert_one(user_data.clone(), None).await)
 				
 			  	}
 		  	}
