@@ -21,8 +21,7 @@
 #content_left > *{
     cursor: pointer;
     border-radius: 5px;
-    height: calc(100%/7);
-
+    
 }
 
 #content_left > *:hover:not(:first-child){
@@ -49,7 +48,6 @@
 }
 .content_grid_row{
     display: flex;
-    height: calc(100%/7);
 }
 .content_grid_row > *{
     aspect-ratio: 1/1;

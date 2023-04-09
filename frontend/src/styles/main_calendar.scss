@@ -16,6 +16,7 @@
     border: 1px solid $border;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
+    overflow: hidden;
     
 }
 #main_calendar{
@@ -38,6 +39,7 @@
     width: 100%;
     flex: 1 1 auto;
     @include grid(7, 0px, 0px);
+    border-top: 1px solid $border;
 }
 #week_n{
     height: 100%;
@@ -77,17 +79,21 @@
     align-items: center;
     justify-content: start;
     overflow-y: scroll;
-
-}
-
-
-
-.calendar_item{
     width: 100%;
     height: 100%;
-    border-top: 1px solid $border;
+    border-bottom: 1px solid $border;
     border-right: 1px solid $border;
 }
+// all elements to the bottom
+.calendar_item:not(:nth-last-child(n+8)){
+    border-bottom: none;
+}
+// all elements to the right
+.calendar_item:nth-child(7n){
+    border-right: none;
+}
+
+
 
 #main_calendar{
     display: flex;
@@ -108,9 +114,10 @@
 }
 
 
-.event_item{
+.event_item, .event_item_see_more{
     cursor: pointer;
     width: 100%;
+    height:50%;
     @include padding(0px, 0px, 10px, 10px);
 }
 .event_item > :first-child{
@@ -121,6 +128,12 @@
     border-left: 10px solid $blue;
     background-color: $gray;
 }
-.event_item > :first-child:hover{
-    background-color: $border;
+.event_item_see_more > :first-child{
+    border-radius: 10px;
+    width: 100%;
+    @include padding(5px);
+    text-align: center;
+}
+.event_item > :first-child:hover, .event_item_see_more > :first-child:hover{
+    background-color: $dark_gray;
 }

@@ -2,17 +2,24 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
 
+var offset = 0
 
-const initial_canlendar = () => {
+
+const append = (ele: number) => {
+
+}
+const prepend = (ele: number) => {
+
+}
+
+const initial_canlendar = (months_offset: number) => {
     let state: number[][] = [[], [], []] 
     var now = new Date();
+    now.setMonth(now.getMonth()+months_offset)
     now = new Date(now.getFullYear(), now.getMonth(), 1);
-    var first_day = new Date(now.getFullYear(), now.getMonth(), 1);
     const current_month = now.getMonth()
-    var day_number = 1
     var first_day_name = now.toLocaleDateString(undefined, { weekday: 'long' })
-    var tempo_date =  new Date();
-    tempo_date = new Date(now.getFullYear(), now.getMonth(), 1);
+
     if(first_day_name === 'Monday'){
         for (let i = 0; i < 1; i++) {
             now.setDate(now.getDate() - 1);
@@ -50,40 +57,13 @@ const initial_canlendar = () => {
         }
         now.setDate(now.getDate() + 6);
     }
+
     while (now.getMonth() === current_month){
-
+        state[1].push(now.getDate())
         now.setDate(now.getDate() + 1);
-        var first_day_name = now.toLocaleDateString(undefined, { weekday: 'long' })
-
-
-
-
-        if(first_day_name === 'Sunday'){
-            state[1].push(day_number)
-            day_number++
-        }else if(first_day_name === 'Monday'){
-            state[1].push(day_number)
-            day_number++
-        }else if(first_day_name === 'Tuesday'){
-            state[1].push(day_number)
-            day_number++
-        }else if(first_day_name === 'Wednesday'){
-            state[1].push(day_number)
-            day_number++
-        }else if(first_day_name === 'Thursday'){
-            state[1].push(day_number)
-            day_number++
-        }else if(first_day_name === 'Friday'){
-            state[1].push(day_number)
-            day_number++
-        }else if(first_day_name === 'Saturday'){
-            state[1].push(day_number)
-            day_number++
-        }
-
     }
-    var first_day_name = now.toLocaleDateString(undefined, { weekday: 'long' })
 
+    first_day_name = now.toLocaleDateString(undefined, { weekday: 'long' })
     if(first_day_name === 'Monday'){
         for (let i = 0; i < 6; i++) {
             state[2].push(now.getDate())
@@ -119,24 +99,36 @@ const initial_canlendar = () => {
 }
 
 
-let this_month_calendar: number[][]  = initial_canlendar();
+
+
+let this_month_calendar: number[][]  = initial_canlendar(0);
 
 export const calendarSlice = createSlice({
   name: 'this_month',
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState: this_month_calendar,
   reducers: {
 
-    increment_month: () => {},
-    decrement_month: () => {},
+    increment_month: (state) => {
+        offset++
+        state = initial_canlendar(offset)
+        return state
+    },
+    
+    decrement_month: (state) => {
+        offset--
+        state = initial_canlendar(offset)
+        return state
+    },
 
-    //incrementByAmount: (state, action: PayloadAction<number>) => {
-    //  state.push(action.payload)
-    //},
+    reset_month: (state) => {
+        offset = 0
+        state = initial_canlendar(offset)
+        return state
+    },
   },
 })
 
-export const { increment_month, decrement_month } = calendarSlice.actions
+export const { increment_month, decrement_month, reset_month } = calendarSlice.actions
 
 export const selectCount = (state: RootState) => state
 
