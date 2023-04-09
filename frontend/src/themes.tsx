@@ -1,5 +1,5 @@
 export const dark_theme = {
-    "primary": "#16141c",
-    "primary": "#16141c",
-    "primary": "#16141c",
+    "pri": "#16141c",
+    "sec": "#16141c",
+    "tri": "#16141c",
 }

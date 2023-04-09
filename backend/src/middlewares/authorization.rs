@@ -70,7 +70,7 @@ where
             },
             Err(err) => {
                 println!("{:?}", err);
-                is_logged_in = false;
+                //is_logged_in = false;
                 Err(err)
             }
         };

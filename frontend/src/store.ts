@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './contexts/date'
+import thisMonthReducer from './contexts/thisMonth'
 
 
 
 
 export const store = configureStore({
   	reducer: {
-  		counter: counterReducer,
+  		calendar: thisMonthReducer,
   	},
 })
 

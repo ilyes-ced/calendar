@@ -1,135 +1,27 @@
+import { useAppSelector, useAppDispatch } from '../hook';
+import { decrement_month, increment_month } from '../contexts/thisMonth';
+import { useEffect } from 'react';
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-const test = [0,0,0,0,0,0]
 
 let last_month: number[]  = [];
 let this_month: number[]  = [];
 let next_month: number[]  = [];
 
-const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-
-const month_names = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
-
 let current_date = new Date();
 
 
-const init_calendar = () => {
-    var now = new Date();
-    now = new Date(now.getFullYear(), now.getMonth(), 1);
-    var first_day = new Date(now.getFullYear(), now.getMonth(), 1);
-    const current_month = now.getMonth()
-    var day_number = 1
-    var first_day_name = now.toLocaleDateString(undefined, { weekday: 'long' })
-    var tempo_date =  new Date();
-    tempo_date = new Date(now.getFullYear(), now.getMonth(), 1);
-    if(first_day_name === 'Monday'){
-        for (let i = 0; i < 1; i++) {
-            now.setDate(now.getDate() - 1);
-                last_month = [now.getDate(), ...last_month]
-        }
-        now.setDate(now.getDate() + 1);
-    }else if(first_day_name === 'Tuesday'){
-        for (let i = 0; i < 2; i++) {
-            now.setDate(now.getDate() - 1);
-                last_month = [now.getDate(), ...last_month]
-        }
-        now.setDate(now.getDate() + 2);
-    }else if(first_day_name === 'Wednesday'){
-        for (let i = 0; i < 3; i++) {
-            now.setDate(now.getDate() - 1);
-                last_month = [now.getDate(), ...last_month]
-        }
-        now.setDate(now.getDate() + 3);
-    }else if(first_day_name === 'Thursday'){
-        for (let i = 0; i < 4; i++) {
-            now.setDate(now.getDate() - 1);
-                last_month = [now.getDate(), ...last_month]
-        }
-        now.setDate(now.getDate() + 4);
-    }else if(first_day_name === 'Friday'){
-        for (let i = 0; i < 5; i++) {
-            now.setDate(now.getDate() - 1);
-                last_month = [now.getDate(), ...last_month]
-        }
-        now.setDate(now.getDate() + 5);
-    }else if(first_day_name === 'Saturday'){
-        for (let i = 0; i < 6; i++) {
-            now.setDate(now.getDate() - 1);
-                last_month = [now.getDate(), ...last_month]
-        }
-        now.setDate(now.getDate() + 6);
-    }
-    while (now.getMonth() === current_month){
-
-        now.setDate(now.getDate() + 1);
-        var first_day_name = now.toLocaleDateString(undefined, { weekday: 'long' })
-        
-        
-
-
-        if(first_day_name === 'Sunday'){
-            this_month.push(day_number)
-            day_number++
-        }else if(first_day_name === 'Monday'){
-            this_month.push(day_number)
-            day_number++
-        }else if(first_day_name === 'Tuesday'){
-            this_month.push(day_number)
-            day_number++
-        }else if(first_day_name === 'Wednesday'){
-            this_month.push(day_number)
-            day_number++
-        }else if(first_day_name === 'Thursday'){
-            this_month.push(day_number)
-            day_number++
-        }else if(first_day_name === 'Friday'){
-            this_month.push(day_number)
-            day_number++
-        }else if(first_day_name === 'Saturday'){
-            this_month.push(day_number)
-            day_number++
-        }
-
-    }
-    var first_day_name = now.toLocaleDateString(undefined, { weekday: 'long' })
-
-    if(first_day_name === 'Monday'){
-        for (let i = 0; i < 6; i++) {
-            next_month.push(now.getDate())
-            now.setDate(now.getDate() + 1);
-        }
-    }else if(first_day_name === 'Tuesday'){
-        for (let i = 0; i < 5; i++) {
-            next_month.push(now.getDate())
-            now.setDate(now.getDate() + 1);
-        }
-    }else if(first_day_name === 'Wednesday'){
-        for (let i = 0; i < 4; i++) {
-            next_month.push(now.getDate())
-            now.setDate(now.getDate() + 1);
-        }
-    }else if(first_day_name === 'Thursday'){
-        for (let i = 0; i < 3; i++) {
-            next_month.push(now.getDate())
-            now.setDate(now.getDate() + 1);
-        }
-    }else if(first_day_name === 'Friday'){
-        for (let i = 0; i < 5; i++) {
-            next_month.push(now.getDate())
-            now.setDate(now.getDate() + 1);
-        }
-    }else if(first_day_name === 'Saturday'){
-        for (let i = 0; i < 1; i++) {
-            next_month.push(now.getDate())
-            now.setDate(now.getDate() + 1);
-        }
-    }
-        
-}
-init_calendar()
 
 function App() {
+
+
+
+    const calendar = useAppSelector((state) => state)
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+
+    }, [])
+
+
 
     return (
         <div id='mini_calendar'>
@@ -167,26 +59,15 @@ function App() {
 
                     <div id='days_grid'>
                         {
-                            last_month.map((ele, i) => 
-                                <div className=''>
-                                    <div>{ ele }</div>
-                                </div>
-                            )
+                            calendar.calendar.map((month, i) => {
+                                return month.map((ele, i) => {
+                                    return <div className=''>
+                                        <div>{ ele }</div>
+                                    </div>
+                                })
+                            })
                         }
-                        {
-                            this_month.map((ele, i) => 
-                                <div className=''>
-                                    <div>{ ele }</div>
-                                </div>
-                            )
-                        }
-                        {
-                            next_month.map((ele, i) => 
-                                <div className=''>
-                                    <div>{ ele }</div>
-                                </div>
-                            )
-                        }
+          
                     </div>
 
                 </div>

@@ -1,5 +1,4 @@
 use actix_web::{post, web, HttpRequest, HttpResponse, Result};
-use actix_identity::{Identity, IdentityMiddleware};
 use mongodb::{bson::doc, Client, Collection};
 use jsonwebtoken::{encode, Header, EncodingKey, get_current_timestamp};
 
