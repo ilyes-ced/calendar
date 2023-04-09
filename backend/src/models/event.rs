@@ -1,9 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-
-
-
-
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct Event {
     pub id: String,
@@ -16,5 +12,5 @@ pub struct Event {
     pub location: String,
     pub description: String,
     pub notifications: Vec<i32>,
-    pub repeat: bool
+    pub repeat: bool,
 }

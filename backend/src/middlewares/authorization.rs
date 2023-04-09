@@ -45,12 +45,17 @@ where
         // Change this to see the change in outcome in the browser.
         // Usually this boolean would be acquired from a password check or other auth verification.
         let is_logged_in = false;
-        println!("hello there /************************* {:?} ", request.headers() );
+        println!(
+            "hello there /************************* {:?} ",
+            request.headers()
+        );
 
         // Don't forward to `/login` if we are already on `/login`.
-        if !is_logged_in && request.path() != "/login" {
-            
-            println!("hello there /************************* {:?} ", request.path() );
+        if !is_logged_in && request.path() != "/login" && request.path() != "/register" {
+            println!(
+                "hello there /************************* {:?} ",
+                request.path()
+            );
             let (request, _pl) = request.into_parts();
 
             let response = HttpResponse::Found()
