@@ -1,9 +1,9 @@
-use std::time::Duration;
-use actix_web::{middleware::Logger, web, App, HttpServer};
-use mongodb::Client;
+use actix_extensible_rate_limit::backend::memory::InMemoryBackend;
 use actix_extensible_rate_limit::backend::SimpleInputFunctionBuilder;
 use actix_extensible_rate_limit::RateLimiter;
-use actix_extensible_rate_limit::backend::memory::InMemoryBackend;
+use actix_web::{middleware::Logger, web, App, HttpServer};
+use mongodb::Client;
+use std::time::Duration;
 
 pub mod handlers;
 pub mod middlewares;
@@ -22,7 +22,6 @@ async fn main() -> std::io::Result<()> {
     let client = Client::with_uri_str(uri).await.expect("failed to connect");
     let backend = InMemoryBackend::builder().build();
     HttpServer::new(move || {
-        
         let input = SimpleInputFunctionBuilder::new(Duration::from_secs(60), 10)
             .real_ip_key()
             .build();

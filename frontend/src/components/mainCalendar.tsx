@@ -27,6 +27,7 @@ function App() {
     }, [])
 
     const this_month = () => {
+        tempo_date = new Date();
         dispatch(reset_month())
     }
     const add_month = () => {

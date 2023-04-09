@@ -1,17 +1,14 @@
-use std::future::{ready, Ready};
 use actix_web::{
     body::EitherBody,
     dev::{self, Service, ServiceRequest, ServiceResponse, Transform},
     http, Error, HttpResponse,
 };
 use futures_util::future::LocalBoxFuture;
-use jsonwebtoken::{decode, Validation, DecodingKey, TokenData};
-
-
+use jsonwebtoken::{decode, DecodingKey, TokenData, Validation};
+use std::future::{ready, Ready};
 
 use crate::models;
 use models::claim::Claims;
-
 
 pub struct CheckLogin;
 
@@ -35,8 +32,6 @@ pub struct CheckLoginMiddleware<S> {
     service: S,
 }
 
-
-
 impl<S, B> Service<ServiceRequest> for CheckLoginMiddleware<S>
 where
     S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
@@ -56,10 +51,20 @@ where
 
         // Don't forward to `/login` if we are already on `/login`.
         let key = std::env::var("JWT_SECRET").unwrap_or_else(|_| "random_bullshit_go".into());
-        let token = request.headers().get("x-authorization").unwrap().to_str().ok().unwrap();
+        let token = request
+            .headers()
+            .get("x-authorization")
+            .unwrap()
+            .to_str()
+            .ok()
+            .unwrap();
         println!("{:?}", token);
 
-        let token_data = decode::<Claims>(token, &DecodingKey::from_secret(key.as_bytes()), &Validation::default());
+        let token_data = decode::<Claims>(
+            token,
+            &DecodingKey::from_secret(key.as_bytes()),
+            &Validation::default(),
+        );
         println!("{:?}", token_data);
 
         let auth_data: Result<TokenData<Claims>, jsonwebtoken::errors::Error> = match token_data {
@@ -67,7 +72,7 @@ where
                 println!("{:?}", token_data);
                 is_logged_in = true;
                 Ok(token_data)
-            },
+            }
             Err(err) => {
                 println!("{:?}", err);
                 //is_logged_in = false;
@@ -77,8 +82,6 @@ where
         println!("{:?}", auth_data);
 
         if !is_logged_in && request.path() != "/login" && request.path() != "/register" {
-
-
             let (request, _pl) = request.into_parts();
 
             let response = HttpResponse::Found()

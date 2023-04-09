@@ -1,23 +1,15 @@
 use actix_web::{post, web, HttpRequest, HttpResponse, Result};
+use jsonwebtoken::{encode, get_current_timestamp, EncodingKey, Header};
 use mongodb::{bson::doc, Client, Collection};
-use jsonwebtoken::{encode, Header, EncodingKey, get_current_timestamp};
-
-
 
 use crate::models;
 use crate::utils;
-use models::user::User;
-use models::user::LoginUser;
-use models::user::UserDate;
-use models::user::LoginUserResponse;
 use models::claim::Claims;
+use models::user::LoginUser;
+use models::user::LoginUserResponse;
+use models::user::User;
+use models::user::UserDate;
 use utils::hash;
-
-
-
-
-
-
 
 #[post("/login")]
 async fn login(
@@ -38,27 +30,30 @@ async fn login(
                         String::from(&user_data.password),
                         String::from(&data.password),
                     ) {
-                        let my_claims = Claims{
-                            aud: std::env::var("AUDIENCE").unwrap_or_else(|_| "some_default_idk".into()),
-                            exp: get_current_timestamp() + 3600*24*7,//expires in a week
+                        let my_claims = Claims {
+                            aud: std::env::var("AUDIENCE")
+                                .unwrap_or_else(|_| "some_default_idk".into()),
+                            exp: get_current_timestamp() + 3600 * 24 * 7, //expires in a week
                             iat: get_current_timestamp(),
                             sub: user_data.email.clone(),
                         };
                         println!("{:?}", my_claims);
-                        let key = std::env::var("JWT_SECRET").unwrap_or_else(|_| "random_bullshit_go".into());
+                        let key = std::env::var("JWT_SECRET")
+                            .unwrap_or_else(|_| "random_bullshit_go".into());
                         let token = encode(
                             &Header::default(),
                             &my_claims,
-                            &EncodingKey::from_secret(key.as_bytes())
-                        ).unwrap();
-                        let user = UserDate{
+                            &EncodingKey::from_secret(key.as_bytes()),
+                        )
+                        .unwrap();
+                        let user = UserDate {
                             email: user_data.email,
-                            username: user_data.username
+                            username: user_data.username,
                         };
                         // add session storage
-                        Ok(LoginUserResponse{
+                        Ok(LoginUserResponse {
                             user_data: user,
-                            token: token
+                            token: token,
                         })
                     } else {
                         println!("incorrect");

@@ -20,7 +20,7 @@ pub struct UserDate {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
-pub struct LoginUserResponse{
+pub struct LoginUserResponse {
     pub user_data: UserDate,
-    pub token: String
+    pub token: String,
 }
