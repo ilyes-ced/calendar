@@ -13,43 +13,43 @@ use actix_session::{
     config::PersistentSession, storage::CookieSessionStore, Session, SessionMiddleware,
 };
 use mongodb::{bson::doc, Client, Collection};
-
 use log::{debug, error, info, warn};
-
 use serde::{Deserialize, Serialize};
+use jsonwebtoken::{encode, decode, Header, Algorithm, Validation, EncodingKey, DecodingKey, get_current_timestamp};
+
+
 
 use crate::models;
 use crate::utils;
 use models::user::User;
+use models::user::LoginUser;
+use models::user::UserDate;
+use models::user::LoginUserResponse;
 use utils::hash;
 
-#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
-pub struct Login_user {
-    #[serde(default)]
-    pub id: String,
-    #[serde(default)]
-    pub username: String,
-    pub email: String,
-    pub password: String,
+
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Claims {
+    aud: String, // Optional. Audience
+    exp: u64,  // Required (validate_exp defaults to true in validation). Expiration time (as UTC timestamp)
+    iat: u64,  // Optional. Issued at (as UTC timestamp)
+    sub: String, // Optional. Subject (whom token refers to)
 }
-#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
-pub struct Register_user {
-    pub username: String,
-    pub email: String,
-    pub password: String,
-}
+
+
 
 #[post("/login")]
 async fn login(
     req: HttpRequest,
     client: web::Data<Client>,
-    data: web::Json<Login_user>,
+    data: web::Json<LoginUser>,
 ) -> HttpResponse {
-    let users: Collection<Login_user> = client.database("rust").collection("users");
+    let users: Collection<User> = client.database("rust").collection("users");
 
-    let user = data.clone();
-    let user_data = users.find_one(doc! { "email": user.email }, None).await;
+    let user_data = users.find_one(doc! { "email": &data.email }, None).await;
 
+    println!("{:?}", user_data);
     let result: Result<_, &str> = match user_data {
         Ok(v) => {
             match v {
@@ -58,13 +58,31 @@ async fn login(
                         String::from(&user_data.password),
                         String::from(&data.password),
                     ) {
-                        println!("correct");
-                        println!("{user_data:?}");
+                        let my_claims = Claims{
+                            aud: std::env::var("AUDIENCE").unwrap_or_else(|_| "some_default_idk".into()),
+                            exp: get_current_timestamp() + 3600*24*7,//expires in a week
+                            iat: get_current_timestamp(),
+                            sub: user_data.email.clone(),
+                        };
+                        println!("{:?}", my_claims);
+                        let key = std::env::var("JWT_SECRET").unwrap_or_else(|_| "mongodb://localhost:27017".into());
+                        let token = encode(
+                            &Header::default(),
+                            &my_claims,
+                            &EncodingKey::from_secret(key.as_bytes())
+                        ).unwrap();
+                        let user = UserDate{
+                            email: user_data.email,
+                            username: user_data.username
+                        };
                         // add session storage
-                        Ok(user_data)
+                        Ok(LoginUserResponse{
+                            user_data: user,
+                            token: token
+                        })
                     } else {
                         println!("incorrect");
-                        Err("bad password")
+                        Err("database error")
                     }
                 }
                 None => {
@@ -89,8 +107,8 @@ async fn login(
 }
 
 #[post("/register")]
-async fn register(client: web::Data<Client>, data: web::Json<Register_user>) -> HttpResponse {
-    let users: Collection<Register_user> = client.database("rust").collection("users");
+async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
+    let users: Collection<User> = client.database("rust").collection("users");
 
     let user = data.clone();
     let mut user_data = data;

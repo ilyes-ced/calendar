@@ -1,11 +1,18 @@
 use std::future::{ready, Ready};
-
+use serde::{Deserialize, Serialize};
 use actix_web::{
     body::EitherBody,
     dev::{self, Service, ServiceRequest, ServiceResponse, Transform},
     http, Error, HttpResponse,
 };
 use futures_util::future::LocalBoxFuture;
+use jsonwebtoken::{encode, decode, Header, Algorithm, Validation, EncodingKey, DecodingKey, get_current_timestamp};
+
+
+
+use crate::models;
+use models::token::Token;
+
 
 pub struct CheckLogin;
 
@@ -29,6 +36,8 @@ pub struct CheckLoginMiddleware<S> {
     service: S,
 }
 
+
+
 impl<S, B> Service<ServiceRequest> for CheckLoginMiddleware<S>
 where
     S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
@@ -45,13 +54,17 @@ where
         // Change this to see the change in outcome in the browser.
         // Usually this boolean would be acquired from a password check or other auth verification.
         let is_logged_in = false;
-        println!(
-            "hello there /************************* {:?} ",
-            request.headers()
-        );
 
         // Don't forward to `/login` if we are already on `/login`.
         if !is_logged_in && request.path() != "/login" && request.path() != "/register" {
+            let key = std::env::var("JWT_SECRET").unwrap_or_else(|_| "mongodb://localhost:27017".into());
+            let token = request.headers().get("x-authorization").unwrap().to_str().ok().unwrap();
+    
+            let token_data = decode::<Token>(token, &DecodingKey::from_secret(key.as_bytes()), &Validation::default()).unwrap();
+            println!(
+                "/*////////////////////////////////////////////////// */ {:?} /*////////////////////////////////////////////////// */ ",
+                token_data
+            );
             println!(
                 "hello there /************************* {:?} ",
                 request.path()
