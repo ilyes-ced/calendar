@@ -1,15 +1,7 @@
-use actix_web::{
-    cookie::{self, Key},
-    error, get,
-    http::StatusCode,
-    middleware,
-    middleware::Logger,
-    post, web, App, HttpMessage as _, HttpRequest, HttpResponse, HttpServer, Responder, Result,
-};
+use actix_web::{post, web, HttpRequest, HttpResponse};
 
-use mongodb::{bson::doc, Client, Collection};
+use mongodb::{Client};
 
-use serde::{Deserialize, Serialize};
 
 use crate::models;
 use models::event::Event;

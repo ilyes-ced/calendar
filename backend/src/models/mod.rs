@@ -4,4 +4,4 @@ pub mod contact;
 pub mod event;
 pub mod task;
 pub mod user;
-pub mod token;
+pub mod claim;

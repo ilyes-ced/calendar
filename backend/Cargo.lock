@@ -104,6 +104,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "actix-extensible-rate-limit"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0ea990351e38b399d3d1a96eef5e8feba721974a4319f6c66186b05782f6a05b"
+dependencies = [
+ "actix-web 4.3.1",
+ "async-trait",
+ "dashmap 5.4.0",
+ "futures",
+ "log",
+ "once_cell",
+ "thiserror",
+]
+
+[[package]]
 name = "actix-http"
 version = "2.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -236,7 +251,7 @@ dependencies = [
  "actix-http 2.2.2",
  "actix-web 3.3.3",
  "backoff",
- "dashmap",
+ "dashmap 4.0.2",
  "failure",
  "futures",
  "log",
@@ -742,6 +757,7 @@ name = "backend"
 version = "0.1.0"
 dependencies = [
  "actix 0.13.0",
+ "actix-extensible-rate-limit",
  "actix-identity",
  "actix-ratelimit",
  "actix-session",
@@ -1223,6 +1239,19 @@ checksum = "e77a43b28d0668df09411cb0bc9a8c2adc40f9a048afe863e05fd43251e8e39c"
 dependencies = [
  "cfg-if 1.0.0",
  "num_cpus",
+]
+
+[[package]]
+name = "dashmap"
+version = "5.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "907076dfda823b0b36d2a1bb5f90c96660a5bbcd7729e10727f07858f22c4edc"
+dependencies = [
+ "cfg-if 1.0.0",
+ "hashbrown",
+ "lock_api",
+ "once_cell",
+ "parking_lot_core 0.9.7",
 ]
 
 [[package]]

@@ -1,21 +1,7 @@
-use actix_web::{
-    cookie::{self, Key},
-    error,
-    http::StatusCode,
-    middleware,
-    middleware::Logger,
-    post, web, App, HttpMessage as _, HttpRequest, HttpResponse, HttpServer, Responder, Result,
-};
-
+use actix_web::{post, web, HttpRequest, HttpResponse, Result};
 use actix_identity::{Identity, IdentityMiddleware};
-
-use actix_session::{
-    config::PersistentSession, storage::CookieSessionStore, Session, SessionMiddleware,
-};
 use mongodb::{bson::doc, Client, Collection};
-use log::{debug, error, info, warn};
-use serde::{Deserialize, Serialize};
-use jsonwebtoken::{encode, decode, Header, Algorithm, Validation, EncodingKey, DecodingKey, get_current_timestamp};
+use jsonwebtoken::{encode, Header, EncodingKey, get_current_timestamp};
 
 
 
@@ -25,17 +11,12 @@ use models::user::User;
 use models::user::LoginUser;
 use models::user::UserDate;
 use models::user::LoginUserResponse;
+use models::claim::Claims;
 use utils::hash;
 
 
 
-#[derive(Debug, Serialize, Deserialize)]
-struct Claims {
-    aud: String, // Optional. Audience
-    exp: u64,  // Required (validate_exp defaults to true in validation). Expiration time (as UTC timestamp)
-    iat: u64,  // Optional. Issued at (as UTC timestamp)
-    sub: String, // Optional. Subject (whom token refers to)
-}
+
 
 
 
@@ -65,7 +46,7 @@ async fn login(
                             sub: user_data.email.clone(),
                         };
                         println!("{:?}", my_claims);
-                        let key = std::env::var("JWT_SECRET").unwrap_or_else(|_| "mongodb://localhost:27017".into());
+                        let key = std::env::var("JWT_SECRET").unwrap_or_else(|_| "random_bullshit_go".into());
                         let token = encode(
                             &Header::default(),
                             &my_claims,
@@ -136,16 +117,4 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
         }
         Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
     }
-}
-
-#[post("/verify")]
-async fn verify(client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
-    //hash::hash(String::from("test"));
-    //hash::verify_hash(String::from("test"));
-    HttpResponse::Ok().body("to complete")
-}
-
-#[post("/logout")]
-async fn logout(client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
-    HttpResponse::Ok().body("to complete")
 }

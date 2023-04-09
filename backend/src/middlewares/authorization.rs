@@ -1,17 +1,16 @@
 use std::future::{ready, Ready};
-use serde::{Deserialize, Serialize};
 use actix_web::{
     body::EitherBody,
     dev::{self, Service, ServiceRequest, ServiceResponse, Transform},
     http, Error, HttpResponse,
 };
 use futures_util::future::LocalBoxFuture;
-use jsonwebtoken::{encode, decode, Header, Algorithm, Validation, EncodingKey, DecodingKey, get_current_timestamp};
+use jsonwebtoken::{decode, Validation, DecodingKey, TokenData};
 
 
 
 use crate::models;
-use models::token::Token;
+use models::claim::Claims;
 
 
 pub struct CheckLogin;
@@ -53,22 +52,33 @@ where
     fn call(&self, request: ServiceRequest) -> Self::Future {
         // Change this to see the change in outcome in the browser.
         // Usually this boolean would be acquired from a password check or other auth verification.
-        let is_logged_in = false;
+        let mut is_logged_in = false;
 
         // Don't forward to `/login` if we are already on `/login`.
+        let key = std::env::var("JWT_SECRET").unwrap_or_else(|_| "random_bullshit_go".into());
+        let token = request.headers().get("x-authorization").unwrap().to_str().ok().unwrap();
+        println!("{:?}", token);
+
+        let token_data = decode::<Claims>(token, &DecodingKey::from_secret(key.as_bytes()), &Validation::default());
+        println!("{:?}", token_data);
+
+        let auth_data: Result<TokenData<Claims>, jsonwebtoken::errors::Error> = match token_data {
+            Ok(token_data) => {
+                println!("{:?}", token_data);
+                is_logged_in = true;
+                Ok(token_data)
+            },
+            Err(err) => {
+                println!("{:?}", err);
+                is_logged_in = false;
+                Err(err)
+            }
+        };
+        println!("{:?}", auth_data);
+
         if !is_logged_in && request.path() != "/login" && request.path() != "/register" {
-            let key = std::env::var("JWT_SECRET").unwrap_or_else(|_| "mongodb://localhost:27017".into());
-            let token = request.headers().get("x-authorization").unwrap().to_str().ok().unwrap();
-    
-            let token_data = decode::<Token>(token, &DecodingKey::from_secret(key.as_bytes()), &Validation::default()).unwrap();
-            println!(
-                "/*////////////////////////////////////////////////// */ {:?} /*////////////////////////////////////////////////// */ ",
-                token_data
-            );
-            println!(
-                "hello there /************************* {:?} ",
-                request.path()
-            );
+
+
             let (request, _pl) = request.into_parts();
 
             let response = HttpResponse::Found()
