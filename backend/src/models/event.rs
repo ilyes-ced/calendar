@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct Event {
+    #[serde(default)]
     pub id: String,
     pub title: String,
     pub start_date: String,

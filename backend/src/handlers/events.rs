@@ -1,63 +1,56 @@
 use actix_web::{post, web, HttpRequest, HttpResponse, Responder, Result};
-
+use serde::{Deserialize, Serialize};
 use bson::Bson;
-use mongodb::{Client, Collection};
+use mongodb::{bson::doc, Client, Collection, results::InsertOneResult};
 
 use crate::models;
 use models::event::Event;
+
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+struct WebResultInserted {
+    code: u32,
+    result: String
+}
 
 #[post("/events/create")]
 async fn create(
     req: HttpRequest,
     client: web::Data<Client>,
     data: web::Json<Event>,
-) -> Result<impl Responder> {
+) -> HttpResponse {
 
     let events_collection: Collection<Event> = client.database("rust").collection("events");
     let inserted_event = events_collection.insert_one(data.clone(), None).await;
 
-    
-    println!("{:?}", inserted_event);
-    let result: Result<Bson, &str> = match inserted_event {
-        Ok(v) => {
-            println!("{:?}", v.inserted_id);
-            print_type_of(&v.inserted_id);
-            Ok(v.inserted_id)
-            //v.inserted_id.to_string().to_owned()
-            
-        },
-        Err(_e) => {
-            println!("{:?}", _e);
-            Err("couldnt add to database")
-        }
-    };
+    match inserted_event {
+        Ok(value) => HttpResponse::Ok().json(
+            WebResultInserted{
+                code: 201, result: value.inserted_id.to_string()
+            }
+        ),
+        Err(err) => HttpResponse::InternalServerError().json(err.to_string()),
+    }
 
-
-    let value: Result<_, &str> = match result {
-        Ok(value) => {
-            println!("{:?}", value);
-            Ok(value)
-        }
-        Err(err) => {
-            Err("zadaz")
-            //HttpResponse::InternalServerError().body(err.to_string())
-        }
-    };
-    Ok(web::Json(value))
 }
 
-#[post("/events/delete")]
+#[post("/events/delete/{event_id}")]
 async fn delete(
     req: HttpRequest,
     client: web::Data<Client>,
     data: web::Json<Event>,
+    event_id: web::Path<String>
 ) -> HttpResponse {
     println!("{:?}", data);
+    println!("{:?}", event_id);
+    let events_collection: Collection<Event> = client.database("rust").collection("events");
+ 
+    let bson_id = mongodb::bson::uuid::Uuid::from_bytes(event_id.into_bytes());
+    let events = events_collection.find_one(doc! { "id": event_id }, None).await;
 
     HttpResponse::Ok().body("to complete")
 }
 
-#[post("/events/edit")]
+#[post("/events/edit/{event_id}")]
 async fn edit(req: HttpRequest, client: web::Data<Client>, data: web::Json<Event>) -> HttpResponse {
     println!("{:?}", data);
 
