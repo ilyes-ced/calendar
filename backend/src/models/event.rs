@@ -2,8 +2,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct Event {
+    #[serde(rename = "_id")] 
     #[serde(default)]
-    pub id: String,
+    pub id: mongodb::bson::oid::ObjectId,
+    //pub String: String,
     pub title: String,
     pub start_date: String,
     pub end_date: String,
