@@ -5,6 +5,8 @@
 @use 'mini_calendar';
 @use 'right_bar';
 @use 'todo';
+@use 'modals/createEvent';
+@use 'modals/eventsDetails';
 @import './functions.scss';
 
 

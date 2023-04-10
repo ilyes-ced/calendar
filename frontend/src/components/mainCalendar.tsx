@@ -2,6 +2,7 @@ import { useAppSelector, useAppDispatch } from '../hook'
 import { decrement_month, increment_month, reset_month } from '../contexts/thisMonth'
 import { useEffect, useState } from 'react';
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import CreateEvent from '../modals/createEvent'
 
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -20,7 +21,7 @@ function App() {
     const calendar = useAppSelector((state) => state)
     const dispatch = useAppDispatch()
 
-    const [calendarState, set_calendar] = useState(calendar)
+    const [show_create_event_modal, set_show_create_event_modal] = useState(false)
 
     useEffect(() => {
 
@@ -39,8 +40,15 @@ function App() {
         dispatch(decrement_month())
     }
 
+    const toggle_create_event = () => {
+        set_show_create_event_modal(!show_create_event_modal)
+    }
     return (
         <div id='main_calendar'>
+            {
+                show_create_event_modal ? <CreateEvent close_me={toggle_create_event} /> : ""
+            }
+            
             <div id='calendar_app_bar'>
                 <div>
                     <button className='button secondary_button' onClick={this_month} >today</button>
@@ -93,7 +101,7 @@ function App() {
                         {
                             calendar.calendar.map((month, i) => {
                                 return month.map((ele, i) => {
-                                    return <div className="calendar_item">
+                                    return <div className="calendar_item" onClick={toggle_create_event}>
                                         <button className="button secondary_button"> {ele} </button>
                                         <div className="event_item">
                                             <div>event name</div>

@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct Event {
-    #[serde(rename = "_id")] 
+    #[serde(rename = "_id")]
     #[serde(default)]
     pub id: mongodb::bson::oid::ObjectId,
     //pub String: String,
@@ -17,4 +17,3 @@ pub struct Event {
     pub notifications: Vec<i32>,
     pub repeat: bool,
 }
-

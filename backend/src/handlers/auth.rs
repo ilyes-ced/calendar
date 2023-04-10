@@ -12,11 +12,7 @@ use models::user::UserDate;
 use utils::hash;
 
 #[post("/login")]
-async fn login(
-    req: HttpRequest,
-    client: web::Data<Client>,
-    data: web::Json<User>,
-) -> HttpResponse {
+async fn login(req: HttpRequest, client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
     let users: Collection<User> = client.database("rust").collection("users");
 
     println!("{:?}", data);

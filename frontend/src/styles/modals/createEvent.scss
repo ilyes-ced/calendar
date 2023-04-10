@@ -1,0 +1,89 @@
+@import '../functions.scss';
+
+
+#create_event_modal{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    position: absolute;
+    top:0;
+    left:0;
+    @include center();
+
+
+}
+
+
+#create_event_modal_content{
+    border-radius: 10px;
+    @include padding(10px);
+    width: 400px;
+    background-color: $main;
+    box-shadow: 0 4px 8px 10px rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+}
+
+
+#closing_div{
+    font-size: large;
+    width: 100%;
+    @include center();
+    justify-content: end;
+}
+#closing_div > :first-child{
+    @include padding(5px);
+    box-sizing: content-box;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#closing_div > :first-child:hover{
+    background-color: $gray;
+}
+
+
+#inputs_div{
+    @include padding(0px, 0px, 20px, 20px);
+}
+
+
+
+.input{
+    color: $white;
+    border: 1px solid $border;
+    outline: none;
+    border-radius: 10px;
+    @include padding(10px);
+
+    @include margin(10px, 10px, 0px, 0px);
+    width: 100%;
+    background-color: $main;
+}
+
+
+.input:focus{
+    box-shadow: 0px 0px 0px 3px rgba(109, 74, 255,0.6)
+
+}
+
+
+
+
+
+#buttons_div{
+    @include padding(0px, 0px, 20px, 20px);
+    display: flex;
+    justify-content: end;
+}
+#buttons_div > :first-child{
+    @include margin(0px, 0px, 10px, 0px);
+    border: 1px solid $border;
+
+}
+#buttons_div > :nth-child(2){
+    background-color: $secondary;
+    color: $white;
+}
+#buttons_div > :nth-child(2):hover{
+    background-color: $hover;
+}
+
+

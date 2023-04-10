@@ -52,31 +52,28 @@ where
 
         // Don't forward to `/login` if we are already on `/login`.
         let key = std::env::var("JWT_SECRET").unwrap_or_else(|_| "random_bullshit_go".into());
-        let token = match request.headers().get("x-authorization"){
+        let token = match request.headers().get("x-authorization") {
             Some(token) => {
                 has_token = true;
                 token.to_str().ok().unwrap()
-            },
+            }
             None => {
                 has_token = false;
                 &"no token"
             }
         };
-            
-
-
-
 
         println!("{:?}", token);
-        if has_token{
+        if has_token {
             let token_data = decode::<Claims>(
                 token,
                 &DecodingKey::from_secret(key.as_bytes()),
                 &Validation::default(),
             );
             println!("{:?}", token_data);
-    
-            let auth_data: Result<TokenData<Claims>, jsonwebtoken::errors::Error> = match token_data {
+
+            let auth_data: Result<TokenData<Claims>, jsonwebtoken::errors::Error> = match token_data
+            {
                 Ok(token_data) => {
                     println!("{:?}", token_data);
                     is_logged_in = true;
@@ -90,8 +87,6 @@ where
             };
             println!("{:?}", auth_data);
         }
-
-
 
         if !is_logged_in && request.path() != "/login" && request.path() != "/register" {
             let (request, _pl) = request.into_parts();
