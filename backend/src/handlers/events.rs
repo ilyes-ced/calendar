@@ -50,8 +50,9 @@ async fn delete(
             if !owned {
                 return HttpResponse::Ok().body("not owned")
             };
+
                 
-            let events = events_collection.delete_one(doc! { "_id": result }, None).await; 
+            let events = events_collection.delete_one(doc! { "id": result }, None).await; 
             println!("{:?}", events);
 
             if events.unwrap().deleted_count == 1{

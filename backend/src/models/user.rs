@@ -2,6 +2,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct User {
+    #[serde(rename = "_id")] 
+    #[serde(default)]
+    pub id: mongodb::bson::oid::ObjectId,
+    #[serde(default)]
     pub username: String,
     pub email: String,
     pub password: String,

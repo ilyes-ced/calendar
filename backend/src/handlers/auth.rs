@@ -15,9 +15,14 @@ use utils::hash;
 async fn login(
     req: HttpRequest,
     client: web::Data<Client>,
-    data: web::Json<LoginUser>,
+    data: web::Json<User>,
 ) -> HttpResponse {
     let users: Collection<User> = client.database("rust").collection("users");
+
+    println!("{:?}", data);
+    println!("{:?}", data.email);
+    println!("{:?}", &data.email);
+    println!("{:?}", doc! { "email": &data.email });
 
     let user_data = users.find_one(doc! { "email": &data.email }, None).await;
 
@@ -35,9 +40,9 @@ async fn login(
                                 .unwrap_or_else(|_| "some_default_idk".into()),
                             exp: get_current_timestamp() + 3600 * 24 * 7, //expires in a week
                             iat: get_current_timestamp(),
-                            sub: user_data.email.clone(),
+                            user_id: user_data.email.clone(),
+                            sub: user_data.id.to_string().chars().skip(10).take(24).collect(),
                         };
-                        println!("{:?}", my_claims);
                         let key = std::env::var("JWT_SECRET")
                             .unwrap_or_else(|_| "random_bullshit_go".into());
                         let token = encode(
