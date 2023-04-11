@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use super::event::Event;
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 pub struct User {
@@ -9,6 +10,8 @@ pub struct User {
     pub username: String,
     pub email: String,
     pub password: String,
+    #[serde(default)]
+    pub events: Vec<Event>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
