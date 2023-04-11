@@ -1,12 +1,12 @@
 use crate::models;
 use actix_web::{post, web, HttpMessage, HttpRequest, HttpResponse, Responder};
 use models::event::Event;
+use models::user::User;
 use mongodb::{bson::doc, results::InsertOneResult, Client, Collection};
+use rand::{distributions::Alphanumeric, Rng};
 use serde::{Deserialize, Serialize};
 use serde_json::Result;
-use std::str::FromStr;
-use rand::{distributions::Alphanumeric, Rng}; // 0.8
-
+use std::str::FromStr; // 0.8
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 struct WebResultInserted {
@@ -20,7 +20,7 @@ async fn create(
     client: web::Data<Client>,
     data: web::Json<Event>,
 ) -> HttpResponse {
-    let events_collection: Collection<Event> = client.database("rust").collection("users");
+    let the_collection: Collection<User> = client.database("rust").collection("users");
 
     //elem match example
     //let events_collectffion: Collection<Test> = client.database("rust").collection("events");
@@ -28,7 +28,7 @@ async fn create(
     //    "participants": {"$elemMatch": { "test": "some_data" }}
     //}, None).await;
     //{ $push: { scores: 89 } }
-    //let inserted_event = events_collection.insert_one(data.clone(), None).await;
+    //let inserted_event = the_collection.insert_one(data.clone(), None).await;
     /**
      *
      * {
@@ -57,11 +57,12 @@ async fn create(
     println!("{:?}", event_id);
     println!("{:?}", event_id);
     println!("{:?}", event_id);
-    let inserted_event = events_collection
+    let inserted_event = the_collection
         .update_one(
             doc! {"_id": user_id.unwrap()},
+            // idk why cant use the struct directly
             doc! { "$push": { "events": doc!{
-                "id": event_id,
+                "_id": event_id,
                 "title": "dzad",
                 "start_date": "dzad",
                 "end_date": "dzad",
@@ -78,15 +79,10 @@ async fn create(
         .await;
     println!("{:?}", inserted_event);
 
-
     match inserted_event {
         Ok(value) => HttpResponse::Ok().json(WebResultInserted {
             code: 201,
-            result: event_id
-                .to_string()
-                .chars()
-                .take(24)
-                .collect(),
+            result: event_id.to_string().chars().take(24).collect(),
         }),
         Err(err) => HttpResponse::InternalServerError().json(err.to_string()),
     }
@@ -101,22 +97,25 @@ async fn delete(
 ) -> HttpResponse {
     println!("{:?}", data);
     println!("{:?}", event_id);
-    let events_collection: Collection<Event> = client.database("rust").collection("events");
+    let the_collection: Collection<User> = client.database("rust").collection("users");
     match mongodb::bson::oid::ObjectId::from_str(&event_id) {
         Ok(result) => {
-            // here check is owned
-            let owned = true;
-            if !owned {
-                return HttpResponse::Ok().body("not owned");
-            };
+            let user_id =
+                mongodb::bson::oid::ObjectId::from_str(req.extensions().get::<String>().unwrap());
+            let event_id =
+                mongodb::bson::oid::ObjectId::from_str(&"64357840846d2618945ac16d").unwrap();
 
-            let events = events_collection
-                .delete_one(doc! { "id": result }, None)
+            let events = the_collection
+                .update_one(
+                    doc! {"_id": user_id.unwrap()},
+                    // idk why cant use the struct directly
+                    doc! { "$pull": { "events": {"_id": event_id}}},
+                    None,
+                )
                 .await;
-            println!("{:?}", events);
 
-            if events.unwrap().deleted_count == 1 {
-                HttpResponse::Ok().body("to complete")
+            if events.unwrap().modified_count == 1 {
+                HttpResponse::Ok().body("is deleted")
             } else {
                 HttpResponse::Ok().body("it dont exists")
             }

@@ -23,7 +23,7 @@ async fn login(req: HttpRequest, client: web::Data<Client>, data: web::Json<User
     let user_data = users.find_one(doc! { "email": &data.email }, None).await;
 
     println!("{:?}", user_data);
-    
+
     let result: Result<_, &str> = match user_data {
         Ok(v) => {
             match v {

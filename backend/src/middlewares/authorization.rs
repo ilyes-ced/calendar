@@ -1,8 +1,19 @@
+use actix_utils::future::{ok, Either};
 use actix_web::{
-    body::EitherBody,
+    body::{EitherBody, MessageBody},
     dev::{self, Service, ServiceRequest, ServiceResponse, Transform},
-    http::{self, StatusCode}, Error, HttpMessage, HttpResponse,
+    http::Method,
+    http::{self, StatusCode},
+    Error, HttpMessage, HttpResponse,
 };
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+struct WebResultInserted {
+    code: u32,
+    result: String,
+}
+
 use futures_util::future::LocalBoxFuture;
 use jsonwebtoken::{decode, DecodingKey, TokenData, Validation};
 use std::future::{ready, Ready};
@@ -90,26 +101,23 @@ where
 
         //change redirect to httpresponse not authorized
         if !is_logged_in && request.path() != "/login" && request.path() != "/register" {
-            //let (request, _pl) = request.into_parts();
+            let (request, _pl) = request.into_parts();
+            //works but kinda hacky
+            let res = HttpResponse::with_body(StatusCode::UNAUTHORIZED, "Invalid JWT Token");
+            return Box::pin(async {
+                Ok(ServiceResponse::new(
+                    request,
+                    HttpResponse::Unauthorized()
+                        .json(WebResultInserted {
+                            code: 401,
+                            result: "invalid user token".to_owned(),
+                        })
+                        .map_into_right_body(),
+                ))
+            });
 
-            //let response = HttpResponse::Found()
-            //    .insert_header((http::header::LOCATION, "/login"))
-            //    .finish()
-            //    // constructed responses map to "right" body
-            //    .map_into_right_body();
-
-            //return Box::pin(async { Ok(ServiceResponse::new(request, response)) });
-            
-            println!("you are not authed here we add the error code http response");
-
-            let res = self.service.call(request);
-            
-            return Box::pin(async move {
-    
-                println!("Hi from response");
-                res.await.map(ServiceResponse::map_into_left_body)
-            })
-     
+            //let res= HttpResponse::with_body(StatusCode::UNAUTHORIZED, "Invalid JWT Token").map_into_boxed_body();
+            //return res
         }
 
         let res = self.service.call(request);

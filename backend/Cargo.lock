@@ -761,6 +761,7 @@ dependencies = [
  "actix-identity",
  "actix-ratelimit",
  "actix-session",
+ "actix-utils 3.0.1",
  "actix-web 4.3.1",
  "argon2",
  "bson",
