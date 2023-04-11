@@ -23,6 +23,7 @@ async fn login(req: HttpRequest, client: web::Data<Client>, data: web::Json<User
     let user_data = users.find_one(doc! { "email": &data.email }, None).await;
 
     println!("{:?}", user_data);
+    
     let result: Result<_, &str> = match user_data {
         Ok(v) => {
             match v {
@@ -36,8 +37,8 @@ async fn login(req: HttpRequest, client: web::Data<Client>, data: web::Json<User
                                 .unwrap_or_else(|_| "some_default_idk".into()),
                             exp: get_current_timestamp() + 3600 * 24 * 7, //expires in a week
                             iat: get_current_timestamp(),
-                            user_id: user_data.email.clone(),
-                            sub: user_data.id.to_string().chars().skip(10).take(24).collect(),
+                            sub: user_data.email.clone(),
+                            user_id: user_data.id.to_string().chars().take(24).collect(),
                         };
                         let key = std::env::var("JWT_SECRET")
                             .unwrap_or_else(|_| "random_bullshit_go".into());
@@ -89,6 +90,7 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
     let user = data.clone();
     let mut user_data = data;
     let user = users.find_one(doc! { "email": user.email }, None).await;
+    println!("{:?}", user);
 
     let result: Result<_, &str> = match user {
         Ok(v) => match v {
@@ -104,6 +106,7 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
             Err("big error")
         }
     };
+    println!("{:?}", result);
 
     match result {
         Ok(value) => {

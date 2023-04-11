@@ -1,7 +1,7 @@
 use actix_web::{
     body::EitherBody,
     dev::{self, Service, ServiceRequest, ServiceResponse, Transform},
-    http, Error, HttpResponse,
+    http::{self, StatusCode}, Error, HttpMessage, HttpResponse,
 };
 use futures_util::future::LocalBoxFuture;
 use jsonwebtoken::{decode, DecodingKey, TokenData, Validation};
@@ -45,12 +45,9 @@ where
     dev::forward_ready!(service);
 
     fn call(&self, request: ServiceRequest) -> Self::Future {
-        // Change this to see the change in outcome in the browser.
-        // Usually this boolean would be acquired from a password check or other auth verification.
         let mut is_logged_in = false;
         let mut has_token = false;
 
-        // Don't forward to `/login` if we are already on `/login`.
         let key = std::env::var("JWT_SECRET").unwrap_or_else(|_| "random_bullshit_go".into());
         let token = match request.headers().get("x-authorization") {
             Some(token) => {
@@ -77,6 +74,9 @@ where
                 Ok(token_data) => {
                     println!("{:?}", token_data);
                     is_logged_in = true;
+                    request
+                        .extensions_mut()
+                        .insert(token_data.claims.user_id.clone());
                     Ok(token_data)
                 }
                 Err(err) => {
@@ -88,16 +88,28 @@ where
             println!("{:?}", auth_data);
         }
 
+        //change redirect to httpresponse not authorized
         if !is_logged_in && request.path() != "/login" && request.path() != "/register" {
-            let (request, _pl) = request.into_parts();
+            //let (request, _pl) = request.into_parts();
 
-            let response = HttpResponse::Found()
-                .insert_header((http::header::LOCATION, "/login"))
-                .finish()
-                // constructed responses map to "right" body
-                .map_into_right_body();
+            //let response = HttpResponse::Found()
+            //    .insert_header((http::header::LOCATION, "/login"))
+            //    .finish()
+            //    // constructed responses map to "right" body
+            //    .map_into_right_body();
 
-            return Box::pin(async { Ok(ServiceResponse::new(request, response)) });
+            //return Box::pin(async { Ok(ServiceResponse::new(request, response)) });
+            
+            println!("you are not authed here we add the error code http response");
+
+            let res = self.service.call(request);
+            
+            return Box::pin(async move {
+    
+                println!("Hi from response");
+                res.await.map(ServiceResponse::map_into_left_body)
+            })
+     
         }
 
         let res = self.service.call(request);

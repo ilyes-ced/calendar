@@ -771,6 +771,7 @@ dependencies = [
  "jsonwebtoken",
  "log",
  "mongodb",
+ "rand 0.8.5",
  "scrypt",
  "serde",
  "serde_json",
