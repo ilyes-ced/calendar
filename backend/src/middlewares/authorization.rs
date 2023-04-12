@@ -57,6 +57,7 @@ where
     dev::forward_ready!(service);
 
     fn call(&self, request: ServiceRequest) -> Self::Future {
+
         let mut is_logged_in = false;
         let mut has_token = false;
 

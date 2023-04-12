@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import thisMonthReducer from './contexts/thisMonth'
+import userDataReducer from './contexts/userData'
 
 
 
@@ -7,6 +8,7 @@ import thisMonthReducer from './contexts/thisMonth'
 export const store = configureStore({
   	reducer: {
   		calendar: thisMonthReducer,
+  		user_data: userDataReducer,
   	},
 })
 

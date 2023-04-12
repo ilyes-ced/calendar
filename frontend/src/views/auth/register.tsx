@@ -29,7 +29,7 @@ function App() {
 
               </form>
 
-              <p>Already have an accout? <a href="#">Log in</a></p>
+              <p>Already have an accout? <a href="/login">Sign in</a></p>
 
             </div>
 

@@ -46,6 +46,7 @@ async fn create(
     client: web::Data<Client>,
     data: web::Json<Event>,
 ) -> HttpResponse {
+    println!("{:?}", req);
     let the_collection: Collection<User> = client.database("rust").collection("users");
 
     //gets string from middleware where token is decrypted and makes a mongodb object with it
