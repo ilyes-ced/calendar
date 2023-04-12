@@ -52,34 +52,29 @@ async fn login(req: HttpRequest, client: web::Data<Client>, data: web::Json<User
                             email: user_data.email,
                             username: user_data.username,
                         };
-                        // add session storage
                         Ok(LoginUserResponse {
                             user_data: user,
                             token: token,
                         })
                     } else {
-                        println!("incorrect");
-                        Err("database error")
+                        Err("bad password error")
                     }
                 }
                 None => {
-                    println!("no email");
                     Err("email doesnt exist")
                 }
             }
         }
         Err(_e) => {
-            println!("{:?}", _e);
-            Err("big error")
+            Err("database error")
         }
     };
 
     match result {
         Ok(value) => {
-            let obj = serde_json::to_string(&value);
-            HttpResponse::Ok().body(obj.unwrap())
+            HttpResponse::Ok().json(value)
         }
-        Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
+        Err(err) => HttpResponse::Unauthorized().body(err.to_string()),
     }
 }
 
@@ -94,16 +89,14 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
 
     let result: Result<_, &str> = match user {
         Ok(v) => match v {
-            Some(user_data) => Err("email taken"),
+            Some(..) => Err("email taken"),
             None => {
-                println!("addes user");
                 user_data.password = hash::hash(user_data.clone().password);
                 Ok(users.insert_one(user_data.clone(), None).await)
             }
         },
-        Err(_e) => {
-            println!("{:?}", _e);
-            Err("big error")
+        Err(..) => {
+            Err("database error")
         }
     };
     println!("{:?}", result);
@@ -111,8 +104,8 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
     match result {
         Ok(value) => {
             println!("{:?}", value);
-            HttpResponse::Ok().body("user added")
+            HttpResponse::Ok().body("accound created")
         }
-        Err(err) => HttpResponse::InternalServerError().body(err.to_string()),
+        Err(err) => HttpResponse::Unauthorized().body(err.to_string()),
     }
 }

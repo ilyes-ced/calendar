@@ -7,6 +7,7 @@ use actix_web::{
     Error, HttpMessage, HttpResponse,
 };
 use serde::{Deserialize, Serialize};
+use models::json_responses::General;
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
 struct WebResultInserted {
@@ -108,9 +109,8 @@ where
                 Ok(ServiceResponse::new(
                     request,
                     HttpResponse::Unauthorized()
-                        .json(WebResultInserted {
-                            code: 401,
-                            result: "invalid user token".to_owned(),
+                        .json(General{
+                            message : "invalid user token".to_owned()
                         })
                         .map_into_right_body(),
                 ))
