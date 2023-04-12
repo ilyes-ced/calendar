@@ -5,7 +5,7 @@ pub struct Event {
     #[serde(rename = "_id")]
     #[serde(default)]
     pub id: mongodb::bson::oid::ObjectId,
-    //pub String: String,
+    //pub id: String,
     pub title: String,
     pub start_date: String,
     pub end_date: String,
