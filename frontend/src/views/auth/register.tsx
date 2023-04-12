@@ -1,4 +1,18 @@
+import { useRef } from "react"
+import register from "../../adapters/auth"
+
+
+
 function App() {
+
+
+  const username = useRef(null)
+  const email = useRef(null)
+  const password = useRef(null)
+
+  const submit_register = () => {
+      register(username.current.value, email.current.value, password.current.value)
+  }   
 
     return (
         <div className="grid align__item">
@@ -9,22 +23,22 @@ function App() {
 
               <h2>Sign Up</h2>
 
-              <form action="" method="post" className="form">
+              <form className="form">
 
                 <div className="form__field">
-                  <input type="text" placeholder="username" />
+                  <input ref={username} type="text" placeholder="username" />
                 </div>
 
                 <div className="form__field">
-                  <input type="email" placeholder="info@mailaddress.com" />
+                  <input ref={email} type="email" placeholder="info@mailaddress.com" />
                 </div>
 
                 <div className="form__field">
-                  <input type="password" placeholder="••••••••••••" />
+                  <input ref={password} type="password" placeholder="••••••••••••" />
                 </div>
 
                 <div className="form__field">
-                  <input type="submit" value="Sign Up" />
+                  <input type="submit" value="Sign Up" onClick={submit_register} />
                 </div>
 
               </form>

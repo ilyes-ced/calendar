@@ -1,4 +1,6 @@
 use super::event::Event;
+use super::task::Task;
+use super::contact::Contact;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
@@ -12,6 +14,10 @@ pub struct User {
     pub password: String,
     #[serde(default)]
     pub events: Vec<Event>,
+    #[serde(default)]
+    pub tasks: Vec<Task>,
+    #[serde(default)]
+    pub contacts: Vec<Contact>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]

@@ -7,14 +7,15 @@ const create_axios = () => {
         baseURL: 'http://localhost:8080',
         headers: {
             'X-Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzb21lX2RlZmF1bHRfaWRrIiwiZXhwIjoxNjgxODM2NDk5LCJpYXQiOjE2ODEyMzE2OTksInVzZXJfaWQiOiI2NDM1OGUwYTlhNjEwYzYzNWRkNWQ5N2EiLCJzdWIiOiJkdWRlIn0.NY082UAFXeCWX5dxl6Pw30NHDIj9tzx85m5Lt5qEWZw',
-            'Access-Control-Allow-Origin': "*"
+            'Access-Control-Allow-Origin': "*",
+            'User-Agent': "Thunder Client (https://www.thunderclient.com)"
         }
     });
 }
 
 
 
-export function login(email: string, password: string){
+export default function login (email: string, password: string) {
 
     //axios.get(process.env.API_URL)
     create_axios().post("/login",{
@@ -35,7 +36,7 @@ export function login(email: string, password: string){
 }
 
 
-export function register(username: string, email: string, password: string){
+export function register (username: string, email: string, password: string) {
 
     //axios.get(process.env.API_URL)
     create_axios().post("/login",{
