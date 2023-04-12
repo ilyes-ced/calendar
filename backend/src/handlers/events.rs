@@ -9,9 +9,8 @@ use serde_json::Result;
 use std::str::FromStr; // 0.8
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
-struct WebResultInserted {
-    code: u32,
-    result: String,
+struct IdDelete {
+    event_id: String,
 }
 
 #[post("/events/create")]
@@ -80,25 +79,20 @@ async fn create(
     println!("{:?}", inserted_event);
 
     match inserted_event {
-        Ok(value) => HttpResponse::Ok().json(WebResultInserted {
-            code: 201,
-            result: event_id.to_string().chars().take(24).collect(),
-        }),
+        Ok(..) => HttpResponse::Ok().body(event_id.to_string().chars().take(24).collect::<String>()),
         Err(err) => HttpResponse::InternalServerError().json(err.to_string()),
     }
 }
 
-#[post("/events/delete/{event_id}")]
+#[post("/events/delete")]
 async fn delete(
     req: HttpRequest,
     client: web::Data<Client>,
-    data: web::Json<Event>,
-    event_id: web::Path<String>,
+    event_id: web::Json<IdDelete>,
 ) -> HttpResponse {
-    println!("{:?}", data);
     println!("{:?}", event_id);
     let the_collection: Collection<User> = client.database("rust").collection("users");
-    match mongodb::bson::oid::ObjectId::from_str(&event_id) {
+    match mongodb::bson::oid::ObjectId::from_str(&event_id.event_id) {
         Ok(result) => {
             let user_id =
                 mongodb::bson::oid::ObjectId::from_str(req.extensions().get::<String>().unwrap());

@@ -47,7 +47,7 @@
 }
 .cat_icons > * {
     box-sizing: content-box;
-    border-radius: 10px;
+    border-radius: 5px;
     @include padding(5px);
     cursor: pointer;
 }
@@ -80,4 +80,8 @@
 }
 .add_sub_task:hover{
     background-color: $dark_gray;
+}
+
+#show_sub_task_input{
+    
 }
