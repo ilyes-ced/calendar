@@ -1,7 +1,6 @@
-use actix_extensible_rate_limit::backend::memory::InMemoryBackend;
-use actix_extensible_rate_limit::backend::SimpleInputFunctionBuilder;
-use actix_extensible_rate_limit::RateLimiter;
-use actix_web::{middleware::Logger, web, App, HttpServer};
+use actix_extensible_rate_limit::{RateLimiter, backend::{memory::InMemoryBackend, SimpleInputFunctionBuilder}};
+use actix_cors::Cors;
+use actix_web::{middleware::Logger, web, App, HttpServer, http};
 use mongodb::Client;
 use std::time::Duration;
 
@@ -28,8 +27,18 @@ async fn main() -> std::io::Result<()> {
         let middleware = RateLimiter::builder(backend.clone(), input)
             .add_headers()
             .build();
-
+        let cors = Cors::permissive();
+        //let cors = Cors::default()
+        //    .allowed_origin("http://localhost:3000")
+        //    .allowed_origin_fn(|origin, _req_head| {
+        //        origin.as_bytes().ends_with(b"localhost:3000")
+        //    })
+        //    .allowed_methods(vec!["GET", "POST"])
+        //    .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
+        //    .allowed_header(http::header::CONTENT_TYPE)
+        //    .max_age(3600);
         App::new()
+            .wrap(cors)
             .wrap(Logger::default())
             .wrap(CheckLogin)
             .wrap(middleware)
@@ -44,3 +53,18 @@ async fn main() -> std::io::Result<()> {
     .run()
     .await
 }
+
+
+
+//
+//
+//    let cors = Cors::default()
+//         .allowed_origin("http://localhost:3000")
+//         .allowed_origin_fn(|origin, _req_head| {
+//             origin.as_bytes().ends_with(b"localhost:3000")
+//         })
+//         .allowed_methods(vec!["GET", "POST"])
+//         .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
+//         .allowed_header(http::header::CONTENT_TYPE)
+//         .max_age(3600);
+//

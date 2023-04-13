@@ -6,16 +6,17 @@ const create_axios = () => {
     return axios.create({
         baseURL: 'http://localhost:8080',
         headers: {
-            'X-Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzb21lX2RlZmF1bHRfaWRrIiwiZXhwIjoxNjgxODM2NDk5LCJpYXQiOjE2ODEyMzE2OTksInVzZXJfaWQiOiI2NDM1OGUwYTlhNjEwYzYzNWRkNWQ5N2EiLCJzdWIiOiJkdWRlIn0.NY082UAFXeCWX5dxl6Pw30NHDIj9tzx85m5Lt5qEWZw',
+            //'X-Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzb21lX2RlZmF1bHRfaWRrIiwiZXhwIjoxNjgxODM2NDk5LCJpYXQiOjE2ODEyMzE2OTksInVzZXJfaWQiOiI2NDM1OGUwYTlhNjEwYzYzNWRkNWQ5N2EiLCJzdWIiOiJkdWRlIn0.NY082UAFXeCWX5dxl6Pw30NHDIj9tzx85m5Lt5qEWZw',
             'Access-Control-Allow-Origin': "*",
-            'User-Agent': "Thunder Client (https://www.thunderclient.com)"
         }
     });
 }
 
 
 
-export default function login (email: string, password: string) {
+
+
+function login (email: string, password: string) {
 
     //axios.get(process.env.API_URL)
     create_axios().post("/login",{
@@ -23,7 +24,9 @@ export default function login (email: string, password: string) {
             password: password,
         })
         .then(function (response) {
-            console.log(response);
+            console.log(response.status);
+            console.log(response.data.user_data);
+            console.log(response.data.token);
         })
         .catch(function (error) {
             console.log(error.response.status);
@@ -36,10 +39,9 @@ export default function login (email: string, password: string) {
 }
 
 
-export function register (username: string, email: string, password: string) {
+function register (username: string, email: string, password: string) {
 
-    //axios.get(process.env.API_URL)
-    create_axios().post("/login",{
+    create_axios().post("/register",{
             username: username,
             email: email,
             password: password,
@@ -48,8 +50,7 @@ export function register (username: string, email: string, password: string) {
             console.log(response);
         })
         .catch(function (error) {
-            console.log(error.response.status);
-            console.log(error);
+            console.log(error.status);
         })
         .finally(function () {
 
@@ -60,5 +61,5 @@ export function register (username: string, email: string, password: string) {
 
 
 
-
+export { login, register }
 

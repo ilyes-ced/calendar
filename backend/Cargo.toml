@@ -14,6 +14,7 @@ actix-identity = "0.5.2"
 actix-ratelimit = "0.3.1"
 actix-session = { version = "0.7.2", features = ["cookie-session"] }
 actix-extensible-rate-limit = "0.2.1"
+actix-cors = "0.6.4"
 bson = "2.6.1"
 chrono = "0.4.24"
 env_logger = "0.10.0"

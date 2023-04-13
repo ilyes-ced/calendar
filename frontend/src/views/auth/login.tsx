@@ -1,5 +1,5 @@
 import { useRef } from "react"
-import login from "../../adapters/auth"
+import {login} from "../../adapters/auth"
 
 
 

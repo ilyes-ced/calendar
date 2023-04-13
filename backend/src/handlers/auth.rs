@@ -11,18 +11,20 @@ use models::user::User;
 use models::user::UserDate;
 use utils::hash;
 
+macro_rules! trace {
+    ($($args: expr),*) => {
+        print!("TRACE: file: {}, line: {}", file!(), line!());
+        $(
+            print!(", {}: {}", stringify!($args), $args);
+        )*
+        println!(""); // to get a new line at the end
+    }
+}
+
 #[post("/login")]
 async fn login(req: HttpRequest, client: web::Data<Client>, data: web::Json<User>) -> HttpResponse {
     let users: Collection<User> = client.database("rust").collection("users");
-
-    println!("{:?}", data);
-    println!("{:?}", data.email);
-    println!("{:?}", &data.email);
-    println!("{:?}", doc! { "email": &data.email });
-
     let user_data = users.find_one(doc! { "email": &data.email }, None).await;
-
-    println!("{:?}", user_data);
 
     let result: Result<_, &str> = match user_data {
         Ok(v) => {
@@ -85,7 +87,6 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
     let user = data.clone();
     let mut user_data = data;
     let user = users.find_one(doc! { "email": user.email }, None).await;
-    println!("{:?}", user);
 
     let result: Result<_, &str> = match user {
         Ok(v) => match v {
@@ -99,11 +100,9 @@ async fn register(client: web::Data<Client>, data: web::Json<User>) -> HttpRespo
             Err("database error")
         }
     };
-    println!("{:?}", result);
 
     match result {
         Ok(value) => {
-            println!("{:?}", value);
             HttpResponse::Ok().body("accound created")
         }
         Err(err) => HttpResponse::Unauthorized().body(err.to_string()),
