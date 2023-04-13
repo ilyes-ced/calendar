@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { success } from '../contexts/userData'
+import { store } from '../store'
 
 
 
@@ -15,7 +17,6 @@ const create_axios = () => {
 
 
 
-
 function login (email: string, password: string) {
 
     //axios.get(process.env.API_URL)
@@ -27,6 +28,10 @@ function login (email: string, password: string) {
             console.log(response.status);
             console.log(response.data.user_data);
             console.log(response.data.token);
+            store.dispatch(success({
+                data: response.data.user_data,
+                token: response.data.token
+            }))
         })
         .catch(function (error) {
             console.log(error.response.status);
