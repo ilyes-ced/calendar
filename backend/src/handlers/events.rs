@@ -46,7 +46,6 @@ async fn create(
     client: web::Data<Client>,
     data: web::Json<Event>,
 ) -> HttpResponse {
-    println!("{:?}", req);
     let the_collection: Collection<User> = client.database("rust").collection("users");
 
     //gets string from middleware where token is decrypted and makes a mongodb object with it
@@ -160,41 +159,52 @@ async fn delete(
 async fn edit(
     req: HttpRequest,
     client: web::Data<Client>,
-    event_id: web::Json<IdDelete>,
+    data: web::Json<Event>,
 ) -> HttpResponse {
-    println!("{:?}", event_id);
     let the_collection: Collection<User> = client.database("rust").collection("users");
-    match mongodb::bson::oid::ObjectId::from_str(&event_id.event_id) {
-        Ok(result) => {
-            let user_id =
-                mongodb::bson::oid::ObjectId::from_str(req.extensions().get::<String>().unwrap());
-            //generate random id string here
 
-            let events = the_collection
-                .update_one(
-                    doc! {"_id": user_id.unwrap()},
-                    doc! { "$pull": { "events": {"_id": result}}},
-                    None,
-                )
-                .await;
+    let user_id = mongodb::bson::oid::ObjectId::from_str(req.extensions().get::<String>().unwrap());
+    let event_id = data.id;
+    let inserted_event = the_collection
+        .update_one(
+            doc! {
+                "_id": user_id.unwrap(),
+                "events._id": event_id
+            },
+            // idk why cant use the struct directly
+            doc! { "$set": { "levels.proven.configs.$": "newData" }},
+            None,
+        )
+        .await;
+    println!("{:?}", inserted_event);
 
-            if events.unwrap().modified_count == 1 {
-                HttpResponse::Ok().json(General{
-                    message: "is deleted".to_owned()
-                })
-            } else {
-                HttpResponse::NotFound().json(General{
-                    message: "it dont exists".to_owned()
-                })
+/*
+
+
+doc!{
+                "_id": event_id,
+                "title": &data.title,
+                "start_date": &data.start_date,
+                "end_date": &data.end_date,
+                "start_time": &data.start_time,
+                "end_time": &data.end_time,
+                "participants": [],
+                "location": &data.location,
+                "description": &data.description,
+                "notifications": [],
+                "repeat": false,
             }
-        }
-        Err(..) => HttpResponse::BadRequest().json(General{
-            message: "invalid id".to_owned()
-        }),
+ */
+
+    match inserted_event {
+        Ok(..) => HttpResponse::Ok().json(
+            Inserted{
+                message : "dazd".to_owned(),
+                inserted_id: event_id.to_string().chars().take(24).collect()
+            }
+        ),
+        Err(err) => HttpResponse::InternalServerError().json(err.to_string()),
     }
 }
-
-
-
 
 

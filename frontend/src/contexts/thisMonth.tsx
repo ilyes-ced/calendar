@@ -130,7 +130,7 @@ export const calendarSlice = createSlice({
 
 export const { increment_month, decrement_month, reset_month } = calendarSlice.actions
 
-export const selectCount = (state: RootState) => state
+export const calendarData = (state: RootState) => state
 
 export default calendarSlice.reducer
 
