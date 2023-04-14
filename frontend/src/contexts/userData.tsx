@@ -2,7 +2,14 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
 
 
+const save_storage = (user_data: user_data, token: any) => {
+	console.log(user_data)
+	console.log(token)
 
+	localStorage.setItem("user_is_authed", JSON.stringify(true))
+	localStorage.setItem("user_data", JSON.stringify(user_data))
+	localStorage.setItem("user_token", token)
+}
 
 
 type event = {
@@ -21,23 +28,41 @@ type user_data = {
 	email: String,
 }
 
-const initialState = {
-	is_authed: false,
-	user_data: {},
-	events: {},
-	tasks: {},
-	contacts: {},
-	token: null,
-	error: null,
-	success: false,
-	loading: false,
+function init_data(){
+	if (localStorage.getItem("user_is_authed") === "true"){
+		const user_data: string = localStorage.getItem("user_data")  || ""
+		const user_token: string = localStorage.getItem("user_token")  || ""
+		return {
+			is_authed: true,
+			user_data: JSON.parse(user_data),
+			events: {},
+			tasks: {},
+			contacts: {},
+			token: user_token,
+			error: null,
+			success: true,
+			loading: false,
+		}
+	}else{
+		return {
+			is_authed: false,
+			user_data: {},
+			events: {},
+			tasks: {},
+			contacts: {},
+			token: null,
+			error: null,
+			success: false,
+			loading: false,
+		}
+	}
 }
 
 
-console.log(initialState)
+
 export const userSlice = createSlice({
 	name: 'auth',
-	initialState: initialState,
+	initialState: init_data(),
 	reducers: {
 		
 		logging_in: (state) => {
@@ -51,6 +76,8 @@ export const userSlice = createSlice({
 			state.is_authed = true
 			state.user_data = payload.user_data
 			state.token = payload.token
+			console.log(payload)
+			save_storage(payload.user_data, payload.token)
 		},
 		error: (state, { payload }) => {
 			state.loading = false

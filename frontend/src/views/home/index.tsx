@@ -1,13 +1,15 @@
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import Header from '../../components/header'
 import LeftSideBar from '../../components/leftSideBar'
-import MainCalendar from '../../components/mainCalendar'
 import RightSideBar from '../../components/rightSideBar'
+import { useAppSelector } from '../../hook'
 
-import { Outlet } from "react-router-dom";
 
 function App() {
 
+    const user = useAppSelector((state) => state.user_data)
+
+    if (!user.is_authed) return <Navigate to="/login" replace />
     return (
         <div id='main_container' >
             <Header/>
@@ -20,6 +22,7 @@ function App() {
             </div>
         </div>
     )
+
 }
 
 export default App

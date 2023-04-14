@@ -25,17 +25,13 @@ function login (email: string, password: string) {
             password: password,
         })
         .then(function (response) {
-            console.log(response.status);
-            console.log(response.data.user_data);
-            console.log(response.data.token);
             store.dispatch(success({
-                data: response.data.user_data,
+                user_data: response.data.user_data,
                 token: response.data.token
             }))
         })
         .catch(function (error) {
-            console.log(error.response.status);
-            console.log(error);
+            alert("bad credentials")
         })
         .finally(function () {
 
@@ -55,7 +51,7 @@ function register (username: string, email: string, password: string) {
             console.log(response);
         })
         .catch(function (error) {
-            console.log(error.status);
+            alert("bad credentials")
         })
         .finally(function () {
 
@@ -64,7 +60,27 @@ function register (username: string, email: string, password: string) {
 }
 
 
+function verify (token: string) {
+
+    create_axios().post("/verify",{
+            token: token
+        })
+        .then(function (response) {
+            console.log(response);
+            store.dispatch(success({
+                data: response.data.user_data, // get thos from local storage
+                token: response.data.token
+            }))
+        })
+        .catch(function (error) {
+            alert("bad credentials")
+        })
+        .finally(function () {
+
+        }
+    );
+}
 
 
-export { login, register }
+export { login, register, verify }
 

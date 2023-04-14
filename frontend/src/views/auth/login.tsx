@@ -1,15 +1,15 @@
 import { useRef } from "react"
 import {login} from "../../adapters/auth"
-import { useAppSelector, useAppDispatch } from '../../hook'
+import { useAppSelector } from '../../hook'
 import { } from '../../contexts/userData'
+import { Navigate } from "react-router-dom";
 
 
 
 function App() {
 
+    const user = useAppSelector((state) => state.user_data)
 
-    const calendar = useAppSelector((state) => state)
-    const dispatch = useAppDispatch()
 
     const email = useRef(null)
     const password = useRef(null)
@@ -19,6 +19,8 @@ function App() {
     }   
 
 
+
+    if (user.is_authed) return <Navigate to="/" replace />
     return (
         <div className="grid align__item">
             <div className="register">

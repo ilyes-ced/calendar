@@ -5,8 +5,6 @@ import Register from './views/auth/register'
 import HomePage from './views/home'
 import Calendar from './views/home/calendar'
 import ToDo from './views/home/toDo'
-import { useAppSelector } from './hook'
-import { useNavigate } from "react-router-dom";
 
 
 const router = createBrowserRouter([
@@ -25,7 +23,6 @@ const router = createBrowserRouter([
 		],
     },
     {
-		index: true,
       	path: "/login",
       	element: <Login />,
     },
@@ -40,17 +37,14 @@ const router = createBrowserRouter([
 
 function App() {
 
-    const user = useAppSelector((state) => state.user_data)
-	//const navigate = useNavigate()
 
-	if (user.is_authed) return (
+
+	return (
 		<div className="App">
 			<RouterProvider router={router} /> 
 		</div>
 	)
-	else return <div className="App">
-			<RouterProvider router={router} fallbackElement={<Login/>} /> 
-		</div>
+	
 
 
 }

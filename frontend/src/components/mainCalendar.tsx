@@ -45,6 +45,7 @@ function App() {
     }
     return (
         <div id='main_calendar'>
+
             {
                 show_create_event_modal ? <CreateEvent close_me={toggle_create_event} /> : ""
             }
