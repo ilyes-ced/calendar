@@ -28,7 +28,7 @@ type user_data = {
 	email: String,
 }
 
-function init_data(){
+const init_data = () => {
 	if (localStorage.getItem("user_is_authed") === "true"){
 		const user_data: string = localStorage.getItem("user_data")  || ""
 		const user_token: string = localStorage.getItem("user_token")  || ""
@@ -87,12 +87,17 @@ export const userSlice = createSlice({
 			alert(payload)
 			alert("payload")
 			console.log(payload)
-		}
+		},
+		init_events: (state, {payload}) => {
+			alert(payload)
+			alert("payload")
+			console.log(payload)
+		},
 
 	},
 })
 
-export const { logging_in, success, error, added_event } = userSlice.actions
+export const { logging_in, success, error, added_event, init_events } = userSlice.actions
 
 export const userData = (state: RootState) => state
 

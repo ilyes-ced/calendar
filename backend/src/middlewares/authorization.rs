@@ -58,6 +58,10 @@ where
 
     fn call(&self, request: ServiceRequest) -> Self::Future {
 
+    println!("{:?}", request);
+    println!("{:?}", request.headers());
+    println!("{:?}", request.headers().get("x-authorization"));
+
         let mut is_logged_in = false;
         let mut has_token = false;
 

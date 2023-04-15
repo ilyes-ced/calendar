@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { added_event } from '../contexts/userData'
+import { added_event, init_events } from '../contexts/userData'
 import { store } from '../store'
 
 
 
 const create_axios = () => {
+    console.log(localStorage.getItem('user_token'))
     return axios.create({
         baseURL: 'http://localhost:8080',
         headers: {
@@ -16,9 +17,16 @@ const create_axios = () => {
 
 
 
+type event_data = {
+    title: string,
+    start_date: string,
+    end_date: string,
+    participants: string,
+    location: string,
+    description: string,
+}
 
-function create_event () {
-
+const create_event = (json: event_data) => {
     create_axios().post("/events/create",{
         })
         .then(function (response) {
@@ -36,10 +44,23 @@ function create_event () {
     );
 }
 
+const init_events_axios = () => {
+    create_axios().get("/events/init")
+    .then(function (response) {
+        console.log(response.data)
+        store.dispatch(init_events(response.data))
+    })
+    .catch(function (error) {
+        console.log(error)
+    })
+    .finally(function () {
+
+    }
+);
+}
 
 
 
 
-
-export { create_event }
+export { create_event, init_events_axios }
 

@@ -11,17 +11,34 @@ function App(props: { close_me: any, start_date: Date }) {
         }
     }
 
+    const title = useRef(null)
     const start_date = useRef(null)
+    const end_date = useRef(null)
+    const participants = useRef(null)
+    const location = useRef(null)
+    const description = useRef(null)
 
     const submit_event = (e) => {
         e.preventDefault();
         const form = e.target;
         const form_date = new FormData(form);
-        const data_json = Object.fromEntries(form_date.entries());
+        const data_json = Object.fromEntries(form_date);
 
-        create_event(
-            data_json
-        )
+        //console.log(title.current.value)
+        //console.log(start_date.current.value)
+        //console.log(end_date.current.value)
+        //console.log(participants.current.value)
+        //console.log(location.current.value)
+        //console.log(description.current.value)
+//
+        //create_event({
+        //    title.current.value
+        //    start_date.current.value
+        //    end_date.current.value
+        //    participants.current.value
+        //    location.current.value
+        //    description.current.value
+        //})
     }
 
     return (
@@ -34,27 +51,27 @@ function App(props: { close_me: any, start_date: Date }) {
                     <div id='inputs_div'>
                         <div>
                             <div></div>
-                            <input name='title' className="input" type="text" placeholder="Title" required />
+                            <input ref={title} name='title' className="input" type="text" placeholder="Title" required />
                         </div>
                         <div>
                             <BsClockHistory/>
-                            <input name='start_date' className="input" type="date" value={props.start_date.toISOString().substring(0,10)} />
+                            <input ref={start_date} name='start_date' className="input" type="date" value={props.start_date.toISOString().substring(0,10)} />
                         </div>
                         <div>
                             <div></div>
-                            <input name='end_date' className="input" type="date" min={props.start_date.toISOString().substring(0,10)} />
+                            <input ref={end_date} name='end_date' className="input" type="date" min={props.start_date.toISOString().substring(0,10)} />
                         </div>
                         <div>
                             <BsPeople/>
-                            <input name='participants' className="input" type="text" placeholder="participants" />
+                            <input ref={participants} name='participants' className="input" type="text" placeholder="participants" />
                         </div>
                         <div>
                             <BsGeoAlt/>
-                            <input name='location' className="input" type="text" placeholder="Location" />
+                            <input ref={location} name='location' className="input" type="text" placeholder="Location" />
                         </div>
                         <div>
                             <BsTextLeft/>
-                            <input name='description' className="input" type="text" placeholder="Descrption" />
+                            <input ref={description} name='description' className="input" type="text" placeholder="Descrption" />
                         </div>
                     </div>
                     <div id='buttons_div'>

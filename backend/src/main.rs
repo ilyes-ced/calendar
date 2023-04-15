@@ -1,3 +1,4 @@
+use actix::prelude::Request;
 use actix_extensible_rate_limit::{RateLimiter, backend::{memory::InMemoryBackend, SimpleInputFunctionBuilder}};
 use actix_cors::Cors;
 use actix_web::{middleware::Logger, web, App, HttpServer, http};
@@ -28,6 +29,9 @@ async fn main() -> std::io::Result<()> {
             .add_headers()
             .build();
         let cors = Cors::permissive();
+
+
+
         //let cors = Cors::default()
         //    .allowed_origin("http://localhost:3000")
         //    .allowed_origin_fn(|origin, _req_head| {
@@ -45,6 +49,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(client.clone()))
             .service(auth::login)
             .service(auth::register)
+            .service(events::init)
             .service(events::create)
             .service(events::delete)
             .service(events::edit)

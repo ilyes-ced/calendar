@@ -3,6 +3,7 @@ import { decrement_month, increment_month, reset_month } from '../contexts/thisM
 import { useEffect, useState } from 'react';
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import CreateEvent from '../modals/createEvent'
+import { init_events_axios } from '../adapters/events'
 
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -40,7 +41,7 @@ function App() {
     const [clicked_date, set_clicked_date] = useState(new Date())
 
     useEffect(() => {
-
+        init_events_axios()
     }, [])
 
     const this_month = () => {

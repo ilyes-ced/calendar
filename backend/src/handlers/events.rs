@@ -1,4 +1,4 @@
-use actix_web::{post, web, HttpMessage, HttpRequest, HttpResponse};
+use actix_web::{post, get, web, HttpMessage, HttpRequest, HttpResponse};
 use mongodb::{bson::doc, Client, Collection};
 use serde::{Deserialize, Serialize};
 use std::str::FromStr;
@@ -33,6 +33,48 @@ struct IdDelete {
 //    "email": "dude",
 //    "password":"dude"
 //}
+
+
+
+
+
+#[get("/events/init")]
+async fn init(
+    req: HttpRequest,
+    client: web::Data<Client>,
+) -> HttpResponse {
+    println!("{:?}", req);
+    println!("{:?}", req.headers());
+
+    let the_collection: Collection<User> = client.database("rust").collection("users");
+
+    //gets string from middleware where token is decrypted and makes a mongodb object with it
+    let user_id = mongodb::bson::oid::ObjectId::from_str(req.extensions().get::<String>().unwrap());
+    let selected_events = the_collection
+        .find_one(
+            doc! {"_id": user_id.unwrap()},
+            None,
+        )
+        .await;
+
+    match selected_events {
+        Ok(value) => {
+            println!("{:?}", value);
+            match value{
+                Some(user) => {
+                    HttpResponse::Ok().json(user.events)
+                },
+                None => {
+                    HttpResponse::Ok().json("Vec")
+                },
+            }
+        },
+        Err(err) => HttpResponse::InternalServerError().json(err.to_string()),
+    }
+}
+
+
+
 
 //                             _         
 //                            | |        
