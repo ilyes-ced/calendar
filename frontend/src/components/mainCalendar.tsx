@@ -13,8 +13,23 @@ let current_date = new Date();
 let tempo_date = new Date();
 
 
-
-
+console.log(tempo_date)
+console.log(
+    tempo_date.getFullYear(),
+    tempo_date.getMonth(),
+    tempo_date.getDate(),
+    tempo_date.getHours(),
+    tempo_date.getMinutes(),
+    tempo_date.getSeconds(),
+    tempo_date.getTime(),
+    tempo_date.getTimezoneOffset(),
+    tempo_date.getUTCDate(),
+    tempo_date.toISOString(),
+    tempo_date.getTimezoneOffset(),
+    tempo_date.getTime(),
+    new Date(tempo_date.getTime()),
+    new Date(tempo_date.getTime()).toISOString(),
+)
 
 function App() {
 
@@ -87,9 +102,7 @@ function App() {
                 </div>
                 <div id='calendar'>
                     <div id='week_n'>
-                        {
-                            
-                        }
+
                         <div style={{height: calendar.calendar[0].length + calendar.calendar[1].length + calendar.calendar[2].length > 35 ? '16.66666%' : "20%" /* 20 or 16.6666% */ }} >1</div>
                         <div style={{height: calendar.calendar[0].length + calendar.calendar[1].length + calendar.calendar[2].length > 35 ? '16.66666%' : "20%" /* 20 or 16.6666% */ }} >2</div>
                         <div style={{height: calendar.calendar[0].length + calendar.calendar[1].length + calendar.calendar[2].length > 35 ? '16.66666%' : "20%" /* 20 or 16.6666% */ }} >3</div>
@@ -102,15 +115,20 @@ function App() {
                         {
                             calendar.calendar.map((month, i) => {
                                 return month.map((ele, i) => {
-                                    return <div className="calendar_item" onClick={toggle_create_event}>
-                                        <button className="button secondary_button"> {ele} </button>
-                                        <div className="event_item">
-                                            <div>event name</div>
+                                    return (
+                                        <div className="calendar_item" onClick={toggle_create_event}>
+                                            <button className="button secondary_button"> {ele} </button>
+                                            
+                                            {/*
+                                            <div className={ (i%2 === 0) ? "event_item event_item_first" : "event_item event_item_last"} >
+                                                <div>event name</div>
+                                            </div>
+                                            <div className="event_item_see_more">
+                                                <div> n more </div>
+                                            </div>
+                                            */}
                                         </div>
-                                        <div className="event_item_see_more">
-                                            <div> n more </div>
-                                        </div>
-                                    </div>
+                                    )
                                 })
                             })
                         }

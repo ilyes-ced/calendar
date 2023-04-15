@@ -5,6 +5,7 @@ use std::str::FromStr;
 
 use crate::models;
 use models::event::Event;
+use models::event::EditEvent;
 use models::user::User;
 use models::json_responses::Inserted;
 use models::json_responses::General;
@@ -154,17 +155,29 @@ async fn delete(
 //     |  __/| (_) || || |_ 
 //      \___| \__,_||_| \__|
 
-
-#[post("/events/edit/{event_id}")]
+macro_rules! trace {
+    ($($args: expr),*) => {
+        print!("TRACE: file: {}, line: {}", file!(), line!());
+        $(
+            print!(", {}: {}", stringify!($args), $args);
+        )*
+        println!(""); // to get a new line at the end
+    }
+}
+#[post("/events/edit")]
 async fn edit(
     req: HttpRequest,
     client: web::Data<Client>,
-    data: web::Json<Event>,
+    data: web::Json<EditEvent>,
 ) -> HttpResponse {
     let the_collection: Collection<User> = client.database("rust").collection("users");
 
     let user_id = mongodb::bson::oid::ObjectId::from_str(req.extensions().get::<String>().unwrap());
-    let event_id = data.id;
+    let event_id =  mongodb::bson::oid::ObjectId::from_str(&data.id).unwrap();
+
+    println!("{:?}", event_id);
+    trace!();
+
     let inserted_event = the_collection
         .update_one(
             doc! {
@@ -172,7 +185,19 @@ async fn edit(
                 "events._id": event_id
             },
             // idk why cant use the struct directly
-            doc! { "$set": { "levels.proven.configs.$": "newData" }},
+            doc! { "$set": { "events.$": doc!{
+                "_id": event_id,
+                "title": &data.title,
+                "start_date": &data.start_date,
+                "end_date": &data.end_date,
+                "start_time": &data.start_time,
+                "end_time": &data.end_time,
+                "participants": [],
+                "location": &data.location,
+                "description": &data.description,
+                "notifications": [],
+                "repeat": false,
+            } }},
             None,
         )
         .await;

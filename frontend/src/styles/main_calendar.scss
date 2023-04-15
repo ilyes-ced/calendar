@@ -117,22 +117,49 @@
     cursor: pointer;
     width: 100%;
     height:50%;
+}
+.event_item_see_more{
     @include padding(0px, 0px, 10px, 10px);
 }
-.event_item > :first-child{
-    border-radius: 10px;
-    width: 100%;
-    @include padding(5px);
-    @include margin(5px, 5px, 0px, 0px);
-    border-left: 10px solid $blue;
-    background-color: $gray;
-}
+
 .event_item_see_more > :first-child{
     border-radius: 10px;
     width: 100%;
     @include padding(5px);
-    text-align: center;
+    @include center();
 }
 .event_item > :first-child:hover, .event_item_see_more > :first-child:hover{
     background-color: $dark_gray;
+}
+
+
+.event_item_first{
+    border-left: 10px solid $blue;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    @include margin(0px, 0px, 0px, 10px);
+}
+.event_item_last{
+    @include padding(0px, 0px, 10px, 0px);
+}
+
+
+
+.event_item > :first-child{
+    width: 100%;
+    height: 100%;
+    background-color: $gray;
+    @include center();
+}
+.event_item_first > :first-child{
+    width: 100%;
+    height: 100%;
+    background-color: $gray;
+}
+.event_item_last > :first-child{
+    width: 100%;
+    height: 100%;
+    background-color: $gray;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
