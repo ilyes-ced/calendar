@@ -83,7 +83,7 @@ export const userSlice = createSlice({
 			state.loading = false
 			state.error = payload
 		},
-		log: (state, {payload}) => {
+		added_event: (state, {payload}) => {
 			alert(payload)
 			alert("payload")
 			console.log(payload)
@@ -92,7 +92,7 @@ export const userSlice = createSlice({
 	},
 })
 
-export const { logging_in, success, error, log } = userSlice.actions
+export const { logging_in, success, error, added_event } = userSlice.actions
 
 export const userData = (state: RootState) => state
 

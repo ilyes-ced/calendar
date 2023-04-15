@@ -55,7 +55,6 @@ async fn create(
     let inserted_event = the_collection
         .update_one(
             doc! {"_id": user_id.unwrap()},
-            // idk why cant use the struct directly
             doc! { "$push": { "events": doc!{
                 "_id": event_id,
                 "title": &data.title,
@@ -67,7 +66,7 @@ async fn create(
                 "location": &data.location,
                 "description": &data.description,
                 "notifications": [],
-                "repeat": false,
+                "repeat": &data.repeat,
             }}},
             None,
         )
@@ -107,13 +106,11 @@ async fn delete(
     client: web::Data<Client>,
     event_id: web::Json<IdDelete>,
 ) -> HttpResponse {
-    println!("{:?}", event_id);
     let the_collection: Collection<User> = client.database("rust").collection("users");
     match mongodb::bson::oid::ObjectId::from_str(&event_id.event_id) {
         Ok(result) => {
             let user_id =
                 mongodb::bson::oid::ObjectId::from_str(req.extensions().get::<String>().unwrap());
-            //generate random id string here
 
             let events = the_collection
                 .update_one(
@@ -155,15 +152,7 @@ async fn delete(
 //     |  __/| (_) || || |_ 
 //      \___| \__,_||_| \__|
 
-macro_rules! trace {
-    ($($args: expr),*) => {
-        print!("TRACE: file: {}, line: {}", file!(), line!());
-        $(
-            print!(", {}: {}", stringify!($args), $args);
-        )*
-        println!(""); // to get a new line at the end
-    }
-}
+
 #[post("/events/edit")]
 async fn edit(
     req: HttpRequest,
@@ -175,16 +164,12 @@ async fn edit(
     let user_id = mongodb::bson::oid::ObjectId::from_str(req.extensions().get::<String>().unwrap());
     let event_id =  mongodb::bson::oid::ObjectId::from_str(&data.id).unwrap();
 
-    println!("{:?}", event_id);
-    trace!();
-
     let inserted_event = the_collection
         .update_one(
             doc! {
                 "_id": user_id.unwrap(),
                 "events._id": event_id
             },
-            // idk why cant use the struct directly
             doc! { "$set": { "events.$": doc!{
                 "_id": event_id,
                 "title": &data.title,
@@ -196,30 +181,11 @@ async fn edit(
                 "location": &data.location,
                 "description": &data.description,
                 "notifications": [],
-                "repeat": false,
+                "repeat": &data.repeat,
             } }},
             None,
         )
         .await;
-    println!("{:?}", inserted_event);
-
-/*
-
-
-doc!{
-                "_id": event_id,
-                "title": &data.title,
-                "start_date": &data.start_date,
-                "end_date": &data.end_date,
-                "start_time": &data.start_time,
-                "end_time": &data.end_time,
-                "participants": [],
-                "location": &data.location,
-                "description": &data.description,
-                "notifications": [],
-                "repeat": false,
-            }
- */
 
     match inserted_event {
         Ok(..) => HttpResponse::Ok().json(

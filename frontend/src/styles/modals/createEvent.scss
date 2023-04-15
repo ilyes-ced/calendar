@@ -41,9 +41,16 @@
 
 
 #inputs_div{
-    @include padding(0px, 0px, 20px, 20px);
+    @include padding(0px, 10px, 20px, 20px);
 }
-
+#inputs_div > *{
+    display: flex;
+}
+#inputs_div > * > :first-child{
+    border-radius: 10px;
+    width: 20px;
+    @include margin(0px, 0px, 20px, 0px);
+}
 
 
 .input{

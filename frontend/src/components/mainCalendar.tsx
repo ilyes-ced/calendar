@@ -37,6 +37,7 @@ function App() {
     const dispatch = useAppDispatch()
 
     const [show_create_event_modal, set_show_create_event_modal] = useState(false)
+    const [clicked_date, set_clicked_date] = useState(new Date())
 
     useEffect(() => {
 
@@ -62,7 +63,7 @@ function App() {
         <div id='main_calendar'>
 
             {
-                show_create_event_modal ? <CreateEvent close_me={toggle_create_event} /> : ""
+                show_create_event_modal ? <CreateEvent start_date={clicked_date} close_me={toggle_create_event} /> : ""
             }
             
             <div id='calendar_app_bar'>
