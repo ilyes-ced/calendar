@@ -34,7 +34,7 @@ type Event = {
     repeat: boolean,
 }
 
-const events: Event[][] = [[], [], []]
+const events: Event[] = [[], [], []]
 
 const init_data = () => {
 	if (localStorage.getItem("user_is_authed") === "true"){
@@ -128,7 +128,7 @@ export const userSlice = createSlice({
 			//}
 
 			console.log(events)
-			state.events = payload
+			state.events = payload.events
 			return state
 		},
 

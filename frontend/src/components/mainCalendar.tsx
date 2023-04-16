@@ -103,9 +103,6 @@ function App() {
                     </div>
                     <div id='calendar_items'>
                         {
-                            JSON.stringify(user_data.events)
-                        }
-                        {
                             calendar.calendar[0].map((ele, i) => {
                                 return (
                                     <div className="calendar_item" onClick={() => { toggle_create_event(ele, -1) }}>
@@ -120,17 +117,21 @@ function App() {
                                 return (
                                     <div className="calendar_item" onClick={() => { toggle_create_event(ele, 0) }}>
                                         <button className="button secondary_button"> {ele} </button>
-                                        {/*
-                                            user_data.events[1].map((ele, i) => {
-                                                return(
-                                                    <div className={ (i%2 === 0) ? "event_item event_item_first" : "event_item event_item_last"} >
-                                                        <div>{ele.title}</div>
+                                        {
+                                            user_data.events.map((event, i) => {
+                                                if(
+                                                    new Date(event.start_date*1000).getDate() === ele &&
+                                                    new Date(event.start_date*1000).getMonth() === display_date.getMonth() &&
+                                                    new Date(event.start_date*1000).getFullYear() === display_date.getFullYear() 
+                                                ) return(
+                                                    <div className="event_item event_item_first event_item_last" >
+                                                        <div>
+                                                            { event.title }
+                                                        </div>
                                                     </div>
                                                 )
-                                                
                                             })
-                                        */}
-                                        {display_date.getMonth() + '/' + ele}
+                                        }
                                         <div className="event_item_see_more">
                                             <div> n more </div>
                                         </div>
