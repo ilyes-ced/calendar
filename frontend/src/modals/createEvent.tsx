@@ -24,21 +24,21 @@ function App(props: { close_me: any, start_date: Date }) {
         const form_date = new FormData(form);
         const data_json = Object.fromEntries(form_date);
 
-        //console.log(title.current.value)
-        //console.log(start_date.current.value)
-        //console.log(end_date.current.value)
-        //console.log(participants.current.value)
-        //console.log(location.current.value)
-        //console.log(description.current.value)
+        console.log(title.current.value)
+        console.log(start_date.current.value)
+        console.log(end_date.current.value)
+        console.log(participants.current.value)
+        console.log(location.current.value)
+        console.log(description.current.value)
 //
-        //create_event({
-        //    title.current.value
-        //    start_date.current.value
-        //    end_date.current.value
-        //    participants.current.value
-        //    location.current.value
-        //    description.current.value
-        //})
+        create_event({
+            title: title.current.value,
+            start_date: new Date(start_date.current.value).getTime()/1000,
+            end_date: new Date(end_date.current.value).getTime()/1000,
+            participants: participants.current.value,
+            location: location.current.value,
+            description: description.current.value,
+        })
     }
 
     return (

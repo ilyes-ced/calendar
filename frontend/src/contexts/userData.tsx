@@ -89,8 +89,6 @@ export const userSlice = createSlice({
 			console.log(payload)
 		},
 		init_events: (state, {payload}) => {
-			alert(payload)
-			alert("payload")
 			console.log(payload)
 		},
 

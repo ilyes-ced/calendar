@@ -11,10 +11,10 @@ pub struct Event {
     pub end_date: u32,
     pub start_time: u32,
     pub end_time: u32,
-    pub participants: Vec<i32>,
+    pub participants: Vec<u32>,
     pub location: String,
     pub description: String,
-    pub notifications: Vec<i32>,
+    pub notifications: Vec<u32>,
     pub repeat: bool,
 }
 
@@ -28,9 +28,9 @@ pub struct EditEvent {
     pub end_date: u32,
     pub start_time: u32,
     pub end_time: u32,
-    pub participants: Vec<i32>,
+    pub participants: Vec<u32>,
     pub location: String,
     pub description: String,
-    pub notifications: Vec<i32>,
+    pub notifications: Vec<u32>,
     pub repeat: bool,
 }

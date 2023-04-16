@@ -4,7 +4,7 @@ use actix_cors::Cors;
 use actix_web::{middleware::Logger, web, App, HttpServer, http};
 use mongodb::Client;
 use std::time::Duration;
-
+use actix_web::{dev::Service as _};
 pub mod handlers;
 pub mod middlewares;
 pub mod models;
@@ -12,7 +12,7 @@ pub mod utils;
 use crate::handlers::auth;
 use crate::handlers::events;
 use crate::middlewares::authorization::CheckLogin;
-
+use futures_util::future::FutureExt;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "debug");

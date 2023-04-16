@@ -58,9 +58,6 @@ where
 
     fn call(&self, request: ServiceRequest) -> Self::Future {
 
-    println!("{:?}", request);
-    println!("{:?}", request.headers());
-    println!("{:?}", request.headers().get("x-authorization"));
 
         let mut is_logged_in = false;
         let mut has_token = false;
@@ -77,19 +74,16 @@ where
             }
         };
 
-        println!("{:?}", token);
         if has_token {
             let token_data = decode::<Claims>(
                 token,
                 &DecodingKey::from_secret(key.as_bytes()),
                 &Validation::default(),
             );
-            println!("{:?}", token_data);
 
             let auth_data: Result<TokenData<Claims>, jsonwebtoken::errors::Error> = match token_data
             {
                 Ok(token_data) => {
-                    println!("{:?}", token_data);
                     is_logged_in = true;
                     request
                         .extensions_mut()
@@ -97,16 +91,16 @@ where
                     Ok(token_data)
                 }
                 Err(err) => {
-                    println!("{:?}", err);
                     is_logged_in = false;
                     Err(err)
                 }
             };
-            println!("{:?}", auth_data);
         }
 
         //change redirect to httpresponse not authorized
-        if !is_logged_in && request.path() != "/login" && request.path() != "/register" {
+        // idk if its safe to allow options request without auth
+        if !is_logged_in && request.path() != "/login" && request.path() != "/register" &&  request.method() != "OPTIONS" {
+
             let (request, _pl) = request.into_parts();
             //works but kinda hacky
             let res = HttpResponse::with_body(StatusCode::UNAUTHORIZED, "Invalid JWT Token");

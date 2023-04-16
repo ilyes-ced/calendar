@@ -65,7 +65,7 @@ async fn init(
                     HttpResponse::Ok().json(user.events)
                 },
                 None => {
-                    HttpResponse::Ok().json("Vec")
+                    HttpResponse::NotFound().json("no events available")
                 },
             }
         },

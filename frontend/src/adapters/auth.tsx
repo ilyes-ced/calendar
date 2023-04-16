@@ -8,7 +8,7 @@ const create_axios = () => {
     return axios.create({
         baseURL: 'http://localhost:8080',
         headers: {
-            //'X-Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJzb21lX2RlZmF1bHRfaWRrIiwiZXhwIjoxNjgxODM2NDk5LCJpYXQiOjE2ODEyMzE2OTksInVzZXJfaWQiOiI2NDM1OGUwYTlhNjEwYzYzNWRkNWQ5N2EiLCJzdWIiOiJkdWRlIn0.NY082UAFXeCWX5dxl6Pw30NHDIj9tzx85m5Lt5qEWZw',
+            'X-Authorization': localStorage.getItem('user_token'),
             'Access-Control-Allow-Origin': "*",
         }
     });
@@ -32,6 +32,7 @@ function login (email: string, password: string) {
         })
         .catch(function (error) {
             alert("bad credentials")
+            console.log(error)
         })
         .finally(function () {
 
