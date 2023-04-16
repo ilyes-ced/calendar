@@ -23,10 +23,10 @@ type user_data = {
 type Event = {
 	id: string,
     title: string,
-    start_date: number,
-    end_date: number,
-    start_time: number,
-    end_time: number,
+    start_date: Date,
+    end_date: Date,
+    start_time: Date,
+    end_time: Date,
     participants: number[],
     location: string,
     description: string,
@@ -98,11 +98,38 @@ export const userSlice = createSlice({
 		},
 		init_events: (state, {payload}) => {
 			console.log(payload)
-			for (let i = 0; i < payload.length; i++) {
-				console.log((new Date (payload[i].start_date*1000)))
-				console.log((new Date (payload[i].end_date*1000)))
-			}
+	
+
+
+			//const start_month = new Date(payload.start_date*1000).getMonth()
+			//let events: Event[][] = [[], [], []]
+			//for (let i = 0; i < payload.events.length; i++) {
+			//	
+			//	console.log(events)
+//
+			//	if(new Date (payload.events[i].start_date*1000).getMonth() === start_month){
+			//		events[0].push(payload.events[i])
+			//		events[0][events[0].length-1].start_date = new Date (payload.events[i].start_date*1000)
+			//		events[0][events[0].length-1].end_date = new Date (payload.events[i].end_date*1000)
+			//	}else if(new Date(payload.events[i].start_date*1000).getMonth() === start_month+1){
+			//		events[1].push(payload.events[i])
+			//		events[1][events[1].length-1].start_date = new Date (payload.events[i].start_date*1000)
+			//		events[1][events[1].length-1].end_date = new Date (payload.events[i].end_date*1000)
+			//	}else if(new Date(payload.events[i].start_date*1000).getMonth() === start_month+2){
+			//		events[2].push(payload.events[i])
+			//		events[2][events[2].length-1].start_date = new Date (payload.events[i].start_date*1000)
+			//		events[2][events[2].length-1].end_date = new Date (payload.events[i].end_date*1000)
+			//	}
+//
+//
+//
+			//	//new Date (payload.events[i].start_date*1000)
+			//	
+			//}
+
+			console.log(events)
 			state.events = payload
+			return state
 		},
 
 	},

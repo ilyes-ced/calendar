@@ -63,7 +63,11 @@ const init_events_axios = (start: number, end: number) => {
         }
       })
         .then(function (response) {
-            store.dispatch(init_events(response.data))
+            store.dispatch(init_events({
+                start_date: start,
+                end_date: end,
+                events : response.data
+            }))
         })
         .catch(function (error) {
             console.log(error)

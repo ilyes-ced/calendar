@@ -62,7 +62,7 @@ function App(props: { close_me: any, start_date: Date }) {
                         </div>
                         <div>
                             <div></div>
-                            <input ref={end_date} name='end_date' className="input" type="date" min={props.start_date.toISOString().substring(0,10)} />
+                            <input ref={end_date} name='end_date' className="input" type="date" min={props.start_date.toISOString().substring(0,10)} value={props.start_date.toISOString().substring(0,10)} />
                         </div>
                         <div>
                             <BsPeople/>
