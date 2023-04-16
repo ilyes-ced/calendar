@@ -35,16 +35,21 @@ struct IdDelete {
 //}
 
 
-
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+struct DatesRange {
+    start: u32,
+    end: u32,
+}
 
 
 #[get("/events/init")]
 async fn init(
     req: HttpRequest,
     client: web::Data<Client>,
+    range: web::Query<DatesRange>
 ) -> HttpResponse {
-    println!("{:?}", req);
-    println!("{:?}", req.headers());
+    println!("{:?}", range.start);
+    println!("{:?}", range.end);
 
     let the_collection: Collection<User> = client.database("rust").collection("users");
 
@@ -52,7 +57,13 @@ async fn init(
     let user_id = mongodb::bson::oid::ObjectId::from_str(req.extensions().get::<String>().unwrap());
     let selected_events = the_collection
         .find_one(
-            doc! {"_id": user_id.unwrap()},
+            doc! {
+                "_id": user_id.unwrap(),
+                "$and": [
+                    { "events.start_date": { "$gte": range.start} },
+                    { "events.end_date": { "$lte": range.end} }
+                ]
+            },
             None,
         )
         .await;

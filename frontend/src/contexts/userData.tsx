@@ -12,21 +12,29 @@ const save_storage = (user_data: user_data, token: any) => {
 }
 
 
-type event = {
-	title: string
-}
-type task = {
-	title: string
-}
-type contact = {
-	title: string
-}
+
 
 
 type user_data = {
 	username: String,
 	email: String,
 }
+
+type Event = {
+	id: string,
+    title: string,
+    start_date: number,
+    end_date: number,
+    start_time: number,
+    end_time: number,
+    participants: number[],
+    location: string,
+    description: string,
+    notifications: number[],
+    repeat: boolean,
+}
+
+const events: Event[][] = [[], [], []]
 
 const init_data = () => {
 	if (localStorage.getItem("user_is_authed") === "true"){
@@ -35,7 +43,7 @@ const init_data = () => {
 		return {
 			is_authed: true,
 			user_data: JSON.parse(user_data),
-			events: {},
+			events: events,
 			tasks: {},
 			contacts: {},
 			token: user_token,
@@ -47,7 +55,7 @@ const init_data = () => {
 		return {
 			is_authed: false,
 			user_data: {},
-			events: {},
+			events: events,
 			tasks: {},
 			contacts: {},
 			token: null,
@@ -90,6 +98,11 @@ export const userSlice = createSlice({
 		},
 		init_events: (state, {payload}) => {
 			console.log(payload)
+			for (let i = 0; i < payload.length; i++) {
+				console.log((new Date (payload[i].start_date*1000)))
+				console.log((new Date (payload[i].end_date*1000)))
+			}
+			state.events = payload
 		},
 
 	},

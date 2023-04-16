@@ -55,10 +55,14 @@ const create_event = (json: event_data) => {
         })
 }
 
-const init_events_axios = () => {
-    create_axios().get("/events/init")
+const init_events_axios = (start: number, end: number) => {
+    create_axios().get("/events/init", {
+        params: {
+          start: start,
+          end: end
+        }
+      })
         .then(function (response) {
-            console.log(response.data)
             store.dispatch(init_events(response.data))
         })
         .catch(function (error) {

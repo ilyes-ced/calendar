@@ -30,7 +30,10 @@ function App(props: { close_me: any, start_date: Date }) {
         console.log(participants.current.value)
         console.log(location.current.value)
         console.log(description.current.value)
-//
+
+        console.log(new Date(start_date.current.value).getTime()/1000)
+        console.log(new Date(end_date.current.value).getTime()/1000)
+
         create_event({
             title: title.current.value,
             start_date: new Date(start_date.current.value).getTime()/1000,

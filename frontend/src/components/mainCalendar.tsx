@@ -11,58 +11,49 @@ const month_names = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 let current_date = new Date();
-let tempo_date = new Date();
+let display_date = new Date();
 
 
-console.log(tempo_date)
-console.log(
-    tempo_date.getFullYear(),
-    tempo_date.getMonth(),
-    tempo_date.getDate(),
-    tempo_date.getHours(),
-    tempo_date.getMinutes(),
-    tempo_date.getSeconds(),
-    tempo_date.getTime(),
-    tempo_date.getTimezoneOffset(),
-    tempo_date.getUTCDate(),
-    tempo_date.toISOString(),
-    tempo_date.getTimezoneOffset(),
-    tempo_date.getTime(),
-    new Date(tempo_date.getTime()),
-    new Date(tempo_date.getTime()).toISOString(),
-)
 
 function App() {
 
     const calendar = useAppSelector((state) => state)
+    const user_data = useAppSelector((state) => state.user_data)
     const dispatch = useAppDispatch()
 
     const [show_create_event_modal, set_show_create_event_modal] = useState(false)
     const [clicked_date, set_clicked_date] = useState(new Date())
 
     useEffect(() => {
-        init_events_axios()
+        init_events_axios(
+            new Date(display_date.getFullYear(), display_date.getMonth()-1, calendar.calendar[0][0]).getTime()/1000,
+            new Date(display_date.getFullYear(), display_date.getMonth()+1, calendar.calendar[2][calendar.calendar[2].length-1]).getTime()/1000
+        )
     }, [])
 
     const this_month = () => {
-        tempo_date = new Date();
+        display_date = new Date();
         dispatch(reset_month())
     }
     const add_month = () => {
-        tempo_date.setMonth(tempo_date.getMonth()+1)
+        display_date.setMonth(display_date.getMonth()+1)
         dispatch(increment_month())
     }
     const remove_month = () => {
-        tempo_date.setMonth(tempo_date.getMonth()-1)
+        display_date.setMonth(display_date.getMonth()-1)
         dispatch(decrement_month())
     }
 
-    const toggle_create_event = () => {
+    const toggle_create_event = (day_number: number, month_offset: number) => {
+        set_clicked_date(new Date(display_date.getFullYear(), display_date.getMonth() + month_offset, day_number+1))
         set_show_create_event_modal(!show_create_event_modal)
     }
     return (
         <div id='main_calendar'>
 
+            {
+                JSON.stringify(user_data.events)
+            }
             {
                 show_create_event_modal ? <CreateEvent start_date={clicked_date} close_me={toggle_create_event} /> : ""
             }
@@ -78,7 +69,7 @@ function App() {
                         <BsChevronRight  />
                     </div>
                     <div className='v_divider'></div>
-                    <button className='button secondary_button'> {month_names[tempo_date.getMonth()]}  {tempo_date.getFullYear()} </button>
+                    <button className='button secondary_button'> {month_names[display_date.getMonth()]}  {display_date.getFullYear()} </button>
                     {}
                 </div>
                 <div>
@@ -115,23 +106,41 @@ function App() {
                     </div>
                     <div id='calendar_items'>
                         {
-                            calendar.calendar.map((month, i) => {
-                                return month.map((ele, i) => {
-                                    return (
-                                        <div className="calendar_item" onClick={toggle_create_event}>
-                                            <button className="button secondary_button"> {ele} </button>
-                                            
-                                            {/*
-                                            <div className={ (i%2 === 0) ? "event_item event_item_first" : "event_item event_item_last"} >
-                                                <div>event name</div>
-                                            </div>
-                                            <div className="event_item_see_more">
-                                                <div> n more </div>
-                                            </div>
-                                            */}
+                            calendar.calendar[0].map((ele, i) => {
+                                return (
+                                    <div className="calendar_item" onClick={() => { toggle_create_event(ele, -1) }}>
+                                        <button className="button secondary_button"> {ele} </button>
+                                        {  JSON.stringify(display_date) }
+                                        
+                                    </div>
+                                )
+                            })
+                        }
+                        {
+                            calendar.calendar[1].map((ele, i) => {
+                                return (
+                                    <div className="calendar_item" onClick={() => { toggle_create_event(ele, 0) }}>
+                                        <button className="button secondary_button"> {ele} </button>
+                                        {  JSON.stringify(display_date) }{/*
+                                        <div className={ (i%2 === 0) ? "event_item event_item_first" : "event_item event_item_last"} >
+                                            <div>event name</div>
                                         </div>
-                                    )
-                                })
+                                        <div className="event_item_see_more">
+                                            <div> n more </div>
+                                        </div>
+                                        */}
+                                    </div>
+                                )
+                            })
+                        }
+                        {
+                            calendar.calendar[2].map((ele, i) => {
+                                return (
+                                    <div className="calendar_item" onClick={() => { toggle_create_event(ele, 1) }}>
+                                        <button className="button secondary_button"> {ele} </button>
+                                        {  JSON.stringify(display_date) }
+                                    </div>
+                                )
                             })
                         }
                     </div>
