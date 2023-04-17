@@ -24,15 +24,6 @@ function App(props: { close_me: any, start_date: Date }) {
         const form_date = new FormData(form);
         const data_json = Object.fromEntries(form_date);
 
-        console.log(title.current.value)
-        console.log(start_date.current.value)
-        console.log(end_date.current.value)
-        console.log(participants.current.value)
-        console.log(location.current.value)
-        console.log(description.current.value)
-
-        console.log(new Date(start_date.current.value).getTime()/1000)
-        console.log(new Date(end_date.current.value).getTime()/1000)
 
         create_event({
             title: title.current.value,
@@ -42,6 +33,7 @@ function App(props: { close_me: any, start_date: Date }) {
             location: location.current.value,
             description: description.current.value,
         })
+        props.close_me()
     }
 
     return (

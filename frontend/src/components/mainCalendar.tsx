@@ -105,7 +105,7 @@ function App() {
                         {
                             calendar.calendar[0].map((ele, i) => {
                                 return (
-                                    <div className="calendar_item" onClick={() => { toggle_create_event(ele, -1) }}>
+                                    <div key={"cal0"+i} className="calendar_item" onClick={() => { toggle_create_event(ele, -1) }}>
                                         <button className="button secondary_button"> {ele} </button>
                                         
                                     </div>
@@ -115,25 +115,28 @@ function App() {
                         {
                             calendar.calendar[1].map((ele, i) => {
                                 return (
-                                    <div className="calendar_item" onClick={() => { toggle_create_event(ele, 0) }}>
+                                    <div key={"cal1"+i} className="calendar_item" onClick={() => { toggle_create_event(ele, 0) }}>
                                         <button className="button secondary_button"> {ele} </button>
-                                        {
-                                            user_data.events.map((event, i) => {
-                                                if(
-                                                    new Date(event.start_date*1000).getDate() === ele &&
-                                                    new Date(event.start_date*1000).getMonth() === display_date.getMonth() &&
-                                                    new Date(event.start_date*1000).getFullYear() === display_date.getFullYear() 
-                                                ) return(
-                                                    <div className="event_item event_item_first event_item_last" >
-                                                        <div>
-                                                            { event.title }
+                                        <div>
+
+                                            {
+                                                user_data.events.map((event, i) => {
+                                                    if(
+                                                        new Date(event.start_date*1000).getDate() === ele &&
+                                                        new Date(event.start_date*1000).getMonth() === display_date.getMonth() &&
+                                                        new Date(event.start_date*1000).getFullYear() === display_date.getFullYear() 
+                                                    ) return(
+                                                        <div key={event.id} className="event_item event_item_first event_item_last" >
+                                                            <div>
+                                                                { event.title }
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                        <div className="event_item_see_more">
-                                            <div> n more </div>
+                                                    )
+                                                })
+                                            }
+                                            <div className="event_item_see_more">
+                                                <div> n more </div>
+                                            </div>
                                         </div>
                                         
                                     </div>
@@ -143,7 +146,7 @@ function App() {
                         {
                             calendar.calendar[2].map((ele, i) => {
                                 return (
-                                    <div className="calendar_item" onClick={() => { toggle_create_event(ele, 1) }}>
+                                    <div key={"cal2"+i} className="calendar_item" onClick={() => { toggle_create_event(ele, 1) }}>
                                         <button className="button secondary_button"> {ele} </button>
                                     </div>
                                 )

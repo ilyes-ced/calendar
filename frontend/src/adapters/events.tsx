@@ -47,7 +47,17 @@ const create_event = (json: event_data) => {
     })
         .then(function (response) {
             store.dispatch(added_event({
-                event: response.data.inserted_id,
+                id: response.data.inserted_id,
+                title: json.title,
+                start_date: json.start_date,
+                end_date: json.end_date,
+                start_time: json.start_time | 0,
+                end_time: json.end_time | 0,
+                participants: [],
+                location: json.location,
+                description: json.description,
+                notifications: [],
+                repeat: false
             }))
         })
         .catch(function (error) {

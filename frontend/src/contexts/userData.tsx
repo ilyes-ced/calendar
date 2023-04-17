@@ -34,7 +34,7 @@ type Event = {
     repeat: boolean,
 }
 
-const events: Event[] = [[], [], []]
+const events: Event[] = []
 
 const init_data = () => {
 	if (localStorage.getItem("user_is_authed") === "true"){
@@ -74,7 +74,6 @@ export const userSlice = createSlice({
 	reducers: {
 		
 		logging_in: (state) => {
-			alert('hello there')
 			state.loading = true
 			state.error = null
 		},
@@ -92,13 +91,26 @@ export const userSlice = createSlice({
 			state.error = payload
 		},
 		added_event: (state, {payload}) => {
-			alert(payload)
-			alert("payload")
-			console.log(payload)
+			const event_added: Event = {
+				id: payload.id,
+				title: payload.title,
+				start_date: payload.start_date,
+				end_date: payload.end_date,
+				start_time: payload.start_time,
+				end_time: payload.end_time,
+				participants: [],
+				location: payload.location,
+				description: payload.description,
+				notifications: [],
+				repeat: false
+			
+			}
+			state.events.push(event_added)
+			console.log(state)
+			return state
 		},
 		init_events: (state, {payload}) => {
 			console.log(payload)
-	
 
 
 			//const start_month = new Date(payload.start_date*1000).getMonth()
@@ -106,7 +118,6 @@ export const userSlice = createSlice({
 			//for (let i = 0; i < payload.events.length; i++) {
 			//	
 			//	console.log(events)
-//
 			//	if(new Date (payload.events[i].start_date*1000).getMonth() === start_month){
 			//		events[0].push(payload.events[i])
 			//		events[0][events[0].length-1].start_date = new Date (payload.events[i].start_date*1000)
@@ -120,9 +131,6 @@ export const userSlice = createSlice({
 			//		events[2][events[2].length-1].start_date = new Date (payload.events[i].start_date*1000)
 			//		events[2][events[2].length-1].end_date = new Date (payload.events[i].end_date*1000)
 			//	}
-//
-//
-//
 			//	//new Date (payload.events[i].start_date*1000)
 			//	
 			//}
