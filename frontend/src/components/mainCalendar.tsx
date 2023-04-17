@@ -78,17 +78,22 @@ function App() {
                     <button className='button secondary_button'>month</button>
 
                 </div>
-            </div>
+            </div> 
+
+
+
+
+ 
             <div id='calendary_center'>
                 <div id='calendar_days'>
                     <div></div>
-                    <div>Sun</div>
-                    <div>Mon</div>
-                    <div>Tue</div>
-                    <div>Wed</div>
-                    <div>Thu</div>
-                    <div>Fri</div>
-                    <div>Sat</div>
+                    <div style={{ color: display_date.toLocaleDateString(undefined, { weekday: 'long' }) === "Sunday" ? '#6d4aff' : ''  }} >Sun</div>
+                    <div style={{ color: display_date.toLocaleDateString(undefined, { weekday: 'long' }) === "Monday" ? '#6d4aff' : ''  }} >Mon</div>
+                    <div style={{ color: display_date.toLocaleDateString(undefined, { weekday: 'long' }) === "Tuesday" ? '#6d4aff' : ''  }} >Tue</div>
+                    <div style={{ color: display_date.toLocaleDateString(undefined, { weekday: 'long' }) === "Wednesday" ? '#6d4aff' : ''  }} >Wed</div>
+                    <div style={{ color: display_date.toLocaleDateString(undefined, { weekday: 'long' }) === "Thursday" ? '#6d4aff' : ''  }} >Thu</div>
+                    <div style={{ color: display_date.toLocaleDateString(undefined, { weekday: 'long' }) === "Friday" ? '#6d4aff' : ''  }} >Fri</div>
+                    <div style={{ color: display_date.toLocaleDateString(undefined, { weekday: 'long' }) === "Sunday" ? '#6d4aff' : ''  }} >Sat</div>
                 </div>
                 <div id='calendar'>
                     <div id='week_n'>
@@ -114,9 +119,11 @@ function App() {
                         }
                         {
                             calendar.calendar[1].map((ele, i) => {
+
+                                let event_exists = 0;
                                 return (
                                     <div key={"cal1"+i} className="calendar_item" onClick={() => { toggle_create_event(ele, 0) }}>
-                                        <button className="button secondary_button"> {ele} </button>
+                                        <button className={(display_date.getDate() === ele && display_date.getMonth() === current_date.getMonth() ) ? "button secondary_button active_day" : "button secondary_button" }>  {ele} </button>
                                         <div>
 
                                             {
@@ -124,19 +131,24 @@ function App() {
                                                     if(
                                                         new Date(event.start_date*1000).getDate() === ele &&
                                                         new Date(event.start_date*1000).getMonth() === display_date.getMonth() &&
-                                                        new Date(event.start_date*1000).getFullYear() === display_date.getFullYear() 
-                                                    ) return(
-                                                        <div key={event.id} className="event_item event_item_first event_item_last" >
-                                                            <div>
-                                                                { event.title }
+                                                        new Date(event.start_date*1000).getFullYear() === display_date.getFullYear()
+                                                    ){
+                                                        event_exists++
+                                                        if(event_exists === 1) return(
+                                                            <div key={event.id} className="event_item event_item_first event_item_last" >
+                                                                <div>
+                                                                    { event.title }
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    )
+                                                        )
+                                                    }
                                                 })
                                             }
-                                            <div className="event_item_see_more">
-                                                <div> n more </div>
-                                            </div>
+                                            {
+                                                event_exists > 1 ?  <div className="event_item_see_more">
+                                                    <div> {event_exists-1} more </div>
+                                                </div> : ""
+                                            }
                                         </div>
                                         
                                     </div>
