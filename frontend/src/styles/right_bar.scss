@@ -3,7 +3,8 @@
 
 #right_bar{
     height: 100%;
-    @include padding(5px);
+    width:55px;
+    @include padding(0px, 0px, 5px, 5px);
 }
 #right_bar > :nth-child(2){
     background-color: red;

@@ -12,12 +12,11 @@ import { NavLink } from "react-router-dom";
 
 function App() {
 
-    const [right_bar, set_right_bar] = useState(false)
 
 
 
     return (
-        <div id='right_bar' style={{width: right_bar ? '300px' : '55px' }}>
+        <div id='right_bar' >
             <div>
                 <NavLink to="/" className='right_element'>
                     <BsFillCalendar2DateFill />
@@ -27,7 +26,7 @@ function App() {
                     <BsListUl />
                 </NavLink>
 
-                <div className='right_element' onClick={() => {set_right_bar(!right_bar)}} >
+                <div className='right_element' >
                     <BsPersonVcard  />
                 </div>
             </div>

@@ -68,7 +68,6 @@
 
 .day_item{
     height: 30px;
-    background-color: red;
 }
 .calendar_item{
     @include padding(10px, 0px, 0px, 0px);
@@ -89,14 +88,10 @@
 .calendar_item:nth-child(7n){
     border-right: none;
 }
-.calendar_item > :nth-child(2){
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: end;
+.calendar_item > :first-child(){
+    background-color: red;
 }
+
 
 
 #main_calendar{
@@ -118,19 +113,35 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .event_item, .event_item_see_more{
     cursor: pointer;
     width: 100%;
-    height: 30px
+    height: 30px;
 }
 .event_item_see_more{
-    @include padding(0px, 0px, 10px, 10px);
+    
 }
 
 .event_item_see_more > :first-child{
     border-radius: 10px;
     width: 100%;
-    @include padding(5px);
+    height: 100%;
+
     @include center();
 }
 .event_item > :first-child:hover, .event_item_see_more > :first-child:hover{
@@ -142,20 +153,23 @@
     border-left: 10px solid $blue;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    @include margin(0px, 0px, 0px, 20px);
+
 }
 .event_item_last{
-    @include padding(0px, 0px, 20px, 0px);
+
 }
 
 
 
 .event_item > :first-child{
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
     width: 100%;
     height: 100%;
     background-color: $gray;
     @include center();
-    @include padding(5px);
 }
 .event_item_first > :first-child{
     width: 100%;

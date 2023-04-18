@@ -1,6 +1,5 @@
 
 
-
 function App() {
 
 
@@ -8,7 +7,7 @@ function App() {
     return (
         <div id='header'>
             <div>
-                icon button
+                
             </div>
             <div id='header_right_div'>
                 <button className="button primary_button" >placeholder</button>

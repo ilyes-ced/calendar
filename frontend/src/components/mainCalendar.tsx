@@ -124,32 +124,30 @@ function App() {
                                 return (
                                     <div key={"cal1"+i} className="calendar_item" onClick={() => { toggle_create_event(ele, 0) }}>
                                         <button className={(display_date.getDate() === ele && display_date.getMonth() === current_date.getMonth() ) ? "button secondary_button active_day" : "button secondary_button" }>  {ele} </button>
-                                        <div>
 
-                                            {
-                                                user_data.events.map((event, i) => {
-                                                    if(
-                                                        new Date(event.start_date*1000).getDate() === ele &&
-                                                        new Date(event.start_date*1000).getMonth() === display_date.getMonth() &&
-                                                        new Date(event.start_date*1000).getFullYear() === display_date.getFullYear()
-                                                    ){
-                                                        event_exists++
-                                                        if(event_exists === 1) return(
-                                                            <div key={event.id} className="event_item event_item_first event_item_last" >
-                                                                <div>
-                                                                    { event.title }
-                                                                </div>
+                                        {
+                                            user_data.events.map((event, i) => {
+                                                if(
+                                                    new Date(event.start_date*1000).getDate() === ele &&
+                                                    new Date(event.start_date*1000).getMonth() === display_date.getMonth() &&
+                                                    new Date(event.start_date*1000).getFullYear() === display_date.getFullYear()
+                                                ){
+                                                    event_exists++
+                                                    if(event_exists < 3) return(
+                                                        <div key={event.id} className="event_item event_item_first event_item_last" >
+                                                            <div>
+                                                                { event.title }
                                                             </div>
-                                                        )
-                                                    }
-                                                })
-                                            }
-                                            {
-                                                event_exists > 1 ?  <div className="event_item_see_more">
-                                                    <div> {event_exists-1} more </div>
-                                                </div> : ""
-                                            }
-                                        </div>
+                                                        </div>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                        {
+                                            event_exists > 3 ?  <div className="event_item_see_more">
+                                                <div> {event_exists-2} more </div>
+                                            </div> : ""
+                                        }
                                         
                                     </div>
                                 )
