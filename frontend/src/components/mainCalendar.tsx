@@ -110,8 +110,8 @@ function App() {
                         {
                             calendar.calendar[0].map((ele, i) => {
                                 return (
-                                    <div key={"cal0"+i} className="calendar_item" onClick={() => { toggle_create_event(ele, -1) }}>
-                                        <button className="button secondary_button"> {ele} </button>
+                                    <div key={"cal0"+i} className="calendar_item" onClick={() => {  remove_month() ;toggle_create_event(ele, -1) }}>
+                                        <button style={{marginBottom: '10px'}} className="button secondary_button"> {ele} </button>
                                         
                                     </div>
                                 )
@@ -123,7 +123,7 @@ function App() {
                                 let event_exists = 0;
                                 return (
                                     <div key={"cal1"+i} className="calendar_item" onClick={() => { toggle_create_event(ele, 0) }}>
-                                        <button className={(display_date.getDate() === ele && display_date.getMonth() === current_date.getMonth() ) ? "button secondary_button active_day" : "button secondary_button" }>  {ele} </button>
+                                        <button style={{marginBottom: '10px'}} className={(display_date.getDate() === ele && display_date.getMonth() === current_date.getMonth() ) ? "button secondary_button active_day" : "button secondary_button" }>  {ele} </button>
 
                                         {
                                             user_data.events.map((event, i) => {
@@ -133,10 +133,10 @@ function App() {
                                                     new Date(event.start_date*1000).getFullYear() === display_date.getFullYear()
                                                 ){
                                                     event_exists++
-                                                    if(event_exists < 3) return(
+                                                    if(event_exists < 2) return(
                                                         <div key={event.id} className="event_item event_item_first event_item_last" >
                                                             <div>
-                                                                { event.title }
+                                                                { event.title } 
                                                             </div>
                                                         </div>
                                                     )
@@ -144,9 +144,9 @@ function App() {
                                             })
                                         }
                                         {
-                                            event_exists > 3 ?  <div className="event_item_see_more">
-                                                <div> {event_exists-2} more </div>
-                                            </div> : ""
+                                            event_exists > 2 && <div className="event_item_see_more">
+                                                <div> {event_exists-1} more </div>
+                                            </div>
                                         }
                                         
                                     </div>
@@ -156,8 +156,8 @@ function App() {
                         {
                             calendar.calendar[2].map((ele, i) => {
                                 return (
-                                    <div key={"cal2"+i} className="calendar_item" onClick={() => { toggle_create_event(ele, 1) }}>
-                                        <button className="button secondary_button"> {ele} </button>
+                                    <div key={"cal2"+i} className="calendar_item" onClick={() => {  add_month() ;toggle_create_event(ele, 1) }}>
+                                        <button style={{marginBottom: '10px'}} className="button secondary_button"> {ele} </button>
                                     </div>
                                 )
                             })

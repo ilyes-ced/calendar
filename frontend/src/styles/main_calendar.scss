@@ -88,9 +88,6 @@
 .calendar_item:nth-child(7n){
     border-right: none;
 }
-.calendar_item > :first-child(){
-    background-color: red;
-}
 
 
 
@@ -188,6 +185,10 @@
 
 
 .active_day{
-    border: 2px solid $secondary !important;
+    box-sizing: content-box;
+    outline: 2px solid $secondary ;
     background-color: rgb(112, 77, 255, 0.2) !important;
+}
+.active_day:hover{
+    background-color: rgb(109, 74, 255, 0.2) !important;
 }
